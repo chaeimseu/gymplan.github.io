@@ -12,250 +12,526 @@
 
   <style>
     :root {
-      color-scheme:light;
-      --bg:#f5f5f7; --text:#121318; --muted:#65666d;
-      --glass:rgba(255,255,255,.74); --nav:rgba(250,250,252,.88);
-      --border:rgba(20,22,29,.14); --soft:rgba(20,22,29,.08);
-      --blue:#1976d2; --purple:#7c4dff; --green:#159b59;
-      --yellow:#d68a00; --red:#db334d; --shadow:0 12px 38px rgba(30,35,45,.11);
+      color-scheme: light;
+      --bg: #f5f5f7;
+      --text: #121318;
+      --muted: #65666d;
+      --glass: rgba(255,255,255,.74);
+      --nav: rgba(250,250,252,.88);
+      --border: rgba(20,22,29,.14);
+      --soft: rgba(20,22,29,.08);
+      --blue: #1976d2;
+      --purple: #7c4dff;
+      --green: #159b59;
+      --yellow: #d68a00;
+      --red: #db334d;
+      --shadow: 0 12px 38px rgba(30,35,45,.11);
     }
 
     html[data-theme="dark"] {
-      color-scheme:dark;
-      --bg:#111216; --text:#f7f7fa; --muted:#afb0bb;
-      --glass:rgba(42,43,52,.7); --nav:rgba(23,24,30,.88);
-      --border:rgba(255,255,255,.16); --soft:rgba(255,255,255,.09);
-      --blue:#7cc5ff; --purple:#b7a0ff; --green:#65efaa;
-      --yellow:#ffd066; --red:#ff778f; --shadow:0 16px 48px rgba(0,0,0,.36);
+      color-scheme: dark;
+      --bg: #111216;
+      --text: #f7f7fa;
+      --muted: #afb0bb;
+      --glass: rgba(42,43,52,.70);
+      --nav: rgba(23,24,30,.88);
+      --border: rgba(255,255,255,.16);
+      --soft: rgba(255,255,255,.09);
+      --blue: #7cc5ff;
+      --purple: #b7a0ff;
+      --green: #65efaa;
+      --yellow: #ffd066;
+      --red: #ff778f;
+      --shadow: 0 16px 48px rgba(0,0,0,.36);
     }
 
-    * { box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
-    html { background:var(--bg); scroll-behavior:smooth; }
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html {
+      background: var(--bg);
+      scroll-behavior: smooth;
+    }
 
     body {
-      min-width:320px; min-height:100vh; margin:0; overflow-x:hidden;
-      color:var(--text); font-family:"DM Sans",Arial,sans-serif; line-height:1.6;
+      min-width: 320px;
+      min-height: 100vh;
+      margin: 0;
+      overflow-x: hidden;
+      color: var(--text);
+      font-family: "DM Sans", Arial, sans-serif;
+      line-height: 1.6;
       background:
-        radial-gradient(circle at 8% 4%,rgba(91,157,255,.13),transparent 28%),
-        radial-gradient(circle at 92% 12%,rgba(190,112,255,.12),transparent 30%),
-        radial-gradient(circle at 50% 98%,rgba(255,130,190,.08),transparent 34%),
+        radial-gradient(circle at 8% 4%, rgba(91,157,255,.13), transparent 28%),
+        radial-gradient(circle at 92% 12%, rgba(190,112,255,.12), transparent 30%),
+        radial-gradient(circle at 50% 98%, rgba(255,130,190,.08), transparent 34%),
         var(--bg);
     }
 
-    a { color:inherit; text-decoration:none; }
-    button,input,select,textarea { font:inherit; }
-    button { touch-action:manipulation; cursor:pointer; }
+    a { color: inherit; text-decoration: none; }
+    button, input, select, textarea { font: inherit; }
+    button { cursor: pointer; touch-action: manipulation; }
 
-    h1,h2,h3,h4 { font-family:"Space Grotesk",sans-serif; }
-    h2 { margin:0 0 8px; font-size:clamp(1.85rem,5vw,2.5rem); letter-spacing:-.05em; }
-    h3 { margin:0 0 8px; color:var(--blue); }
-    h4 { margin:0 0 5px; color:var(--purple); }
-    .muted,.small { color:var(--muted); }
-    .small { font-size:.88rem; }
-    .hidden { display:none!important; }
+    h1, h2, h3, h4 {
+      font-family: "Space Grotesk", sans-serif;
+    }
+
+    h2 {
+      margin: 0 0 8px;
+      font-size: clamp(1.85rem, 5vw, 2.5rem);
+      letter-spacing: -.05em;
+    }
+
+    h3 { margin: 0 0 8px; color: var(--blue); }
+    h4 { margin: 0 0 5px; color: var(--purple); }
+    .muted, .small { color: var(--muted); }
+    .small { font-size: .88rem; }
+    .hidden { display: none !important; }
 
     @keyframes pageIn {
-      from { opacity:0; transform:translateX(30px) translateY(6px); filter:blur(4px); }
-      to { opacity:1; transform:none; filter:none; }
+      from {
+        opacity: 0;
+        transform: translateX(30px) translateY(6px);
+        filter: blur(4px);
+      }
+
+      to {
+        opacity: 1;
+        transform: none;
+        filter: none;
+      }
     }
 
     @keyframes pageBack {
-      from { opacity:0; transform:translateX(-30px) translateY(6px); filter:blur(4px); }
-      to { opacity:1; transform:none; filter:none; }
+      from {
+        opacity: 0;
+        transform: translateX(-30px) translateY(6px);
+        filter: blur(4px);
+      }
+
+      to {
+        opacity: 1;
+        transform: none;
+        filter: none;
+      }
     }
 
     @keyframes rainbowFocus {
-      0% { box-shadow:0 0 0 3px #ff4da6; }
-      25% { box-shadow:0 0 0 3px #8c65ff; }
-      50% { box-shadow:0 0 0 3px #2497ff; }
-      75% { box-shadow:0 0 0 3px #17c66b; }
-      100% { box-shadow:0 0 0 3px #ffbf2f; }
+      0% { box-shadow: 0 0 0 3px #ff4da6; }
+      25% { box-shadow: 0 0 0 3px #8c65ff; }
+      50% { box-shadow: 0 0 0 3px #2497ff; }
+      75% { box-shadow: 0 0 0 3px #17c66b; }
+      100% { box-shadow: 0 0 0 3px #ffbf2f; }
     }
 
-    button:focus-visible,a:focus-visible,input:focus-visible,
-    select:focus-visible,textarea:focus-visible {
-      outline:none;
-      animation:rainbowFocus 2.7s linear infinite;
+    button:focus-visible,
+    a:focus-visible,
+    input:focus-visible,
+    select:focus-visible,
+    textarea:focus-visible {
+      outline: none;
+      animation: rainbowFocus 2.7s linear infinite;
     }
 
     header {
-      padding:calc(48px + env(safe-area-inset-top)) 20px 36px;
-      text-align:center; background:var(--glass);
-      border-bottom:1px solid var(--soft); backdrop-filter:blur(26px);
+      padding: calc(48px + env(safe-area-inset-top)) 20px 36px;
+      text-align: center;
+      background: var(--glass);
+      border-bottom: 1px solid var(--soft);
+      backdrop-filter: blur(26px);
     }
 
     .badge {
-      display:inline-flex; padding:6px 12px; margin-bottom:14px;
-      color:var(--purple); background:var(--glass); border:1px solid var(--border);
-      border-radius:999px; font-size:.74rem; font-weight:800; letter-spacing:.08em;
+      display: inline-flex;
+      padding: 6px 12px;
+      margin-bottom: 14px;
+      color: var(--purple);
+      background: var(--glass);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      font-size: .74rem;
+      font-weight: 800;
+      letter-spacing: .08em;
     }
 
     header h1 {
-      margin:0; font-size:clamp(2.2rem,7vw,4rem);
-      letter-spacing:-.075em; line-height:1;
+      margin: 0;
+      font-size: clamp(2.2rem, 7vw, 4rem);
+      letter-spacing: -.075em;
+      line-height: 1;
     }
 
     .hero-stats {
-      display:flex; flex-wrap:wrap; justify-content:center;
-      gap:10px; margin-top:22px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 22px;
     }
 
     .hero-stat {
-      min-width:145px; display:grid; grid-template-columns:auto 1fr; gap:8px;
-      align-items:center; padding:10px 13px; text-align:left;
-      background:var(--glass); border:1px solid var(--border); border-radius:17px;
+      min-width: 145px;
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 8px;
+      align-items: center;
+      padding: 10px 13px;
+      text-align: left;
+      background: var(--glass);
+      border: 1px solid var(--border);
+      border-radius: 17px;
     }
 
-    .hero-stat span { grid-row:span 2; font-size:1.3rem; }
-    .hero-stat small { color:var(--muted); font-size:.72rem; }
+    .hero-stat span {
+      grid-row: span 2;
+      font-size: 1.3rem;
+    }
+
+    .hero-stat small {
+      color: var(--muted);
+      font-size: .72rem;
+    }
 
     nav {
-      position:sticky; top:0; z-index:20; display:flex; gap:8px;
-      overflow-x:auto; padding:10px 14px; background:var(--nav);
-      border-bottom:1px solid var(--soft); backdrop-filter:blur(24px);
-      scrollbar-width:none;
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding: 10px 14px;
+      background: var(--nav);
+      border-bottom: 1px solid var(--soft);
+      backdrop-filter: blur(24px);
+      scrollbar-width: none;
     }
 
-    nav::-webkit-scrollbar { display:none; }
+    nav::-webkit-scrollbar { display: none; }
 
     nav a {
-      flex:0 0 auto; min-height:42px; display:inline-flex; align-items:center;
-      padding:9px 14px; color:var(--muted); border-radius:999px;
-      font-size:.87rem; font-weight:800; transition:.2s ease;
+      flex: 0 0 auto;
+      min-height: 42px;
+      display: inline-flex;
+      align-items: center;
+      padding: 9px 14px;
+      color: var(--muted);
+      border-radius: 999px;
+      font-size: .87rem;
+      font-weight: 800;
+      transition: .2s ease;
     }
 
-    nav a:hover { color:var(--text); background:var(--glass); }
+    nav a:hover {
+      color: var(--text);
+      background: var(--glass);
+    }
+
     nav a.active {
-      color:#fff; background:linear-gradient(135deg,#7851ff,#2497ff);
-      box-shadow:0 8px 20px rgba(65,117,255,.25);
+      color: #fff;
+      background: linear-gradient(135deg,#7851ff,#2497ff);
+      box-shadow: 0 8px 20px rgba(65,117,255,.25);
     }
 
-    main { width:min(1160px,calc(100% - 30px)); min-height:65vh; margin:30px auto 70px; }
-    .page { animation:pageIn .4s ease both; }
-    .page.back { animation-name:pageBack; }
+    main {
+      width: min(1160px, calc(100% - 30px));
+      min-height: 65vh;
+      margin: 30px auto 70px;
+    }
+
+    .page { animation: pageIn .4s ease both; }
+    .page.back { animation-name: pageBack; }
 
     .grid {
-      display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
-      gap:16px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 16px;
     }
 
-    .card,.page-link,.saved-entry,.photo-card,.exercise-card {
-      overflow:hidden; padding:20px; background:var(--glass);
-      border:1px solid var(--border); border-radius:22px;
-      box-shadow:var(--shadow); backdrop-filter:blur(20px);
+    .card,
+    .page-link,
+    .saved-entry,
+    .photo-card,
+    .exercise-card {
+      overflow: hidden;
+      padding: 20px;
+      background: var(--glass);
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(20px);
     }
 
-    .highlight { border-left:4px solid var(--blue); }
-    .success { border-left:4px solid var(--green); }
-    .warning { border-left:4px solid var(--yellow); }
+    .highlight { border-left: 4px solid var(--blue); }
+    .success { border-left: 4px solid var(--green); }
+    .warning { border-left: 4px solid var(--yellow); }
 
-    .page-link { min-height:145px; display:block; transition:.22s ease; }
-    .page-link:hover { transform:translateY(-4px); border-color:var(--purple); }
+    .page-link {
+      min-height: 145px;
+      display: block;
+      transition: .22s ease;
+    }
+
+    .page-link:hover {
+      transform: translateY(-4px);
+      border-color: var(--purple);
+    }
 
     .button {
-      min-height:45px; display:inline-flex; align-items:center; justify-content:center;
-      padding:10px 14px; color:#fff; border:1px solid var(--border);
-      border-radius:12px; font-weight:800;
-      background:linear-gradient(135deg,#7851ff,#2497ff);
+      min-height: 45px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 14px;
+      color: #fff;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      font-weight: 800;
+      background: linear-gradient(135deg,#7851ff,#2497ff);
     }
 
-    .button.secondary { color:var(--text); background:var(--glass); }
-    .button.red { background:linear-gradient(135deg,#f24f6b,#cc2347); }
-    .button.green { background:linear-gradient(135deg,#20b967,#11814b); }
-    .button-row { display:flex; flex-wrap:wrap; gap:10px; margin-top:14px; }
+    .button.secondary {
+      color: var(--text);
+      background: var(--glass);
+    }
+
+    .button.red { background: linear-gradient(135deg,#f24f6b,#cc2347); }
+    .button.green { background: linear-gradient(135deg,#20b967,#11814b); }
+
+    .button-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 14px;
+    }
 
     .day-tabs {
-      display:flex; gap:10px; overflow-x:auto; margin:15px 0 20px;
-      padding-bottom:8px; scrollbar-width:none;
+      display: flex;
+      gap: 10px;
+      overflow-x: auto;
+      margin: 15px 0 20px;
+      padding-bottom: 8px;
+      scrollbar-width: none;
     }
 
-    .day-tabs::-webkit-scrollbar { display:none; }
+    .day-tabs::-webkit-scrollbar { display: none; }
 
     .day-tabs a {
-      flex:0 0 auto; padding:10px 14px; background:var(--glass);
-      border:1px solid var(--border); border-radius:12px; font-weight:800;
+      flex: 0 0 auto;
+      padding: 10px 14px;
+      background: var(--glass);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      font-weight: 800;
     }
 
-    .exercise-card { margin:15px 0; }
+    .exercise-card { margin: 15px 0; }
+
     .watch-link {
-      display:inline-flex; margin-top:10px; padding:8px 12px; color:#fff;
-      background:linear-gradient(135deg,#fb4a58,#bd1832);
-      border-radius:10px; font-size:.85rem; font-weight:800;
+      display: inline-flex;
+      margin-top: 10px;
+      padding: 8px 12px;
+      color: #fff;
+      background: linear-gradient(135deg,#fb4a58,#bd1832);
+      border-radius: 10px;
+      font-size: .85rem;
+      font-weight: 800;
     }
 
-    label { display:block; font-size:.92rem; font-weight:800; }
+    label {
+      display: block;
+      font-size: .92rem;
+      font-weight: 800;
+    }
 
     .form-grid {
-      display:grid; grid-template-columns:repeat(auto-fit,minmax(205px,1fr));
-      gap:14px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(205px, 1fr));
+      gap: 14px;
     }
 
-    input,select,textarea {
-      width:100%; min-height:46px; margin-top:7px; padding:11px 12px;
-      color:var(--text); background:rgba(255,255,255,.38);
-      border:1px solid var(--border); border-radius:12px; font-size:16px;
+    input,
+    select,
+    textarea {
+      width: 100%;
+      min-height: 46px;
+      margin-top: 7px;
+      padding: 11px 12px;
+      color: var(--text);
+      background: rgba(255,255,255,.38);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      font-size: 16px;
     }
 
     html[data-theme="dark"] input,
     html[data-theme="dark"] select,
-    html[data-theme="dark"] textarea { background:rgba(0,0,0,.22); }
-
-    textarea { min-height:100px; resize:vertical; }
-
-    .checklist label,.analysis-checks label {
-      min-height:53px; display:flex; align-items:center; gap:12px;
-      margin:9px 0; padding:12px; background:rgba(120,135,180,.08);
-      border:1px solid var(--soft); border-radius:13px; cursor:pointer;
+    html[data-theme="dark"] textarea {
+      background: rgba(0,0,0,.22);
     }
 
-    .checklist input,.analysis-checks input {
-      width:21px; height:21px; margin:0; accent-color:var(--purple);
+    textarea {
+      min-height: 100px;
+      resize: vertical;
+    }
+
+    .checklist label,
+    .analysis-checks label {
+      min-height: 53px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 9px 0;
+      padding: 12px;
+      background: rgba(120,135,180,.08);
+      border: 1px solid var(--soft);
+      border-radius: 13px;
+      cursor: pointer;
+    }
+
+    .checklist input,
+    .analysis-checks input {
+      width: 21px;
+      height: 21px;
+      margin: 0;
+      accent-color: var(--purple);
     }
 
     .photo-grid {
-      display:grid; grid-template-columns:repeat(auto-fit,minmax(245px,1fr));
-      gap:16px; margin-top:20px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(245px, 1fr));
+      gap: 16px;
+      margin-top: 20px;
     }
 
-    .photo-card { padding:0; }
-    .photo-card img,.comparison-image {
-      width:100%; aspect-ratio:4/5; display:block; object-fit:cover;
-      background:#222; border-bottom:1px solid var(--border);
+    .photo-card { padding: 0; }
+
+    .photo-card img,
+    .comparison-image {
+      width: 100%;
+      aspect-ratio: 4 / 5;
+      display: block;
+      object-fit: cover;
+      background: #222;
+      border-bottom: 1px solid var(--border);
     }
 
-    .photo-info { padding:16px; }
-    .photo-date { margin:0; color:var(--purple); font-size:.88rem; font-weight:800; }
+    .photo-info { padding: 16px; }
+
+    .photo-date {
+      margin: 0;
+      color: var(--purple);
+      font-size: .88rem;
+      font-weight: 800;
+    }
 
     .upload-preview {
-      width:100%; max-width:310px; display:none; margin-top:15px;
-      aspect-ratio:4/5; object-fit:cover; border:1px solid var(--border);
-      border-radius:16px;
+      width: 100%;
+      max-width: 310px;
+      display: none;
+      margin-top: 15px;
+      aspect-ratio: 4 / 5;
+      object-fit: cover;
+      border: 1px solid var(--border);
+      border-radius: 16px;
     }
 
     .comparison-grid {
-      display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:16px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-top: 16px;
     }
 
-    .comparison-image { border:1px solid var(--border); border-radius:16px; }
-    .comparison-label { color:var(--muted); text-align:center; font-size:.88rem; }
+    .comparison-image {
+      border: 1px solid var(--border);
+      border-radius: 16px;
+    }
+
+    .comparison-label {
+      color: var(--muted);
+      text-align: center;
+      font-size: .88rem;
+    }
+
+    .report-text {
+      white-space: pre-wrap;
+      line-height: 1.65;
+    }
+
+    .file-input-hidden {
+      position: absolute !important;
+      width: 1px !important;
+      height: 1px !important;
+      opacity: 0 !important;
+      pointer-events: none !important;
+    }
+
+    .upload-file-button {
+      width: 100%;
+      margin-top: 10px;
+    }
 
     footer {
-      padding:27px 18px calc(27px + env(safe-area-inset-bottom));
-      color:var(--muted); text-align:center; background:var(--nav);
-      border-top:1px solid var(--soft);
+      padding: 27px 18px calc(27px + env(safe-area-inset-bottom));
+      color: var(--muted);
+      text-align: center;
+      background: var(--nav);
+      border-top: 1px solid var(--soft);
     }
 
     @media(max-width:700px) {
-      main { width:calc(100% - 24px); margin-top:22px; }
-      .grid,.form-grid,.comparison-grid { grid-template-columns:1fr; }
-      .button,.button-row .button { width:100%; }
-      .hero-stats { display:grid; grid-template-columns:repeat(3,1fr); gap:7px; }
-      .hero-stat { min-width:0; display:block; padding:10px 8px; text-align:center; }
-      .hero-stat span,.hero-stat strong,.hero-stat small { display:block; }
-      .hero-stat small { font-size:.64rem; }
+      main {
+        width: calc(100% - 24px);
+        margin-top: 22px;
+      }
+
+      .grid,
+      .form-grid,
+      .comparison-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .button,
+      .button-row .button {
+        width: 100%;
+      }
+
+      .hero-stats {
+        display: grid;
+        grid-template-columns: repeat(3,1fr);
+        gap: 7px;
+      }
+
+      .hero-stat {
+        min-width: 0;
+        display: block;
+        padding: 10px 8px;
+        text-align: center;
+      }
+
+      .hero-stat span,
+      .hero-stat strong,
+      .hero-stat small {
+        display: block;
+      }
+
+      .hero-stat small { font-size: .64rem; }
+    }
+
+    @media(prefers-reduced-motion:reduce) {
+      *,
+      *::before,
+      *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .01ms !important;
+      }
     }
   </style>
 </head>
+
 <body>
   <header>
     <div class="badge">🔥 12-WEEK TRANSFORMATION</div>
@@ -268,11 +544,13 @@
         <strong id="headerWeight">79.55 kg</strong>
         <small id="headerWeightLabel">Starting weight</small>
       </div>
+
       <div class="hero-stat">
         <span>🏋️</span>
         <strong>4 Days</strong>
         <small>Training weekly</small>
       </div>
+
       <div class="hero-stat">
         <span>📸</span>
         <strong>Weekly</strong>
@@ -304,7 +582,6 @@
     let previousIndex = 0;
     let galleryOpened = false;
     let dailyLogOpened = false;
-
 
     const routes = [
       "home","workouts","upper-a","lower-a","upper-b","lower-b",
@@ -367,6 +644,16 @@
       return new Date().toISOString().split("T")[0];
     }
 
+    function formatDate(value) {
+      if (!value) return "No date";
+
+      return new Date(value + "T00:00:00").toLocaleDateString(undefined,{
+        year:"numeric",
+        month:"short",
+        day:"numeric"
+      });
+    }
+
     function getTheme() {
       return localStorage.getItem("fitnessTheme") || "system";
     }
@@ -397,6 +684,22 @@
       localStorage.setItem("fitnessDailyLogs",JSON.stringify(logs));
     }
 
+    function normalizeExercise(name) {
+      return String(name || "").trim().toLowerCase().replace(/\s+/g," ");
+    }
+
+    function totalReps(reps) {
+      return String(reps || "")
+        .split(/[,/ ]+/)
+        .map(x => Number(x.replace(/[^0-9.]/g,"")))
+        .filter(x => !isNaN(x))
+        .reduce((a,b) => a + b,0);
+    }
+
+    function trainingVolume(log) {
+      return (Number(log.weight) || 0) * totalReps(log.reps);
+    }
+
     function updateHeaderWeight() {
       const valid = getCheckins().filter(x => x.weight && !isNaN(Number(x.weight)));
       const weight = document.getElementById("headerWeight");
@@ -417,38 +720,12 @@
       }
     }
 
-    function normalizeExercise(name) {
-      return String(name || "").trim().toLowerCase().replace(/\s+/g," ");
-    }
-
-    function totalReps(reps) {
-      return String(reps || "")
-        .split(/[,/ ]+/)
-        .map(x => Number(x.replace(/[^0-9.]/g,"")))
-        .filter(x => !isNaN(x))
-        .reduce((a,b) => a + b,0);
-    }
-
-    function trainingVolume(log) {
-      return (Number(log.weight) || 0) * totalReps(log.reps);
-    }
-
-    function formatDate(value) {
-      if (!value) return "No date";
-
-      return new Date(value + "T00:00:00").toLocaleDateString(undefined,{
-        year:"numeric",
-        month:"short",
-        day:"numeric"
-      });
-    }
-
     function previousExerciseLog(exercise,date) {
       const name = normalizeExercise(exercise);
 
       return getDailyLogs()
-        .filter(x => normalizeExercise(x.exercise) === name)
-        .filter(x => !date || x.date <= date)
+        .filter(log => normalizeExercise(log.exercise) === name)
+        .filter(log => !date || log.date <= date)
         .sort((a,b) => {
           const dateDifference = new Date(b.date) - new Date(a.date);
 
@@ -465,7 +742,10 @@
         return `
           <div class="card" style="margin-top:20px">
             <h3>🔒 Strength Upgrade</h3>
-            <p class="muted">Save ${4-count} more weekly check-in${4-count === 1 ? "" : "s"} to unlock the next workout phase.</p>
+            <p class="muted">
+              Save ${4-count} more weekly check-in${4-count === 1 ? "" : "s"}
+              to unlock the next workout phase.
+            </p>
           </div>
         `;
       }
@@ -480,10 +760,12 @@
               <h4>🏋️ Upper Body</h4>
               <p class="small">Bench Press: 4 × 5–8<br>Rows: 4 × 6–10<br>Overhead Press: 3 × 5–8</p>
             </div>
+
             <div>
               <h4>🦵 Lower Body</h4>
               <p class="small">Leg Press: 4 × 6–10<br>Romanian Deadlift: 4 × 6–10<br>Hip Thrust: 3 × 6–10</p>
             </div>
+
             <div>
               <h4>🏗️ Machine Abs</h4>
               <p class="small">When you reach 15 controlled reps, add a small amount of resistance.</p>
@@ -501,6 +783,7 @@
           <h4>🏋️ ${escapeHTML(name)}</h4>
           <p><strong>Sets & reps:</strong> ${escapeHTML(sets)}</p>
           <p class="small">💡 ${escapeHTML(note)}</p>
+
           <a class="watch-link" target="_blank" rel="noopener"
             href="https://www.youtube.com/results?search_query=${search}">
             ▶ Search Tutorial Video
@@ -533,12 +816,35 @@
         <p class="muted">Your workout, cardio, photo, weekly check-in, and daily training progress dashboard.</p>
 
         <div class="grid">
-          <a class="page-link" href="#/workouts"><h3>🏋️ Workouts</h3><p>Four workout days with machine or gym-station abs.</p></a>
-          <a class="page-link" href="#/daily-log"><h3>📝 Daily Log</h3><p>Track sets, reps, weight, volume, and exercise progress.</p></a>
-          <a class="page-link" href="#/cardio"><h3>🚴 Cardio</h3><p>Build your weekly cardio and step consistency.</p></a>
-          <a class="page-link" href="#/photos"><h3>📸 Progress Photos</h3><p>Private photo upload, comparison, and review tool.</p></a>
-          <a class="page-link" href="#/tracking"><h3>📈 Weekly Progress</h3><p>Track weight, waist, sleep, energy, and recovery.</p></a>
-          <a class="page-link" href="#/checklist"><h3>✅ Checklist</h3><p>Keep your weekly habits consistent.</p></a>
+          <a class="page-link" href="#/workouts">
+            <h3>🏋️ Workouts</h3>
+            <p>Four workout days with machine or gym-station abs.</p>
+          </a>
+
+          <a class="page-link" href="#/daily-log">
+            <h3>📝 Daily Log</h3>
+            <p>Track sets, reps, weight, workout duration, reports, and progress.</p>
+          </a>
+
+          <a class="page-link" href="#/cardio">
+            <h3>🚴 Cardio</h3>
+            <p>Build your weekly cardio and step consistency.</p>
+          </a>
+
+          <a class="page-link" href="#/photos">
+            <h3>📸 Progress Photos</h3>
+            <p>Private upload, gallery, comparison, and review tool.</p>
+          </a>
+
+          <a class="page-link" href="#/tracking">
+            <h3>📈 Weekly Progress</h3>
+            <p>Track weight, waist, sleep, energy, and recovery.</p>
+          </a>
+
+          <a class="page-link" href="#/checklist">
+            <h3>✅ Checklist</h3>
+            <p>Keep your weekly habits consistent.</p>
+          </a>
         </div>
 
         ${strengthUpgrade()}
@@ -566,149 +872,116 @@
       `,
 
       "daily-log": () => `
-  <h2>📝 Daily Training Progress Log</h2>
+        <h2>📝 Daily Training Progress Log</h2>
+        <p class="muted">Record training privately. Your saved exercise history is hidden unless you open it.</p>
 
-  <p class="muted">
-    Record your training privately. Exercise history stays hidden unless you open it.
-  </p>
+        <div class="card highlight">
+          <h3>📈 Progress Rule</h3>
+          <p>Progress can mean more weight, reps, sets, volume, better form, or improved control.</p>
+        </div>
 
-  <div class="card highlight">
-    <h3>📈 Progress Rule</h3>
-    <p>Progress can mean more weight, reps, sets, volume, or better form.</p>
-  </div>
+        <div class="card" style="margin-top:16px">
+          <h3>⏱️ Workout Duration</h3>
+          <p class="small">Save the total training time for a particular date.</p>
 
-  <div class="card" style="margin-top:16px">
-    <h3>⏱️ Workout Duration</h3>
+          <div class="form-grid">
+            <label>
+              📅 Workout Duration Date
+              <input id="workoutMinutesDate" type="date" required>
+            </label>
 
-    <label>
-      Total Workout Minutes
-      <input
-        id="workoutMinutes"
-        type="number"
-        min="1"
-        step="1"
-        placeholder="Example: 60"
-      >
-    </label>
+            <label>
+              ⏱️ Total Workout Minutes
+              <input id="workoutMinutes" type="number" min="1" step="1" placeholder="Example: 60">
+            </label>
+          </div>
 
-    <div class="button-row">
-      <button class="button secondary" type="button" onclick="saveWorkoutMinutes()">
-        ⏱️ Save Workout Minutes
-      </button>
-    </div>
+          <div class="button-row">
+            <button class="button secondary" type="button" onclick="saveWorkoutMinutes()">
+              ⏱️ Save Workout Minutes
+            </button>
+          </div>
 
-    <div id="workoutMinutesMessage"></div>
-  </div>
+          <div id="workoutMinutesMessage"></div>
+        </div>
 
-  <div class="card" style="margin-top:16px">
-    <h3>➕ Add Exercise Progress</h3>
+        <div class="card" style="margin-top:16px">
+          <h3>➕ Add Exercise Progress</h3>
 
-    <form id="dailyLogForm">
-      <div class="form-grid">
-        <label>
-          📅 Date
-          <input id="logDate" type="date" required>
-        </label>
+          <form id="dailyLogForm">
+            <div class="form-grid">
+              <label>📅 Exercise Date<input id="logDate" type="date" required></label>
 
-        <label>
-          🏋️ Workout Day
-          <select id="logWorkoutDay">
-            <option value="Upper A">🏋️ Upper A</option>
-            <option value="Lower A">🦵 Lower A</option>
-            <option value="Upper B">💪 Upper B</option>
-            <option value="Lower B">🔥 Lower B</option>
-            <option value="Cardio / Other">🚴 Cardio / Other</option>
-          </select>
-        </label>
+              <label>
+                🏋️ Workout Day
+                <select id="logWorkoutDay">
+                  <option value="Upper A">🏋️ Upper A</option>
+                  <option value="Lower A">🦵 Lower A</option>
+                  <option value="Upper B">💪 Upper B</option>
+                  <option value="Lower B">🔥 Lower B</option>
+                  <option value="Cardio / Other">🚴 Cardio / Other</option>
+                </select>
+              </label>
 
-        <label>
-          💪 Exercise Name
-          <input id="logExercise" required autocomplete="off"
-            placeholder="Example: Barbell Bench Press">
-        </label>
+              <label>💪 Exercise Name<input id="logExercise" required autocomplete="off" placeholder="Example: Barbell Bench Press"></label>
+              <label>🔢 Sets Completed<input id="logSets" type="number" min="1" placeholder="Example: 3"></label>
+              <label>🔁 Reps Per Set<input id="logReps" placeholder="Example: 10, 10, 8"></label>
+              <label>⚖️ Weight Used<input id="logWeight" type="number" min="0" step="0.5" placeholder="Example: 50"></label>
 
-        <label>
-          🔢 Sets Completed
-          <input id="logSets" type="number" min="1" placeholder="Example: 3">
-        </label>
+              <label>
+                📏 Unit
+                <select id="logWeightUnit">
+                  <option value="kg">kg</option>
+                  <option value="lb">lb</option>
+                </select>
+              </label>
 
-        <label>
-          🔁 Reps Per Set
-          <input id="logReps" placeholder="Example: 10, 10, 8">
-        </label>
+              <label>⏱️ Rest Time<input id="logRest" placeholder="Example: 90 seconds"></label>
+              <label>⭐ Difficulty 1–10<input id="logDifficulty" type="number" min="1" max="10" placeholder="Example: 8"></label>
+            </div>
 
-        <label>
-          ⚖️ Weight Used
-          <input id="logWeight" type="number" min="0" step="0.5"
-            placeholder="Example: 50">
-        </label>
+            <div id="previousExerciseResult"></div>
 
-        <label>
-          📏 Unit
-          <select id="logWeightUnit">
-            <option value="kg">kg</option>
-            <option value="lb">lb</option>
-          </select>
-        </label>
+            <label style="margin-top:14px">
+              📝 Notes
+              <textarea id="logNotes" placeholder="Example: Form felt good. Add weight or reps next time."></textarea>
+            </label>
 
-        <label>
-          ⏱️ Rest Time
-          <input id="logRest" placeholder="Example: 90 seconds">
-        </label>
+            <button class="button" type="submit" style="margin-top:14px">
+              💾 Save Exercise Progress
+            </button>
+          </form>
+        </div>
 
-        <label>
-          ⭐ Difficulty 1–10
-          <input id="logDifficulty" type="number" min="1" max="10"
-            placeholder="Example: 8">
-        </label>
-      </div>
+        <div class="card warning" style="margin-top:16px">
+          <h3>🛠️ Workout Tools</h3>
+          <p class="small">Create a report or calorie prompt using all saved exercises for the selected Exercise Date.</p>
 
-      <div id="previousExerciseResult"></div>
+          <div class="button-row">
+            <button class="button" type="button" onclick="generateTodayExerciseReport()">
+              📋 Create Today's Exercise Report
+            </button>
 
-      <label style="margin-top:14px">
-        📝 Notes
-        <textarea id="logNotes"
-          placeholder="Example: Form felt good. Add weight or reps next time."></textarea>
-      </label>
+            <button class="button green" type="button" onclick="generateCaloriePrompt()">
+              🔥 Generate Calorie Prompt
+            </button>
+          </div>
 
-      <button class="button" type="submit" style="margin-top:14px">
-        💾 Save Exercise Progress
-      </button>
-    </form>
-  </div>
+          <div id="dailyExerciseReportArea"></div>
+          <div id="caloriePromptArea"></div>
+        </div>
 
-  <div class="card warning" style="margin-top:16px">
-    <h3>🛠️ Workout Tools</h3>
+        <div class="card warning" style="margin-top:16px">
+          <h3>🔐 Private Exercise History</h3>
+          <p>Exercise history is stored only in this browser and hidden by default.</p>
 
-    <p class="small">
-      Create a report or calorie-estimation prompt using all saved exercises for the selected date.
-    </p>
+          <button class="button secondary" type="button" onclick="openDailyLogHistory()">
+            🔐 Open Private Exercise History
+          </button>
+        </div>
 
-    <div class="button-row">
-      <button class="button" type="button" onclick="generateTodayExerciseReport()">
-        📋 Create Today's Exercise Report
-      </button>
-
-      <button class="button green" type="button" onclick="generateCaloriePrompt()">
-        🔥 Generate Calorie Prompt
-      </button>
-    </div>
-
-    <div id="dailyExerciseReportArea"></div>
-    <div id="caloriePromptArea"></div>
-  </div>
-
-  <div class="card warning" style="margin-top:16px">
-    <h3>🔐 Private Exercise History</h3>
-    <p>Exercise history is stored only in this browser and is hidden by default.</p>
-
-    <button class="button secondary" type="button" onclick="openDailyLogHistory()">
-      🔐 Open Private Exercise History
-    </button>
-  </div>
-
-  <div id="savedDailyLogs" class="hidden"></div>
-`,
+        <div id="savedDailyLogs" class="hidden"></div>
+      `,
 
       cardio: () => `
         <h2>🚴 Cardio & Daily Activity</h2>
@@ -730,7 +1003,7 @@
 
       photos: () => `
         <h2>📸 Progress Photos</h2>
-        <p class="muted">Photos remain private and are hidden unless you intentionally open the gallery.</p>
+        <p class="muted">Photos stay private and are hidden unless you intentionally open the gallery.</p>
 
         <div class="card highlight">
           <h3>💡 Best Setup</h3>
@@ -746,19 +1019,38 @@
               <label>🏷️ Title<input id="photoTitle" placeholder="Week 1 - Front"></label>
             </div>
 
-            <label style="margin-top:14px">📷 Choose Photo<input id="photoFile" type="file" accept="image/*" capture="environment" required></label>
+            <label style="margin-top:14px">
+              📷 Photo File
+              <input id="photoFile" class="file-input-hidden" type="file" accept="image/*" capture="environment" required>
+            </label>
+
+            <label for="photoFile" class="button secondary upload-file-button">
+              📁 Upload Photo File
+            </label>
+
+            <p id="photoFileName" class="small" style="margin-top:10px">
+              No photo file selected.
+            </p>
+
             <img id="uploadPreview" class="upload-preview" alt="Selected photo preview">
 
-            <label style="margin-top:14px">📝 Notes<textarea id="photoNote" placeholder="Morning weight, lighting, clothing, observations..."></textarea></label>
+            <label style="margin-top:14px">
+              📝 Notes
+              <textarea id="photoNote" placeholder="Morning weight, lighting, clothing, observations..."></textarea>
+            </label>
 
-            <button class="button" type="submit" style="margin-top:14px">💾 Save Progress Photo</button>
+            <button class="button" type="submit" style="margin-top:14px">
+              💾 Save Progress Photo
+            </button>
           </form>
         </div>
 
         <div class="card warning" style="margin-top:16px">
           <h3>🔐 Private Gallery</h3>
           <p>Saved photos will not display automatically.</p>
-          <button class="button secondary" onclick="openGallery()">🔐 Open Private Gallery</button>
+          <button class="button secondary" type="button" onclick="openGallery()">
+            🔐 Open Private Gallery
+          </button>
         </div>
 
         <div id="privateGallery" class="hidden"></div>
@@ -779,9 +1071,13 @@
             "⚖️ Record body weight",
             "📏 Measure waist",
             "📸 Take progress photos"
-          ].map((text,index) => `<label><input type="checkbox" data-check="check_${index}">${text}</label>`).join("")}
+          ].map((text,index) => `
+            <label><input type="checkbox" data-check="check_${index}">${text}</label>
+          `).join("")}
 
-          <button class="button secondary" onclick="resetChecklist()">🔄 Reset for New Week</button>
+          <button class="button secondary" onclick="resetChecklist()">
+            🔄 Reset for New Week
+          </button>
         </div>
       `,
 
@@ -804,7 +1100,9 @@
             <label style="margin-top:14px">🏋️ Gym Performance Notes<textarea id="performance"></textarea></label>
             <label style="margin-top:14px">📝 Weekly Notes<textarea id="notes"></textarea></label>
 
-            <button class="button" type="submit" style="margin-top:14px">💾 Save Check-In</button>
+            <button class="button" type="submit" style="margin-top:14px">
+              💾 Save Check-In
+            </button>
           </form>
         </div>
 
@@ -834,14 +1132,17 @@
 
             <div class="card">
               <h3>📱 Device Storage</h3>
-              <p class="small">Daily logs, weekly check-ins, checklist data, and photos are stored locally on this device/browser.</p>
+              <p class="small">
+                Daily logs, workout minutes, check-ins, checklist items, and photos
+                are stored only on this browser and device.
+              </p>
             </div>
           </div>
         `;
       }
     };
 
-    async function renderPage() {
+    function renderPage() {
       const route = (location.hash || "#/home")
         .replace(/^#\/?/, "")
         .trim()
@@ -853,7 +1154,6 @@
 
       galleryOpened = false;
       dailyLogOpened = false;
-
 
       let content = "";
 
@@ -899,7 +1199,7 @@
           target === "workouts" &&
           ["upper-a","lower-a","upper-b","lower-b"].includes(route);
 
-        link.classList.toggle("active",target === route || workoutChild);
+        link.classList.toggle("active", target === route || workoutChild);
       });
 
       if (route === "daily-log") setupDailyLog();
@@ -910,15 +1210,17 @@
       if (index !== -1) previousIndex = index;
 
       updateHeaderWeight();
-      window.scrollTo({top:0,behavior:"smooth"});
+      window.scrollTo({ top:0, behavior:"smooth" });
     }
+
+    /* ---------------- DAILY LOG ---------------- */
 
     function showPreviousExercise() {
       const exercise = document.getElementById("logExercise");
       const date = document.getElementById("logDate");
       const box = document.getElementById("previousExerciseResult");
 
-      if (!exercise || !box) return;
+      if (!exercise || !date || !box) return;
 
       const name = exercise.value.trim();
 
@@ -933,13 +1235,13 @@
         box.innerHTML = `
           <div class="card" style="margin-top:14px">
             <h3>🆕 New Exercise Baseline</h3>
-            <p class="small">No previous result found for <strong>${escapeHTML(name)}</strong>. Save this as your starting result.</p>
+            <p class="small">No previous result found for <strong>${escapeHTML(name)}</strong>.</p>
           </div>
         `;
         return;
       }
 
-      const volume = trainingVolume(previous);
+      const vol = trainingVolume(previous);
 
       box.innerHTML = `
         <div class="card success" style="margin-top:14px">
@@ -947,8 +1249,7 @@
           <p><strong>📅 Date:</strong> ${escapeHTML(formatDate(previous.date))}</p>
           <p><strong>🔢 Sets:</strong> ${escapeHTML(previous.sets || "—")} · <strong>🔁 Reps:</strong> ${escapeHTML(previous.reps || "—")}</p>
           <p><strong>⚖️ Weight:</strong> ${escapeHTML(previous.weight || "—")} ${escapeHTML(previous.weightUnit || "kg")}</p>
-          <p><strong>📦 Total Volume:</strong> ${volume ? volume.toLocaleString() + " " + escapeHTML(previous.weightUnit || "kg") + "·reps" : "—"}</p>
-          <p class="small">🎯 Try to improve weight, reps, sets, volume, or form.</p>
+          <p><strong>📦 Total Volume:</strong> ${vol ? `${vol.toLocaleString()} ${escapeHTML(previous.weightUnit || "kg")}·reps` : "—"}</p>
         </div>
       `;
     }
@@ -969,7 +1270,7 @@
       const sameUnit = (oldLog.weightUnit || "kg") === (newLog.weightUnit || "kg");
 
       if (sameUnit && newWeight > oldWeight) {
-        return ["🔥 Weight Increased","success",`You increased from ${oldWeight} ${oldLog.weightUnit || "kg"} to ${newWeight} ${newLog.weightUnit || "kg"}. Great progressive overload.`];
+        return ["🔥 Weight Increased","success",`You increased from ${oldWeight} ${oldLog.weightUnit || "kg"} to ${newWeight} ${newLog.weightUnit || "kg"}.`];
       }
 
       if (newReps > oldReps) {
@@ -985,492 +1286,417 @@
       }
 
       if (sameUnit && newWeight === oldWeight && newReps === oldReps && newSets === oldSets) {
-        return ["✅ Performance Matched","highlight","You matched your previous result. Try one extra rep or cleaner form next session."];
+        return ["✅ Performance Matched","highlight","You matched your previous result. Aim for one more rep or cleaner form next time."];
       }
 
-      return ["📝 Progress Saved","warning","Your result was saved. Consider recovery, form, and difficulty before progressing next time."];
+      return ["📝 Progress Saved","warning","Your result was saved. Consider recovery, form, and difficulty before progressing."];
     }
 
     function setupDailyLog() {
-  const form = document.getElementById("dailyLogForm");
-  const date = document.getElementById("logDate");
-  const exercise = document.getElementById("logExercise");
+      const form = document.getElementById("dailyLogForm");
+      const date = document.getElementById("logDate");
+      const exercise = document.getElementById("logExercise");
+      const durationDate = document.getElementById("workoutMinutesDate");
+      const minutesInput = document.getElementById("workoutMinutes");
 
-  if (!form || !date || !exercise) return;
+      if (!form || !date || !exercise) return;
 
-  date.value = today();
+      date.value = today();
 
-  exercise.addEventListener("input", showPreviousExercise);
+      if (durationDate) durationDate.value = date.value;
+      if (minutesInput) minutesInput.value = getWorkoutMinutes(date.value) || "";
 
-  date.addEventListener("change", () => {
-    showPreviousExercise();
-    clearCaloriePrompt();
-  });
+      exercise.addEventListener("input", showPreviousExercise);
 
-function getWorkoutMinutesData() {
-  return JSON.parse(localStorage.getItem("fitnessWorkoutMinutes") || "{}");
-}
+      date.addEventListener("change", () => {
+        showPreviousExercise();
+        clearWorkoutTools();
 
-function getWorkoutMinutes(date) {
-  return Number(getWorkoutMinutesData()[date]) || 0;
-}
-
-function saveWorkoutMinutes() {
-  const dateInput = document.getElementById("logDate");
-  const minutesInput = document.getElementById("workoutMinutes");
-  const message = document.getElementById("workoutMinutesMessage");
-
-  if (!dateInput || !minutesInput) return;
-
-  const selectedDate = dateInput.value || today();
-  const minutes = Number(minutesInput.value);
-
-  if (!minutes || minutes < 1) {
-    message.innerHTML = `
-      <p class="small" style="color:var(--red);margin-top:10px">
-        Please enter at least 1 workout minute.
-      </p>
-    `;
-    return;
-  }
-
-  const workoutMinutes = getWorkoutMinutesData();
-  workoutMinutes[selectedDate] = minutes;
-
-  localStorage.setItem(
-    "fitnessWorkoutMinutes",
-    JSON.stringify(workoutMinutes)
-  );
-
-  message.innerHTML = `
-    <p class="small" style="color:var(--green);margin-top:10px">
-      ✅ Saved ${minutes} workout minutes for ${escapeHTML(formatDate(selectedDate))}.
-    </p>
-  `;
-}
-
-function generateTodayExerciseReport() {
-  const dateInput = document.getElementById("logDate");
-  const area = document.getElementById("dailyExerciseReportArea");
-
-  if (!dateInput || !area) return;
-
-  const selectedDate = dateInput.value || today();
-
-  const dayLogs = getDailyLogs()
-    .filter(log => log.date === selectedDate)
-    .sort((a,b) => (a.id || 0) - (b.id || 0));
-
-  if (!dayLogs.length) {
-    area.innerHTML = `
-      <div class="card warning" style="margin-top:16px">
-        <h3>📭 No Exercises Found</h3>
-        <p>No exercise logs were found for ${escapeHTML(formatDate(selectedDate))}.</p>
-      </div>
-    `;
-    return;
-  }
-
-  const minutes = getWorkoutMinutes(selectedDate);
-  const totalVolume = dayLogs.reduce(
-    (total, log) => total + trainingVolume(log),
-    0
-  );
-
-  const report = `Workout Report — ${formatDate(selectedDate)}
-
-Workout: ${dayLogs[0].workoutDay || "Workout"}
-Exercises logged: ${dayLogs.length}
-Workout time: ${minutes ? minutes + " minutes" : "not recorded"}
-Total weighted volume: ${totalVolume.toLocaleString()}
-
-${dayLogs.map((log,index) => {
-  const weight = log.weight
-    ? `${log.weight} ${log.weightUnit || "kg"}`
-    : "bodyweight / not recorded";
-
-  return `${index + 1}. ${log.exercise}
-   ${log.sets || "?"} sets × ${log.reps || "?"} reps
-   Weight: ${weight}${log.difficulty ? ` · Difficulty: ${log.difficulty}/10` : ""}`;
-}).join("\n\n")}`;
-
-  area.innerHTML = `
-    <div class="card success" style="margin-top:16px">
-      <h3>📋 Today's Exercise Report</h3>
-
-      <div
-        id="todayExerciseReport"
-        style="white-space:pre-wrap;line-height:1.65"
-      >${escapeHTML(report)}</div>
-
-      <div class="button-row">
-        <button class="button" type="button" onclick="copyTodayExerciseReport()">
-          📋 Copy Report
-        </button>
-      </div>
-    </div>
-  `;
-}
-
-async function copyTodayExerciseReport() {
-  const report = document.getElementById("todayExerciseReport");
-
-  if (!report) return;
-
-  try {
-    await navigator.clipboard.writeText(report.textContent);
-  } catch {
-    const textArea = document.createElement("textarea");
-    textArea.value = report.textContent;
-    document.body.appendChild(textArea);
-    textArea.select();
-    document.execCommand("copy");
-    textArea.remove();
-  }
-
-  alert("✅ Exercise report copied.");
-}
-
-
-  function showLogs() {
-    const logs = getDailyLogs();
-    const container = document.getElementById("savedDailyLogs");
-
-    if (!container) return;
-
-    if (!dailyLogOpened) {
-      container.classList.add("hidden");
-      container.innerHTML = "";
-      return;
-    }
-
-    container.classList.remove("hidden");
-
-    if (!logs.length) {
-      container.innerHTML = `
-        <div class="card" style="margin-top:20px">
-          <h3>📭 No Exercise Progress Saved Yet</h3>
-          <p class="muted">
-            Save an exercise above to begin tracking your progress.
-          </p>
-        </div>
-      `;
-      return;
-    }
-
-    const groups = {};
-
-    logs
-      .map((log,index) => ({
-        ...log,
-        originalIndex:index
-      }))
-      .sort((a,b) => {
-        const dateDifference = new Date(b.date) - new Date(a.date);
-
-        if (dateDifference !== 0) return dateDifference;
-
-        return (b.id || 0) - (a.id || 0);
-      })
-      .forEach(log => {
-        const key = normalizeExercise(log.exercise);
-
-        if (!groups[key]) {
-          groups[key] = {
-            name:log.exercise,
-            items:[]
-          };
-        }
-
-        groups[key].items.push(log);
+        if (durationDate) durationDate.value = date.value;
+        if (minutesInput) minutesInput.value = getWorkoutMinutes(date.value) || "";
       });
 
-    container.innerHTML = `
-      <div class="card success" style="margin-top:20px">
-        <h3>🔐 Private Exercise History Open</h3>
-        <p class="small">
-          Your exercise history is displayed below. It is stored locally in this browser.
-        </p>
+      if (durationDate) {
+        durationDate.addEventListener("change", () => {
+          if (minutesInput) {
+            minutesInput.value = getWorkoutMinutes(durationDate.value) || "";
+          }
+        });
+      }
 
-        <button class="button secondary" type="button" onclick="closeDailyLogHistory()">
-          🙈 Hide Exercise History
-        </button>
-      </div>
+      function showLogs() {
+        const logs = getDailyLogs();
+        const container = document.getElementById("savedDailyLogs");
 
-      <h3 style="margin-top:25px">📚 Exercise Progress History</h3>
+        if (!container) return;
 
-      ${Object.values(groups).map(group => `
-        <div class="card" style="margin-top:16px">
-          <h3>🏋️ ${escapeHTML(group.name)}</h3>
+        if (!dailyLogOpened) {
+          container.innerHTML = "";
+          container.classList.add("hidden");
+          return;
+        }
 
-          <p class="small">
-            ${group.items.length} saved log${group.items.length === 1 ? "" : "s"}
-          </p>
+        container.classList.remove("hidden");
 
-          ${group.items.map(log => {
-            const volume = trainingVolume(log);
+        if (!logs.length) {
+          container.innerHTML = `
+            <div class="card" style="margin-top:20px">
+              <h3>📭 No Exercise Progress Saved Yet</h3>
+              <p class="muted">Save an exercise above to begin tracking progress.</p>
+            </div>
+          `;
+          return;
+        }
 
-            return `
-              <article class="saved-entry" style="margin-top:14px">
-                <p class="small">
-                  📅 ${escapeHTML(formatDate(log.date))}
-                  · ${escapeHTML(log.workoutDay)}
-                </p>
+        const groups = {};
 
-                <div class="grid" style="margin-top:10px">
-                  <div>
-                    <h4>🔢 Sets</h4>
-                    <p>${escapeHTML(log.sets || "—")}</p>
+        logs
+          .map((log,index) => ({ ...log, originalIndex:index }))
+          .sort((a,b) =>
+            new Date(b.date) - new Date(a.date) ||
+            (b.id || 0) - (a.id || 0)
+          )
+          .forEach(log => {
+            const key = normalizeExercise(log.exercise);
+
+            if (!groups[key]) {
+              groups[key] = { name:log.exercise, items:[] };
+            }
+
+            groups[key].items.push(log);
+          });
+
+        container.innerHTML = `
+          <div class="card success" style="margin-top:20px">
+            <h3>🔐 Private Exercise History Open</h3>
+            <button class="button secondary" type="button" onclick="closeDailyLogHistory()">
+              🙈 Hide Exercise History
+            </button>
+          </div>
+
+          <h3 style="margin-top:25px">📚 Exercise Progress History</h3>
+
+          ${Object.values(groups).map(group => `
+            <div class="card" style="margin-top:16px">
+              <h3>🏋️ ${escapeHTML(group.name)}</h3>
+
+              ${group.items.map(log => `
+                <article class="saved-entry" style="margin-top:14px">
+                  <p class="small">
+                    📅 ${escapeHTML(formatDate(log.date))}
+                    · ${escapeHTML(log.workoutDay)}
+                  </p>
+
+                  <p>
+                    🔢 ${escapeHTML(log.sets || "—")} sets ·
+                    🔁 ${escapeHTML(log.reps || "—")} reps ·
+                    ⚖️ ${escapeHTML(log.weight || "—")} ${escapeHTML(log.weightUnit || "kg")}
+                  </p>
+
+                  <p>
+                    📦 ${trainingVolume(log).toLocaleString()} ${escapeHTML(log.weightUnit || "kg")}·reps
+                    · ⭐ ${escapeHTML(log.difficulty || "—")} / 10
+                  </p>
+
+                  ${log.rest ? `<p><strong>⏱️ Rest:</strong> ${escapeHTML(log.rest)}</p>` : ""}
+                  ${log.notes ? `<p><strong>📝 Notes:</strong> ${escapeHTML(log.notes)}</p>` : ""}
+
+                  <div class="button-row">
+                    <button class="button red" type="button" onclick="deleteDailyLog(${log.originalIndex})">
+                      🗑️ Delete This Exercise Log
+                    </button>
                   </div>
+                </article>
+              `).join("")}
+            </div>
+          `).join("")}
+        `;
+      }
 
-                  <div>
-                    <h4>🔁 Reps</h4>
-                    <p>${escapeHTML(log.reps || "—")}</p>
-                  </div>
+      form.onsubmit = event => {
+        event.preventDefault();
 
-                  <div>
-                    <h4>⚖️ Weight</h4>
-                    <p>
-                      ${escapeHTML(log.weight || "—")}
-                      ${escapeHTML(log.weightUnit || "kg")}
-                    </p>
-                  </div>
+        const newLog = {
+          id: Date.now(),
+          date: date.value,
+          workoutDay: document.getElementById("logWorkoutDay").value,
+          exercise: exercise.value.trim(),
+          sets: document.getElementById("logSets").value,
+          reps: document.getElementById("logReps").value.trim(),
+          weight: document.getElementById("logWeight").value,
+          weightUnit: document.getElementById("logWeightUnit").value,
+          rest: document.getElementById("logRest").value.trim(),
+          difficulty: document.getElementById("logDifficulty").value,
+          notes: document.getElementById("logNotes").value.trim()
+        };
 
-                  <div>
-                    <h4>📦 Volume</h4>
-                    <p>
-                      ${volume
-                        ? `${volume.toLocaleString()} ${escapeHTML(log.weightUnit || "kg")}·reps`
-                        : "—"}
-                    </p>
-                  </div>
+        if (!newLog.exercise) {
+          alert("Please enter an exercise name.");
+          return;
+        }
 
-                  <div>
-                    <h4>⭐ Difficulty</h4>
-                    <p>${escapeHTML(log.difficulty || "—")} / 10</p>
-                  </div>
-                </div>
+        const previous = previousExerciseLog(newLog.exercise,newLog.date);
+        const logs = getDailyLogs();
 
-                ${log.rest ? `<p><strong>⏱️ Rest:</strong> ${escapeHTML(log.rest)}</p>` : ""}
-                ${log.notes ? `<p><strong>📝 Notes:</strong> ${escapeHTML(log.notes)}</p>` : ""}
+        logs.push(newLog);
+        saveDailyLogs(logs);
 
-                <div class="button-row">
-                  <button
-                    class="button red"
-                    type="button"
-                    onclick="deleteDailyLog(${log.originalIndex})"
-                  >
-                    🗑️ Delete This Exercise Log
-                  </button>
-                </div>
-              </article>
-            `;
-          }).join("")}
-        </div>
-      `).join("")}
-    `;
-  }
+        const [title,style,message] = progressResult(previous,newLog);
 
-  form.onsubmit = event => {
-    event.preventDefault();
+        form.reset();
+        date.value = today();
 
-    const newLog = {
-      id:Date.now(),
-      date:date.value,
-      workoutDay:document.getElementById("logWorkoutDay").value,
-      exercise:exercise.value.trim(),
-      sets:document.getElementById("logSets").value,
-      reps:document.getElementById("logReps").value.trim(),
-      weight:document.getElementById("logWeight").value,
-      weightUnit:document.getElementById("logWeightUnit").value,
-      rest:document.getElementById("logRest").value.trim(),
-      difficulty:document.getElementById("logDifficulty").value,
-      notes:document.getElementById("logNotes").value.trim()
-    };
+        if (durationDate) durationDate.value = date.value;
+        if (minutesInput) minutesInput.value = getWorkoutMinutes(date.value) || "";
 
-    if (!newLog.exercise) {
-      alert("Please enter an exercise name.");
-      return;
-    }
+        document.getElementById("previousExerciseResult").innerHTML = `
+          <div class="card ${style}" style="margin-top:14px">
+            <h3>${title}</h3>
+            <p>${escapeHTML(message)}</p>
+          </div>
+        `;
 
-    const previous = previousExerciseLog(newLog.exercise,newLog.date);
-    const logs = getDailyLogs();
+        clearWorkoutTools();
 
-    logs.push(newLog);
-    saveDailyLogs(logs);
+        if (dailyLogOpened) showLogs();
+      };
 
-    const [title,style,message] = progressResult(previous,newLog);
-
-    form.reset();
-    date.value = today();
-
-    document.getElementById("previousExerciseResult").innerHTML = `
-      <div class="card ${style}" style="margin-top:14px">
-        <h3>${title}</h3>
-        <p>${escapeHTML(message)}</p>
-      </div>
-    `;
-
-    clearCaloriePrompt();
-
-    if (dailyLogOpened) {
+      window.refreshDailyLogHistory = showLogs;
       showLogs();
     }
-  };
 
-  window.refreshDailyLogHistory = showLogs;
-  showLogs();
-}
-function openDailyLogHistory() {
-  dailyLogOpened = true;
+    function openDailyLogHistory() {
+      dailyLogOpened = true;
 
-  if (typeof window.refreshDailyLogHistory === "function") {
-    window.refreshDailyLogHistory();
-  }
-}
+      if (typeof window.refreshDailyLogHistory === "function") {
+        window.refreshDailyLogHistory();
+      }
+    }
 
-function closeDailyLogHistory() {
-  dailyLogOpened = false;
+    function closeDailyLogHistory() {
+      dailyLogOpened = false;
 
-  const container = document.getElementById("savedDailyLogs");
+      const container = document.getElementById("savedDailyLogs");
 
-  if (container) {
-    container.innerHTML = "";
-    container.classList.add("hidden");
-  }
-}
-
-function clearCaloriePrompt() {
-  const area = document.getElementById("caloriePromptArea");
-
-  if (area) {
-    area.innerHTML = "";
-  }
-}
-
-function buildCaloriePrompt(logs, selectedDate) {
-  const bodyWeight = document.getElementById("headerWeight")
-    ?.textContent
-    .replace(/[^\d.]/g, "") || "79.55";
-
-  const totalVolume = logs.reduce(
-    (total, log) => total + trainingVolume(log),
-    0
-  );
-
-  const exerciseLines = logs.map((log,index) => {
-    const unit = log.weightUnit || "kg";
-    const logVolume = trainingVolume(log);
-
-    return `${index + 1}. ${log.exercise}
-   - Sets completed: ${log.sets || "not recorded"}
-   - Reps per set: ${log.reps || "not recorded"}
-   - Weight used: ${log.weight ? `${log.weight} ${unit}` : "bodyweight or not recorded"}
-   - Total training volume: ${logVolume ? `${logVolume.toLocaleString()} ${unit}·reps` : "not available"}
-   - Rest time: ${log.rest || "not recorded"}
-   - Difficulty / RPE: ${log.difficulty ? `${log.difficulty}/10` : "not recorded"}
-   - Notes: ${log.notes || "none"}`;
-  }).join("\n\n");
-
-  return `Estimate the calories I likely burned during this strength-training workout.
-
-Important: Give a realistic estimated calorie range, not an exact number. Explain that calorie burn from resistance training depends on workout duration, body weight, rest periods, exercise intensity, training experience, heart rate, and individual metabolism.
-
-My body weight: approximately ${bodyWeight} kg
-Workout date: ${formatDate(selectedDate)}
-Workout day: ${logs[0]?.workoutDay || "not recorded"}
-Number of logged exercises: ${logs.length}
-Total recorded training volume: ${totalVolume.toLocaleString()} weighted reps
-
-Exercises completed:
-
-${exerciseLines}
-
-Please provide:
-1. A conservative calorie-burn range during the workout.
-2. A moderate / likely calorie-burn range.
-3. A high-intensity estimate if rest periods were short and effort was high.
-4. An estimated workout duration range based on the exercise log.
-5. A brief explanation of why this is only an estimate.
-6. Do not include calories burned after exercise (EPOC) unless clearly labelled separately.`;
-}
-
-function generateCaloriePrompt() {
-  const dateInput = document.getElementById("logDate");
-  const area = document.getElementById("caloriePromptArea");
-
-  if (!dateInput || !area) return;
-
-  const selectedDate = dateInput.value || today();
-
-  const dayLogs = getDailyLogs()
-    .filter(log => log.date === selectedDate)
-    .sort((a,b) => (a.id || 0) - (b.id || 0));
-
-  if (!dayLogs.length) {
-    area.innerHTML = `
-      <div class="card warning" style="margin-top:16px">
-        <h3>📭 No Exercises Found for ${escapeHTML(formatDate(selectedDate))}</h3>
-        <p>
-          Save one or more exercises with this date before generating
-          a calorie-estimation prompt.
-        </p>
-      </div>
-    `;
-    return;
-  }
-
-  const prompt = buildCaloriePrompt(dayLogs,selectedDate);
-
-  area.innerHTML = `
-    <div class="card success" style="margin-top:16px">
-      <h3>✅ Calorie Estimate Prompt Ready</h3>
-
-      <p class="small">
-        Copy this prompt and paste it into ChatGPT or another AI assistant.
-        The result will be an estimate, not a medical or fitness-device measurement.
-      </p>
-
-      <textarea
-        id="caloriePromptText"
-        readonly
-        style="margin-top:12px; min-height:360px;"
-      >${escapeHTML(prompt)}</textarea>
-
-      <div class="button-row">
-        <button class="button" type="button" onclick="copyCaloriePrompt()">
-          📋 Copy Prompt
-        </button>
-      </div>
-    </div>
-  `;
-}
-
-async function copyCaloriePrompt() {
-  const textArea = document.getElementById("caloriePromptText");
-
-  if (!textArea) return;
-
-  try {
-    await navigator.clipboard.writeText(textArea.value);
-    alert("✅ Calorie estimate prompt copied to your clipboard.");
-  } catch (error) {
-    textArea.select();
-    document.execCommand("copy");
-    alert("✅ Calorie estimate prompt copied to your clipboard.");
-  }
-}
+      if (container) {
+        container.innerHTML = "";
+        container.classList.add("hidden");
+      }
+    }
 
     function deleteDailyLog(index) {
       const logs = getDailyLogs();
-      if (!logs[index]) return;
 
+      if (!logs[index]) return;
       if (!confirm(`Delete "${logs[index].exercise}" from ${formatDate(logs[index].date)}?`)) return;
 
       logs.splice(index,1);
       saveDailyLogs(logs);
       setupDailyLog();
     }
+
+    /* ---------------- WORKOUT MINUTES / REPORT / CALORIE PROMPT ---------------- */
+
+    function getWorkoutMinutesData() {
+      return JSON.parse(localStorage.getItem("fitnessWorkoutMinutes") || "{}");
+    }
+
+    function getWorkoutMinutes(date) {
+      return Number(getWorkoutMinutesData()[date]) || 0;
+    }
+
+    function saveWorkoutMinutes() {
+      const durationDate = document.getElementById("workoutMinutesDate");
+      const minutesInput = document.getElementById("workoutMinutes");
+      const message = document.getElementById("workoutMinutesMessage");
+
+      if (!durationDate || !minutesInput || !message) return;
+
+      const selectedDate = durationDate.value || today();
+      const minutes = Number(minutesInput.value);
+
+      if (!minutes || minutes < 1) {
+        message.innerHTML = `
+          <p class="small" style="margin-top:10px;color:var(--red)">
+            Please enter at least 1 workout minute.
+          </p>
+        `;
+        return;
+      }
+
+      const data = getWorkoutMinutesData();
+      data[selectedDate] = minutes;
+
+      localStorage.setItem("fitnessWorkoutMinutes", JSON.stringify(data));
+
+      message.innerHTML = `
+        <p class="small" style="margin-top:10px;color:var(--green)">
+          ✅ Saved ${minutes} minutes for ${escapeHTML(formatDate(selectedDate))}.
+        </p>
+      `;
+    }
+
+    function clearWorkoutTools() {
+      const calorieArea = document.getElementById("caloriePromptArea");
+      const reportArea = document.getElementById("dailyExerciseReportArea");
+
+      if (calorieArea) calorieArea.innerHTML = "";
+      if (reportArea) reportArea.innerHTML = "";
+    }
+
+    function getSelectedWorkoutLogs() {
+      const dateInput = document.getElementById("logDate");
+      const selectedDate = dateInput?.value || today();
+
+      return {
+        selectedDate,
+        logs: getDailyLogs()
+          .filter(log => log.date === selectedDate)
+          .sort((a,b) => (a.id || 0) - (b.id || 0))
+      };
+    }
+
+    function generateTodayExerciseReport() {
+      const area = document.getElementById("dailyExerciseReportArea");
+
+      if (!area) return;
+
+      const { selectedDate, logs } = getSelectedWorkoutLogs();
+
+      if (!logs.length) {
+        area.innerHTML = `
+          <div class="card warning" style="margin-top:16px">
+            <h3>📭 No Exercises Found</h3>
+            <p>Save at least one exercise for ${escapeHTML(formatDate(selectedDate))} first.</p>
+          </div>
+        `;
+        return;
+      }
+
+      const minutes = getWorkoutMinutes(selectedDate);
+      const totalVolume = logs.reduce((sum,log) => sum + trainingVolume(log),0);
+
+      const report = `Workout Report — ${formatDate(selectedDate)}
+
+Workout: ${logs[0].workoutDay || "Workout"}
+Duration: ${minutes ? minutes + " minutes" : "not recorded"}
+Exercises: ${logs.length}
+Volume: ${totalVolume.toLocaleString()} weighted reps
+
+${logs.map((log,index) => {
+  const weight = log.weight
+    ? `${log.weight} ${log.weightUnit || "kg"}`
+    : "bodyweight";
+
+  return `${index + 1}. ${log.exercise} — ${log.sets || "?"} sets × ${log.reps || "?"} reps, ${weight}`;
+}).join("\n")}`;
+
+      area.innerHTML = `
+        <div class="card success" style="margin-top:16px">
+          <h3>📋 Today's Exercise Report</h3>
+
+          <div id="todayExerciseReport" class="report-text">${escapeHTML(report)}</div>
+
+          <div class="button-row">
+            <button class="button" type="button" onclick="copyTodayExerciseReport()">
+              📋 Copy Report
+            </button>
+          </div>
+        </div>
+      `;
+    }
+
+    async function copyTodayExerciseReport() {
+      const report = document.getElementById("todayExerciseReport");
+
+      if (!report) return;
+
+      try {
+        await navigator.clipboard.writeText(report.textContent);
+      } catch {
+        const textArea = document.createElement("textarea");
+        textArea.value = report.textContent;
+        document.body.appendChild(textArea);
+        textArea.select();
+        document.execCommand("copy");
+        textArea.remove();
+      }
+
+      alert("✅ Exercise report copied.");
+    }
+
+    function generateCaloriePrompt() {
+      const area = document.getElementById("caloriePromptArea");
+
+      if (!area) return;
+
+      const { selectedDate, logs } = getSelectedWorkoutLogs();
+
+      if (!logs.length) {
+        area.innerHTML = `
+          <div class="card warning" style="margin-top:16px">
+            <h3>📭 No Exercises Found</h3>
+            <p>Save at least one exercise for ${escapeHTML(formatDate(selectedDate))} first.</p>
+          </div>
+        `;
+        return;
+      }
+
+      const bodyWeight = document.getElementById("headerWeight")
+        ?.textContent
+        .replace(/[^\d.]/g,"") || "79.55";
+
+      const minutes = getWorkoutMinutes(selectedDate);
+
+      const exercises = logs.map(log => {
+        const weight = log.weight
+          ? `${log.weight} ${log.weightUnit || "kg"}`
+          : "bodyweight";
+
+        return `- ${log.exercise}: ${log.sets || "?"} sets × ${log.reps || "?"} reps, ${weight}`;
+      }).join("\n");
+
+      const prompt = `Estimate calories burned in this strength workout.
+
+Body weight: ${bodyWeight} kg
+Date: ${formatDate(selectedDate)}
+Duration: ${minutes ? minutes + " minutes" : "not recorded"}
+
+${exercises}
+
+Give a realistic calorie range and likely estimate. Keep it brief and explain why it is approximate.`;
+
+      area.innerHTML = `
+        <div class="card success" style="margin-top:16px">
+          <h3>✅ Calorie Prompt Ready</h3>
+
+          <textarea id="caloriePromptText" readonly style="margin-top:12px;min-height:220px">${escapeHTML(prompt)}</textarea>
+
+          <div class="button-row">
+            <button class="button" type="button" onclick="copyCaloriePrompt()">
+              📋 Copy Prompt
+            </button>
+          </div>
+        </div>
+      `;
+    }
+
+    async function copyCaloriePrompt() {
+      const textArea = document.getElementById("caloriePromptText");
+
+      if (!textArea) return;
+
+      try {
+        await navigator.clipboard.writeText(textArea.value);
+      } catch {
+        textArea.select();
+        document.execCommand("copy");
+      }
+
+      alert("✅ Calorie prompt copied.");
+    }
+
+    /* ---------------- PRIVATE PHOTO STORAGE ---------------- */
 
     const PHOTO_DB = "FitnessProgressPhotos";
     const PHOTO_STORE = "photos";
@@ -1481,6 +1707,7 @@ async function copyCaloriePrompt() {
 
         request.onupgradeneeded = event => {
           const db = event.target.result;
+
           if (!db.objectStoreNames.contains(PHOTO_STORE)) {
             db.createObjectStore(PHOTO_STORE,{keyPath:"id",autoIncrement:true});
           }
@@ -1495,8 +1722,14 @@ async function copyCaloriePrompt() {
       const db = await openPhotoDB();
 
       return new Promise((resolve,reject) => {
-        const request = db.transaction(PHOTO_STORE,"readonly").objectStore(PHOTO_STORE).getAll();
-        request.onsuccess = () => resolve(request.result.sort((a,b) => new Date(b.date) - new Date(a.date)));
+        const request = db
+          .transaction(PHOTO_STORE,"readonly")
+          .objectStore(PHOTO_STORE)
+          .getAll();
+
+        request.onsuccess = () =>
+          resolve(request.result.sort((a,b) => new Date(b.date) - new Date(a.date)));
+
         request.onerror = () => reject(request.error);
       });
     }
@@ -1505,7 +1738,11 @@ async function copyCaloriePrompt() {
       const db = await openPhotoDB();
 
       return new Promise((resolve,reject) => {
-        const request = db.transaction(PHOTO_STORE,"readwrite").objectStore(PHOTO_STORE).add(photo);
+        const request = db
+          .transaction(PHOTO_STORE,"readwrite")
+          .objectStore(PHOTO_STORE)
+          .add(photo);
+
         request.onsuccess = () => resolve();
         request.onerror = () => reject(request.error);
       });
@@ -1515,7 +1752,11 @@ async function copyCaloriePrompt() {
       const db = await openPhotoDB();
 
       return new Promise((resolve,reject) => {
-        const request = db.transaction(PHOTO_STORE,"readwrite").objectStore(PHOTO_STORE).delete(Number(id));
+        const request = db
+          .transaction(PHOTO_STORE,"readwrite")
+          .objectStore(PHOTO_STORE)
+          .delete(Number(id));
+
         request.onsuccess = () => resolve();
         request.onerror = () => reject(request.error);
       });
@@ -1535,32 +1776,59 @@ async function copyCaloriePrompt() {
       const date = document.getElementById("photoDate");
       const file = document.getElementById("photoFile");
       const preview = document.getElementById("uploadPreview");
+      const fileName = document.getElementById("photoFileName");
+
+      if (!form || !date || !file || !preview) return;
 
       date.value = today();
 
       file.onchange = () => {
-        if (!file.files[0]) return;
-        preview.src = URL.createObjectURL(file.files[0]);
+        const selected = file.files[0];
+
+        if (!selected) {
+          preview.style.display = "none";
+          if (fileName) fileName.textContent = "No photo file selected.";
+          return;
+        }
+
+        preview.src = URL.createObjectURL(selected);
         preview.style.display = "block";
+
+        if (fileName) {
+          fileName.textContent = `✅ Selected: ${selected.name}`;
+        }
       };
 
       form.onsubmit = async event => {
         event.preventDefault();
+
         const image = file.files[0];
 
-        if (!image) return alert("Choose a photo first.");
-        if (image.size > 8 * 1024 * 1024) return alert("Please choose an image below 8 MB.");
+        if (!image) {
+          alert("Choose a photo file first.");
+          return;
+        }
+
+        if (image.size > 8 * 1024 * 1024) {
+          alert("Please choose an image below 8 MB.");
+          return;
+        }
 
         await savePhoto({
-          title:document.getElementById("photoTitle").value.trim() || "Progress Photo",
-          date:date.value,
-          note:document.getElementById("photoNote").value.trim(),
-          imageData:await fileToDataURL(image)
+          title: document.getElementById("photoTitle").value.trim() || "Progress Photo",
+          date: date.value,
+          note: document.getElementById("photoNote").value.trim(),
+          imageData: await fileToDataURL(image)
         });
 
         form.reset();
         date.value = today();
         preview.style.display = "none";
+
+        if (fileName) {
+          fileName.textContent = "No photo file selected.";
+        }
+
         alert("✅ Photo saved privately on this device.");
       };
     }
@@ -1573,7 +1841,12 @@ async function copyCaloriePrompt() {
       container.classList.remove("hidden");
 
       if (!photos.length) {
-        container.innerHTML = `<div class="card" style="margin-top:16px"><h3>📭 No Photos Saved</h3><p class="muted">Upload your first photo above.</p></div>`;
+        container.innerHTML = `
+          <div class="card" style="margin-top:16px">
+            <h3>📭 No Photos Saved</h3>
+            <p class="muted">Upload your first photo above.</p>
+          </div>
+        `;
         return;
       }
 
@@ -1581,7 +1854,9 @@ async function copyCaloriePrompt() {
         <div class="card success" style="margin-top:16px">
           <h3>🔐 Private Gallery Open</h3>
           <p class="small">These photos are stored locally in this browser only.</p>
-          <button class="button secondary" onclick="closeGallery()">🙈 Hide Gallery</button>
+          <button class="button secondary" type="button" onclick="closeGallery()">
+            🙈 Hide Gallery
+          </button>
         </div>
 
         <div class="card" style="margin-top:16px">
@@ -1591,14 +1866,20 @@ async function copyCaloriePrompt() {
             <label>
               Earlier Photo
               <select id="beforePhoto" onchange="comparePhotos()">
-                ${photos.slice().reverse().map(p => `<option value="${p.id}">${escapeHTML(p.date)} — ${escapeHTML(p.title)}</option>`).join("")}
+                ${photos.slice().reverse().map(p => `
+                  <option value="${p.id}">${escapeHTML(p.date)} — ${escapeHTML(p.title)}</option>
+                `).join("")}
               </select>
             </label>
 
             <label>
               Newer Photo
               <select id="afterPhoto" onchange="comparePhotos()">
-                ${photos.map((p,i) => `<option value="${p.id}" ${i === 0 ? "selected" : ""}>${escapeHTML(p.date)} — ${escapeHTML(p.title)}</option>`).join("")}
+                ${photos.map((p,i) => `
+                  <option value="${p.id}" ${i === 0 ? "selected" : ""}>
+                    ${escapeHTML(p.date)} — ${escapeHTML(p.title)}
+                  </option>
+                `).join("")}
               </select>
             </label>
           </div>
@@ -1612,12 +1893,16 @@ async function copyCaloriePrompt() {
           ${photos.map(p => `
             <article class="photo-card">
               <img src="${p.imageData}" alt="${escapeHTML(p.title)}">
+
               <div class="photo-info">
                 <h3>${escapeHTML(p.title)}</h3>
                 <p class="photo-date">📅 ${escapeHTML(p.date)}</p>
                 ${p.note ? `<p class="small">📝 ${escapeHTML(p.note)}</p>` : ""}
+
                 <div class="button-row">
-                  <button class="button red" onclick="removePhoto(${p.id})">🗑️ Delete Photo</button>
+                  <button class="button red" type="button" onclick="removePhoto(${p.id})">
+                    🗑️ Delete Photo
+                  </button>
                 </div>
               </div>
             </article>
@@ -1630,6 +1915,9 @@ async function copyCaloriePrompt() {
 
     function closeGallery() {
       const gallery = document.getElementById("privateGallery");
+
+      if (!gallery) return;
+
       gallery.innerHTML = "";
       gallery.classList.add("hidden");
       galleryOpened = false;
@@ -1652,6 +1940,7 @@ async function copyCaloriePrompt() {
             <img class="comparison-image" src="${before.imageData}" alt="Earlier progress photo">
             <p class="comparison-label">⬅️ Earlier: ${escapeHTML(before.date)}</p>
           </div>
+
           <div>
             <img class="comparison-image" src="${after.imageData}" alt="Newer progress photo">
             <p class="comparison-label">➡️ Newer: ${escapeHTML(after.date)}</p>
@@ -1670,24 +1959,41 @@ async function copyCaloriePrompt() {
               "Shoulders or arms appear more defined",
               "Leg definition appears clearer",
               "No clear visible difference yet"
-            ].map(x => `<label><input type="checkbox" value="${x}">${x}</label>`).join("")}
+            ].map(x => `
+              <label><input type="checkbox" value="${x}">${x}</label>
+            `).join("")}
           </div>
 
-          <label style="margin-top:14px">📝 Comparison Note<textarea id="comparisonNote" placeholder="Example: Waist looks slightly tighter this week."></textarea></label>
-          <button class="button green" style="margin-top:14px" onclick="generateSummary()">✨ Generate Weekly Summary</button>
+          <label style="margin-top:14px">
+            📝 Comparison Note
+            <textarea id="comparisonNote" placeholder="Example: Waist looks slightly tighter this week."></textarea>
+          </label>
+
+          <button class="button green" type="button" style="margin-top:14px" onclick="generateSummary()">
+            ✨ Generate Weekly Summary
+          </button>
+
           <div id="photoSummary"></div>
         </div>
       `;
     }
 
     function generateSummary() {
-      const selected = [...document.querySelectorAll(".analysis-checks input:checked")].map(x => x.value);
-      const note = document.getElementById("comparisonNote").value.trim();
+      const selected = [...document.querySelectorAll(".analysis-checks input:checked")]
+        .map(x => x.value);
 
-      document.getElementById("photoSummary").innerHTML = `
+      const note = document.getElementById("comparisonNote")?.value.trim() || "";
+      const area = document.getElementById("photoSummary");
+
+      if (!area) return;
+
+      area.innerHTML = `
         <div class="card success" style="margin-top:16px">
           <h3>✅ Weekly Photo Summary</h3>
-          <p><strong>📸 Visible changes:</strong> ${selected.length ? selected.map(escapeHTML).join(", ") : "No changes selected yet."}</p>
+          <p>
+            <strong>📸 Visible changes:</strong>
+            ${selected.length ? selected.map(escapeHTML).join(", ") : "No changes selected yet."}
+          </p>
           ${note ? `<p><strong>📝 Your note:</strong> ${escapeHTML(note)}</p>` : ""}
           <p class="small">💡 Small differences are usually easier to see after 3–4 weeks of consistent photos.</p>
         </div>
@@ -1696,15 +2002,22 @@ async function copyCaloriePrompt() {
 
     async function removePhoto(id) {
       if (!confirm("Delete this photo permanently?")) return;
+
       await deletePhoto(id);
-      if (galleryOpened) openGallery();
+
+      if (galleryOpened) {
+        openGallery();
+      }
     }
+
+    /* ---------------- CHECKLIST ---------------- */
 
     function loadChecklist() {
       document.querySelectorAll("[data-check]").forEach(box => {
         const key = "fitness_" + box.dataset.check;
+
         box.checked = localStorage.getItem(key) === "true";
-        box.onchange = () => localStorage.setItem(key,box.checked);
+        box.onchange = () => localStorage.setItem(key, box.checked);
       });
     }
 
@@ -1717,6 +2030,8 @@ async function copyCaloriePrompt() {
       });
     }
 
+    /* ---------------- WEEKLY CHECK-INS ---------------- */
+
     function setupTracking() {
       const form = document.getElementById("checkinForm");
 
@@ -1725,7 +2040,11 @@ async function copyCaloriePrompt() {
         const container = document.getElementById("savedCheckins");
 
         if (!entries.length) {
-          container.innerHTML = `<p class="small" style="margin-top:20px">📭 No weekly check-ins saved yet.</p>`;
+          container.innerHTML = `
+            <p class="small" style="margin-top:20px">
+              📭 No weekly check-ins saved yet.
+            </p>
+          `;
           return;
         }
 
@@ -1738,13 +2057,18 @@ async function copyCaloriePrompt() {
             return `
               <div class="saved-entry" style="margin-top:14px">
                 <h3>📅 ${escapeHTML(entry.week)}</h3>
+
                 <p><strong>⚖️ Weight:</strong> ${escapeHTML(entry.weight || "—")} kg · <strong>📏 Waist:</strong> ${escapeHTML(entry.waist || "—")} cm</p>
                 <p><strong>🏋️ Training:</strong> ${escapeHTML(entry.strength || "—")} · <strong>🚴 Cardio:</strong> ${escapeHTML(entry.cardio || "—")} min · <strong>🚶 Steps:</strong> ${escapeHTML(entry.steps || "—")}</p>
                 <p><strong>😴 Sleep:</strong> ${escapeHTML(entry.sleep || "—")} h · <strong>⚡ Energy:</strong> ${escapeHTML(entry.energy || "—")}</p>
+
                 ${entry.performance ? `<p><strong>🏋️ Gym:</strong> ${escapeHTML(entry.performance)}</p>` : ""}
                 ${entry.notes ? `<p><strong>📝 Notes:</strong> ${escapeHTML(entry.notes)}</p>` : ""}
+
                 <div class="button-row">
-                  <button class="button red" onclick="deleteCheckin(${index})">🗑️ Delete This Check-In</button>
+                  <button class="button red" type="button" onclick="deleteCheckin(${index})">
+                    🗑️ Delete This Check-In
+                  </button>
                 </div>
               </div>
             `;
@@ -1762,6 +2086,7 @@ async function copyCaloriePrompt() {
 
         const entries = getCheckins();
         entries.push(entry);
+
         localStorage.setItem("fitnessCheckins",JSON.stringify(entries));
 
         updateHeaderWeight();
@@ -1773,8 +2098,8 @@ async function copyCaloriePrompt() {
 
     function deleteCheckin(index) {
       const entries = getCheckins();
-      if (!entries[index]) return;
 
+      if (!entries[index]) return;
       if (!confirm(`Delete check-in "${entries[index].week}"?`)) return;
 
       entries.splice(index,1);
@@ -1784,7 +2109,7 @@ async function copyCaloriePrompt() {
       renderPage();
     }
 
-    matchMedia("(prefers-color-scheme:dark)").addEventListener("change",() => {
+    matchMedia("(prefers-color-scheme:dark)").addEventListener("change", () => {
       if (getTheme() === "system") applyTheme("system");
     });
 
@@ -1799,7 +2124,5 @@ async function copyCaloriePrompt() {
 
     window.addEventListener("hashchange",renderPage);
   </script>
-
-  
 </body>
 </html>
