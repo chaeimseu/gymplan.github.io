@@ -304,6 +304,8 @@
 
     let previousIndex = 0;
     let galleryOpened = false;
+    let dailyLogOpened = false;
+
 
     const routes = [
       "home","workouts","upper-a","lower-a","upper-b","lower-b",
@@ -566,62 +568,165 @@
 
       "daily-log": () => `
         <h2>📝 Daily Training Progress Log</h2>
-        <p class="muted">Track every exercise so you can see strength progress, rep progress, and training volume over time.</p>
+
+        <p class="muted">
+          Record your training performance privately. Exercise history remains hidden
+          unless you intentionally open it.
+        </p>
 
         <div class="card highlight">
           <h3>📈 Progress Rule</h3>
-          <p>Progress can mean more weight, more reps, more sets, better form, lower difficulty, or more total training volume.</p>
-          <p class="small">💡 Example: 50 kg for 10, 10, 8 reps this week → aim for 50 kg for 10, 10, 9 reps next time.</p>
+          <p>
+            Progress can mean more weight, more reps, more sets, better form,
+            lower difficulty, or more total training volume.
+          </p>
+          <p class="small">
+            💡 Example: 50 kg for 10, 10, 8 reps this week → aim for
+            50 kg for 10, 10, 9 reps next time.
+          </p>
         </div>
 
-        <div class="card" style="margin-top:16px">
-          <h3>➕ Add Exercise Progress</h3>
+  <div class="card" style="margin-top:16px">
+    <h3>➕ Add Exercise Progress</h3>
 
-          <form id="dailyLogForm">
-            <div class="form-grid">
-              <label>📅 Date<input id="logDate" type="date" required></label>
+    <form id="dailyLogForm">
+      <div class="form-grid">
+        <label>
+          📅 Date
+          <input id="logDate" type="date" required>
+        </label>
 
-              <label>
-                🏋️ Workout Day
-                <select id="logWorkoutDay">
-                  <option value="Upper A">🏋️ Upper A</option>
-                  <option value="Lower A">🦵 Lower A</option>
-                  <option value="Upper B">💪 Upper B</option>
-                  <option value="Lower B">🔥 Lower B</option>
-                  <option value="Cardio / Other">🚴 Cardio / Other</option>
-                </select>
-              </label>
+        <label>
+          🏋️ Workout Day
+          <select id="logWorkoutDay">
+            <option value="Upper A">🏋️ Upper A</option>
+            <option value="Lower A">🦵 Lower A</option>
+            <option value="Upper B">💪 Upper B</option>
+            <option value="Lower B">🔥 Lower B</option>
+            <option value="Cardio / Other">🚴 Cardio / Other</option>
+          </select>
+        </label>
 
-              <label>💪 Exercise Name<input id="logExercise" required autocomplete="off" placeholder="Example: Barbell Bench Press"></label>
-              <label>🔢 Sets Completed<input id="logSets" type="number" min="1" placeholder="Example: 3"></label>
-              <label>🔁 Reps Per Set<input id="logReps" placeholder="Example: 10, 10, 8"></label>
-              <label>⚖️ Weight Used<input id="logWeight" type="number" min="0" step="0.5" placeholder="Example: 50"></label>
+        <label>
+          💪 Exercise Name
+          <input
+            id="logExercise"
+            required
+            autocomplete="off"
+            placeholder="Example: Barbell Bench Press"
+          >
+        </label>
 
-              <label>
-                📏 Unit
-                <select id="logWeightUnit">
-                  <option value="kg">kg</option>
-                  <option value="lb">lb</option>
-                </select>
-              </label>
+        <label>
+          🔢 Sets Completed
+          <input
+            id="logSets"
+            type="number"
+            min="1"
+            placeholder="Example: 3"
+          >
+        </label>
 
-              <label>⏱️ Rest Time<input id="logRest" placeholder="Example: 90 seconds"></label>
-              <label>⭐ Difficulty 1–10<input id="logDifficulty" type="number" min="1" max="10" placeholder="Example: 8"></label>
-            </div>
+        <label>
+          🔁 Reps Per Set
+          <input
+            id="logReps"
+            placeholder="Example: 10, 10, 8"
+          >
+        </label>
 
-            <div id="previousExerciseResult"></div>
+        <label>
+          ⚖️ Weight Used
+          <input
+            id="logWeight"
+            type="number"
+            min="0"
+            step="0.5"
+            placeholder="Example: 50"
+          >
+        </label>
 
-            <label style="margin-top:14px">
-              📝 Notes
-              <textarea id="logNotes" placeholder="Example: Form felt good. Add 2.5 kg next time if all reps are completed."></textarea>
-            </label>
+        <label>
+          📏 Unit
+          <select id="logWeightUnit">
+            <option value="kg">kg</option>
+            <option value="lb">lb</option>
+          </select>
+        </label>
 
-            <button class="button" type="submit" style="margin-top:14px">💾 Save Exercise Progress</button>
-          </form>
-        </div>
+        <label>
+          ⏱️ Rest Time
+          <input
+            id="logRest"
+            placeholder="Example: 90 seconds"
+          >
+        </label>
 
-        <div id="savedDailyLogs"></div>
-      `,
+        <label>
+          ⭐ Difficulty 1–10
+          <input
+            id="logDifficulty"
+            type="number"
+            min="1"
+            max="10"
+            placeholder="Example: 8"
+          >
+        </label>
+      </div>
+
+      <div id="previousExerciseResult"></div>
+
+      <label style="margin-top:14px">
+        📝 Notes
+        <textarea
+          id="logNotes"
+          placeholder="Example: Form felt good. Add 2.5 kg next time if all reps are completed."
+        ></textarea>
+      </label>
+
+      <button class="button" type="submit" style="margin-top:14px">
+        💾 Save Exercise Progress
+      </button>
+    </form>
+  </div>
+
+  <div class="card warning" style="margin-top:16px">
+    <h3>🔥 Exercise Calorie Estimate Prompt</h3>
+
+    <p>
+      Generate a detailed prompt based on all exercises saved for the selected
+      date. You can copy it into ChatGPT or another calorie-estimation tool.
+    </p>
+
+    <p class="small">
+      ⚠️ Strength-training calorie estimates are approximate. Heart rate,
+      workout duration, rest periods, body weight, exercise intensity, and
+      individual metabolism all affect calorie expenditure.
+    </p>
+
+    <div class="button-row">
+      <button class="button green" type="button" onclick="generateCaloriePrompt()">
+        ✨ Generate Calorie Estimate Prompt
+      </button>
+    </div>
+
+    <div id="caloriePromptArea"></div>
+  </div>
+
+  <div class="card warning" style="margin-top:16px">
+    <h3>🔐 Private Exercise History</h3>
+    <p>
+      Saved exercise history is hidden by default and stored only in this browser.
+    </p>
+
+    <button class="button secondary" type="button" onclick="openDailyLogHistory()">
+      🔐 Open Private Exercise History
+    </button>
+  </div>
+
+  <div id="savedDailyLogs" class="hidden"></div>
+`,
+
 
       cardio: () => `
         <h2>🚴 Cardio & Daily Activity</h2>
@@ -765,6 +870,8 @@
       const back = index !== -1 && index < previousIndex;
 
       galleryOpened = false;
+      dailyLogOpened = false;
+
 
       let content = "";
 
@@ -903,123 +1010,349 @@
     }
 
     function setupDailyLog() {
-      const form = document.getElementById("dailyLogForm");
-      const date = document.getElementById("logDate");
-      const exercise = document.getElementById("logExercise");
+  const form = document.getElementById("dailyLogForm");
+  const date = document.getElementById("logDate");
+  const exercise = document.getElementById("logExercise");
 
-      if (!form || !date || !exercise) return;
+  if (!form || !date || !exercise) return;
 
-      date.value = today();
-      exercise.addEventListener("input",showPreviousExercise);
-      date.addEventListener("change",showPreviousExercise);
+  date.value = today();
 
-      function showLogs() {
-        const logs = getDailyLogs();
-        const container = document.getElementById("savedDailyLogs");
+  exercise.addEventListener("input", showPreviousExercise);
 
-        if (!logs.length) {
-          container.innerHTML = `
-            <div class="card" style="margin-top:20px">
-              <h3>📭 No Exercise Progress Saved Yet</h3>
-              <p class="muted">Save an exercise above to begin tracking your progress.</p>
-            </div>
-          `;
-          return;
+  date.addEventListener("change", () => {
+    showPreviousExercise();
+    clearCaloriePrompt();
+  });
+
+  function showLogs() {
+    const logs = getDailyLogs();
+    const container = document.getElementById("savedDailyLogs");
+
+    if (!container) return;
+
+    if (!dailyLogOpened) {
+      container.classList.add("hidden");
+      container.innerHTML = "";
+      return;
+    }
+
+    container.classList.remove("hidden");
+
+    if (!logs.length) {
+      container.innerHTML = `
+        <div class="card" style="margin-top:20px">
+          <h3>📭 No Exercise Progress Saved Yet</h3>
+          <p class="muted">
+            Save an exercise above to begin tracking your progress.
+          </p>
+        </div>
+      `;
+      return;
+    }
+
+    const groups = {};
+
+    logs
+      .map((log,index) => ({
+        ...log,
+        originalIndex:index
+      }))
+      .sort((a,b) => {
+        const dateDifference = new Date(b.date) - new Date(a.date);
+
+        if (dateDifference !== 0) return dateDifference;
+
+        return (b.id || 0) - (a.id || 0);
+      })
+      .forEach(log => {
+        const key = normalizeExercise(log.exercise);
+
+        if (!groups[key]) {
+          groups[key] = {
+            name:log.exercise,
+            items:[]
+          };
         }
 
-        const groups = {};
+        groups[key].items.push(log);
+      });
 
-        logs
-          .map((log,index) => ({...log,originalIndex:index}))
-          .sort((a,b) => new Date(b.date) - new Date(a.date) || (b.id || 0) - (a.id || 0))
-          .forEach(log => {
-            const key = normalizeExercise(log.exercise);
-            if (!groups[key]) groups[key] = {name:log.exercise,items:[]};
-            groups[key].items.push(log);
-          });
+    container.innerHTML = `
+      <div class="card success" style="margin-top:20px">
+        <h3>🔐 Private Exercise History Open</h3>
+        <p class="small">
+          Your exercise history is displayed below. It is stored locally in this browser.
+        </p>
 
-        container.innerHTML = `
-          <h3 style="margin-top:25px">📚 Exercise Progress History</h3>
+        <button class="button secondary" type="button" onclick="closeDailyLogHistory()">
+          🙈 Hide Exercise History
+        </button>
+      </div>
 
-          ${Object.values(groups).map(group => `
-            <div class="card" style="margin-top:16px">
-              <h3>🏋️ ${escapeHTML(group.name)}</h3>
-              <p class="small">${group.items.length} saved log${group.items.length === 1 ? "" : "s"}</p>
+      <h3 style="margin-top:25px">📚 Exercise Progress History</h3>
 
-              ${group.items.map(log => {
-                const volume = trainingVolume(log);
+      ${Object.values(groups).map(group => `
+        <div class="card" style="margin-top:16px">
+          <h3>🏋️ ${escapeHTML(group.name)}</h3>
 
-                return `
-                  <article class="saved-entry" style="margin-top:14px">
-                    <p class="small">📅 ${escapeHTML(formatDate(log.date))} · ${escapeHTML(log.workoutDay)}</p>
+          <p class="small">
+            ${group.items.length} saved log${group.items.length === 1 ? "" : "s"}
+          </p>
 
-                    <div class="grid" style="margin-top:10px">
-                      <div><h4>🔢 Sets</h4><p>${escapeHTML(log.sets || "—")}</p></div>
-                      <div><h4>🔁 Reps</h4><p>${escapeHTML(log.reps || "—")}</p></div>
-                      <div><h4>⚖️ Weight</h4><p>${escapeHTML(log.weight || "—")} ${escapeHTML(log.weightUnit || "kg")}</p></div>
-                      <div><h4>📦 Volume</h4><p>${volume ? volume.toLocaleString() + " " + escapeHTML(log.weightUnit || "kg") + "·reps" : "—"}</p></div>
-                      <div><h4>⭐ Difficulty</h4><p>${escapeHTML(log.difficulty || "—")} / 10</p></div>
-                    </div>
+          ${group.items.map(log => {
+            const volume = trainingVolume(log);
 
-                    ${log.rest ? `<p><strong>⏱️ Rest:</strong> ${escapeHTML(log.rest)}</p>` : ""}
-                    ${log.notes ? `<p><strong>📝 Notes:</strong> ${escapeHTML(log.notes)}</p>` : ""}
+            return `
+              <article class="saved-entry" style="margin-top:14px">
+                <p class="small">
+                  📅 ${escapeHTML(formatDate(log.date))}
+                  · ${escapeHTML(log.workoutDay)}
+                </p>
 
-                    <div class="button-row">
-                      <button class="button red" onclick="deleteDailyLog(${log.originalIndex})">🗑️ Delete This Exercise Log</button>
-                    </div>
-                  </article>
-                `;
-              }).join("")}
-            </div>
-          `).join("")}
-        `;
-      }
+                <div class="grid" style="margin-top:10px">
+                  <div>
+                    <h4>🔢 Sets</h4>
+                    <p>${escapeHTML(log.sets || "—")}</p>
+                  </div>
 
-      form.onsubmit = event => {
-        event.preventDefault();
+                  <div>
+                    <h4>🔁 Reps</h4>
+                    <p>${escapeHTML(log.reps || "—")}</p>
+                  </div>
 
-        const newLog = {
-          id:Date.now(),
-          date:date.value,
-          workoutDay:document.getElementById("logWorkoutDay").value,
-          exercise:exercise.value.trim(),
-          sets:document.getElementById("logSets").value,
-          reps:document.getElementById("logReps").value.trim(),
-          weight:document.getElementById("logWeight").value,
-          weightUnit:document.getElementById("logWeightUnit").value,
-          rest:document.getElementById("logRest").value.trim(),
-          difficulty:document.getElementById("logDifficulty").value,
-          notes:document.getElementById("logNotes").value.trim()
-        };
+                  <div>
+                    <h4>⚖️ Weight</h4>
+                    <p>
+                      ${escapeHTML(log.weight || "—")}
+                      ${escapeHTML(log.weightUnit || "kg")}
+                    </p>
+                  </div>
 
-        if (!newLog.exercise) {
-          alert("Please enter an exercise name.");
-          return;
-        }
+                  <div>
+                    <h4>📦 Volume</h4>
+                    <p>
+                      ${volume
+                        ? `${volume.toLocaleString()} ${escapeHTML(log.weightUnit || "kg")}·reps`
+                        : "—"}
+                    </p>
+                  </div>
 
-        const previous = previousExerciseLog(newLog.exercise,newLog.date);
-        const logs = getDailyLogs();
+                  <div>
+                    <h4>⭐ Difficulty</h4>
+                    <p>${escapeHTML(log.difficulty || "—")} / 10</p>
+                  </div>
+                </div>
 
-        logs.push(newLog);
-        saveDailyLogs(logs);
+                ${log.rest ? `<p><strong>⏱️ Rest:</strong> ${escapeHTML(log.rest)}</p>` : ""}
+                ${log.notes ? `<p><strong>📝 Notes:</strong> ${escapeHTML(log.notes)}</p>` : ""}
 
-        const [title,style,message] = progressResult(previous,newLog);
+                <div class="button-row">
+                  <button
+                    class="button red"
+                    type="button"
+                    onclick="deleteDailyLog(${log.originalIndex})"
+                  >
+                    🗑️ Delete This Exercise Log
+                  </button>
+                </div>
+              </article>
+            `;
+          }).join("")}
+        </div>
+      `).join("")}
+    `;
+  }
 
-        form.reset();
-        date.value = today();
+  form.onsubmit = event => {
+    event.preventDefault();
 
-        document.getElementById("previousExerciseResult").innerHTML = `
-          <div class="card ${style}" style="margin-top:14px">
-            <h3>${title}</h3>
-            <p>${escapeHTML(message)}</p>
-          </div>
-        `;
+    const newLog = {
+      id:Date.now(),
+      date:date.value,
+      workoutDay:document.getElementById("logWorkoutDay").value,
+      exercise:exercise.value.trim(),
+      sets:document.getElementById("logSets").value,
+      reps:document.getElementById("logReps").value.trim(),
+      weight:document.getElementById("logWeight").value,
+      weightUnit:document.getElementById("logWeightUnit").value,
+      rest:document.getElementById("logRest").value.trim(),
+      difficulty:document.getElementById("logDifficulty").value,
+      notes:document.getElementById("logNotes").value.trim()
+    };
 
-        showLogs();
-      };
+    if (!newLog.exercise) {
+      alert("Please enter an exercise name.");
+      return;
+    }
 
+    const previous = previousExerciseLog(newLog.exercise,newLog.date);
+    const logs = getDailyLogs();
+
+    logs.push(newLog);
+    saveDailyLogs(logs);
+
+    const [title,style,message] = progressResult(previous,newLog);
+
+    form.reset();
+    date.value = today();
+
+    document.getElementById("previousExerciseResult").innerHTML = `
+      <div class="card ${style}" style="margin-top:14px">
+        <h3>${title}</h3>
+        <p>${escapeHTML(message)}</p>
+      </div>
+    `;
+
+    clearCaloriePrompt();
+
+    if (dailyLogOpened) {
       showLogs();
     }
+  };
+
+  window.refreshDailyLogHistory = showLogs;
+  showLogs();
+}
+function openDailyLogHistory() {
+  dailyLogOpened = true;
+
+  if (typeof window.refreshDailyLogHistory === "function") {
+    window.refreshDailyLogHistory();
+  }
+}
+
+function closeDailyLogHistory() {
+  dailyLogOpened = false;
+
+  const container = document.getElementById("savedDailyLogs");
+
+  if (container) {
+    container.innerHTML = "";
+    container.classList.add("hidden");
+  }
+}
+
+function clearCaloriePrompt() {
+  const area = document.getElementById("caloriePromptArea");
+
+  if (area) {
+    area.innerHTML = "";
+  }
+}
+
+function buildCaloriePrompt(logs, selectedDate) {
+  const bodyWeight = document.getElementById("headerWeight")
+    ?.textContent
+    .replace(/[^\d.]/g, "") || "79.55";
+
+  const totalVolume = logs.reduce(
+    (total, log) => total + trainingVolume(log),
+    0
+  );
+
+  const exerciseLines = logs.map((log,index) => {
+    const unit = log.weightUnit || "kg";
+    const logVolume = trainingVolume(log);
+
+    return `${index + 1}. ${log.exercise}
+   - Sets completed: ${log.sets || "not recorded"}
+   - Reps per set: ${log.reps || "not recorded"}
+   - Weight used: ${log.weight ? `${log.weight} ${unit}` : "bodyweight or not recorded"}
+   - Total training volume: ${logVolume ? `${logVolume.toLocaleString()} ${unit}·reps` : "not available"}
+   - Rest time: ${log.rest || "not recorded"}
+   - Difficulty / RPE: ${log.difficulty ? `${log.difficulty}/10` : "not recorded"}
+   - Notes: ${log.notes || "none"}`;
+  }).join("\n\n");
+
+  return `Estimate the calories I likely burned during this strength-training workout.
+
+Important: Give a realistic estimated calorie range, not an exact number. Explain that calorie burn from resistance training depends on workout duration, body weight, rest periods, exercise intensity, training experience, heart rate, and individual metabolism.
+
+My body weight: approximately ${bodyWeight} kg
+Workout date: ${formatDate(selectedDate)}
+Workout day: ${logs[0]?.workoutDay || "not recorded"}
+Number of logged exercises: ${logs.length}
+Total recorded training volume: ${totalVolume.toLocaleString()} weighted reps
+
+Exercises completed:
+
+${exerciseLines}
+
+Please provide:
+1. A conservative calorie-burn range during the workout.
+2. A moderate / likely calorie-burn range.
+3. A high-intensity estimate if rest periods were short and effort was high.
+4. An estimated workout duration range based on the exercise log.
+5. A brief explanation of why this is only an estimate.
+6. Do not include calories burned after exercise (EPOC) unless clearly labelled separately.`;
+}
+
+function generateCaloriePrompt() {
+  const dateInput = document.getElementById("logDate");
+  const area = document.getElementById("caloriePromptArea");
+
+  if (!dateInput || !area) return;
+
+  const selectedDate = dateInput.value || today();
+
+  const dayLogs = getDailyLogs()
+    .filter(log => log.date === selectedDate)
+    .sort((a,b) => (a.id || 0) - (b.id || 0));
+
+  if (!dayLogs.length) {
+    area.innerHTML = `
+      <div class="card warning" style="margin-top:16px">
+        <h3>📭 No Exercises Found for ${escapeHTML(formatDate(selectedDate))}</h3>
+        <p>
+          Save one or more exercises with this date before generating
+          a calorie-estimation prompt.
+        </p>
+      </div>
+    `;
+    return;
+  }
+
+  const prompt = buildCaloriePrompt(dayLogs,selectedDate);
+
+  area.innerHTML = `
+    <div class="card success" style="margin-top:16px">
+      <h3>✅ Calorie Estimate Prompt Ready</h3>
+
+      <p class="small">
+        Copy this prompt and paste it into ChatGPT or another AI assistant.
+        The result will be an estimate, not a medical or fitness-device measurement.
+      </p>
+
+      <textarea
+        id="caloriePromptText"
+        readonly
+        style="margin-top:12px; min-height:360px;"
+      >${escapeHTML(prompt)}</textarea>
+
+      <div class="button-row">
+        <button class="button" type="button" onclick="copyCaloriePrompt()">
+          📋 Copy Prompt
+        </button>
+      </div>
+    </div>
+  `;
+}
+
+async function copyCaloriePrompt() {
+  const textArea = document.getElementById("caloriePromptText");
+
+  if (!textArea) return;
+
+  try {
+    await navigator.clipboard.writeText(textArea.value);
+    alert("✅ Calorie estimate prompt copied to your clipboard.");
+  } catch (error) {
+    textArea.select();
+    document.execCommand("copy");
+    alert("✅ Calorie estimate prompt copied to your clipboard.");
+  }
+}
 
     function deleteDailyLog(index) {
       const logs = getDailyLogs();
