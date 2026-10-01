@@ -13,54 +13,37 @@
   <style>
     :root {
       color-scheme: light;
-
       --bg: #f5f5f7;
-      --text: #111218;
+      --text: #121318;
       --muted: #65666d;
-      --glass: rgba(255, 255, 255, .7);
-      --glass-nav: rgba(250, 250, 252, .84);
-      --border: rgba(20, 22, 29, .14);
-      --border-soft: rgba(20, 22, 29, .08);
-
+      --glass: rgba(255,255,255,.72);
+      --glass-nav: rgba(250,250,252,.86);
+      --border: rgba(20,22,29,.14);
+      --border-soft: rgba(20,22,29,.08);
       --blue: #1976d2;
       --purple: #7c4dff;
+      --green: #159b59;
       --yellow: #d68a00;
       --red: #db334d;
-      --green: #159b59;
-
-      --focus-pink: #ff4da6;
-      --focus-purple: #8c65ff;
-      --focus-blue: #2497ff;
-      --focus-green: #17c66b;
-      --focus-yellow: #ffbf2f;
-
-      --shadow:
-        0 12px 38px rgba(30, 35, 45, .11),
-        0 3px 10px rgba(30, 35, 45, .05);
-
+      --shadow: 0 12px 38px rgba(30,35,45,.11);
       --radius: 24px;
     }
 
     html[data-theme="dark"] {
       color-scheme: dark;
-
       --bg: #111216;
       --text: #f7f7fa;
       --muted: #afb0bb;
-      --glass: rgba(42, 43, 52, .66);
-      --glass-nav: rgba(23, 24, 30, .84);
-      --border: rgba(255, 255, 255, .16);
-      --border-soft: rgba(255, 255, 255, .09);
-
+      --glass: rgba(42,43,52,.68);
+      --glass-nav: rgba(23,24,30,.86);
+      --border: rgba(255,255,255,.16);
+      --border-soft: rgba(255,255,255,.09);
       --blue: #7cc5ff;
       --purple: #b7a0ff;
+      --green: #65efaa;
       --yellow: #ffd066;
       --red: #ff778f;
-      --green: #65efaa;
-
-      --shadow:
-        0 16px 48px rgba(0, 0, 0, .36),
-        0 3px 10px rgba(0, 0, 0, .18);
+      --shadow: 0 16px 48px rgba(0,0,0,.36);
     }
 
     * {
@@ -82,9 +65,9 @@
       font-family: "DM Sans", Arial, sans-serif;
       line-height: 1.6;
       background:
-        radial-gradient(circle at 8% 4%, rgba(95, 160, 255, .13), transparent 28%),
-        radial-gradient(circle at 92% 12%, rgba(194, 112, 255, .12), transparent 30%),
-        radial-gradient(circle at 48% 98%, rgba(255, 135, 192, .08), transparent 34%),
+        radial-gradient(circle at 7% 4%, rgba(91,157,255,.13), transparent 28%),
+        radial-gradient(circle at 92% 12%, rgba(190,112,255,.12), transparent 30%),
+        radial-gradient(circle at 50% 98%, rgba(255,130,190,.08), transparent 34%),
         var(--bg);
       transition: background .35s ease, color .35s ease;
     }
@@ -95,28 +78,16 @@
       z-index: -1;
       inset: 0;
       pointer-events: none;
-      opacity: .25;
+      opacity: .24;
       background-image:
-        linear-gradient(rgba(100, 105, 120, .05) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(100, 105, 120, .05) 1px, transparent 1px);
+        linear-gradient(rgba(100,105,120,.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(100,105,120,.05) 1px, transparent 1px);
       background-size: 36px 36px;
     }
 
-    a {
-      color: inherit;
-      text-decoration: none;
-    }
-
-    button,
-    input,
-    select,
-    textarea {
-      font: inherit;
-    }
-
-    button {
-      touch-action: manipulation;
-    }
+    a { color: inherit; text-decoration: none; }
+    button, input, select, textarea { font: inherit; }
+    button { touch-action: manipulation; }
 
     h1, h2, h3, h4 {
       font-family: "Space Grotesk", sans-serif;
@@ -128,84 +99,33 @@
       letter-spacing: -.055em;
     }
 
-    h3 {
-      margin: 0 0 8px;
-      color: var(--blue);
-    }
-
-    h4 {
-      margin: 0 0 6px;
-      color: var(--purple);
-    }
-
-    .muted,
-    .small {
-      color: var(--muted);
-    }
-
-    .small {
-      font-size: .9rem;
-    }
-
-    .hidden {
-      display: none !important;
-    }
-
-    /* ---------- Animations ---------- */
+    h3 { margin: 0 0 8px; color: var(--blue); }
+    h4 { margin: 0 0 6px; color: var(--purple); }
+    .muted, .small { color: var(--muted); }
+    .small { font-size: .9rem; }
+    .hidden { display: none !important; }
 
     @keyframes pageIn {
-      from {
-        opacity: 0;
-        transform: translateX(34px) translateY(8px);
-        filter: blur(4px);
-      }
-      to {
-        opacity: 1;
-        transform: translateX(0) translateY(0);
-        filter: blur(0);
-      }
+      from { opacity: 0; transform: translateX(34px) translateY(8px); filter: blur(4px); }
+      to { opacity: 1; transform: translateX(0) translateY(0); filter: blur(0); }
     }
 
     @keyframes pageInBack {
-      from {
-        opacity: 0;
-        transform: translateX(-34px) translateY(8px);
-        filter: blur(4px);
-      }
-      to {
-        opacity: 1;
-        transform: translateX(0) translateY(0);
-        filter: blur(0);
-      }
+      from { opacity: 0; transform: translateX(-34px) translateY(8px); filter: blur(4px); }
+      to { opacity: 1; transform: translateX(0) translateY(0); filter: blur(0); }
     }
 
     @keyframes cardIn {
-      from {
-        opacity: 0;
-        transform: translateY(16px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+      from { opacity: 0; transform: translateY(16px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     @keyframes rainbowFocus {
-      0% {
-        box-shadow: 0 0 0 3px var(--focus-pink), 0 0 22px rgba(255, 77, 166, .4);
-      }
-      25% {
-        box-shadow: 0 0 0 3px var(--focus-purple), 0 0 22px rgba(140, 101, 255, .4);
-      }
-      50% {
-        box-shadow: 0 0 0 3px var(--focus-blue), 0 0 22px rgba(36, 151, 255, .4);
-      }
-      75% {
-        box-shadow: 0 0 0 3px var(--focus-green), 0 0 22px rgba(23, 198, 107, .4);
-      }
-      100% {
-        box-shadow: 0 0 0 3px var(--focus-yellow), 0 0 22px rgba(255, 191, 47, .4);
-      }
+      0% { box-shadow: 0 0 0 3px #ff4da6, 0 0 22px rgba(255,77,166,.4); }
+      25% { box-shadow: 0 0 0 3px #8c65ff, 0 0 22px rgba(140,101,255,.4); }
+      50% { box-shadow: 0 0 0 3px #2497ff, 0 0 22px rgba(36,151,255,.4); }
+      75% { box-shadow: 0 0 0 3px #17c66b, 0 0 22px rgba(23,198,107,.4); }
+      100% { box-shadow: 0 0 0 3px #ffbf2f, 0 0 22px rgba(255,191,47,.4); }
     }
 
     button:focus-visible,
@@ -214,29 +134,24 @@
     select:focus-visible,
     textarea:focus-visible {
       outline: none;
-      border-color: var(--focus-blue) !important;
       animation: rainbowFocus 2.7s linear infinite;
     }
 
-    /* ---------- Header ---------- */
-
     header {
       padding: calc(48px + env(safe-area-inset-top)) 20px 36px;
-      overflow: hidden;
       text-align: center;
-      background: rgba(255, 255, 255, .34);
+      background: rgba(255,255,255,.35);
       border-bottom: 1px solid var(--border-soft);
       backdrop-filter: blur(28px);
       -webkit-backdrop-filter: blur(28px);
     }
 
     html[data-theme="dark"] header {
-      background: rgba(25, 26, 33, .72);
+      background: rgba(25,26,33,.74);
     }
 
     .hero-badge {
       display: inline-flex;
-      align-items: center;
       margin-bottom: 14px;
       padding: 6px 12px;
       color: var(--purple);
@@ -250,13 +165,12 @@
 
     header h1 {
       margin: 0;
-      font-size: clamp(2.25rem, 7vw, 4rem);
+      font-size: clamp(2.25rem,7vw,4rem);
       letter-spacing: -.075em;
       line-height: 1;
     }
 
     .hero-subtitle {
-      max-width: 760px;
       margin: 15px auto 0;
       color: var(--muted);
     }
@@ -281,7 +195,6 @@
       border: 1px solid var(--border);
       border-radius: 17px;
       box-shadow: inset 0 1px rgba(255,255,255,.3);
-      backdrop-filter: blur(16px);
     }
 
     .hero-stat span {
@@ -289,16 +202,10 @@
       font-size: 1.3rem;
     }
 
-    .hero-stat strong {
-      font-size: .92rem;
-    }
-
     .hero-stat small {
       color: var(--muted);
       font-size: .72rem;
     }
-
-    /* ---------- Navigation ---------- */
 
     nav {
       position: sticky;
@@ -307,7 +214,7 @@
       display: flex;
       gap: 8px;
       overflow-x: auto;
-      padding: 10px max(14px, env(safe-area-inset-right)) 10px max(14px, env(safe-area-inset-left));
+      padding: 10px 14px;
       background: var(--glass-nav);
       border-bottom: 1px solid var(--border-soft);
       backdrop-filter: blur(24px);
@@ -315,9 +222,7 @@
       scrollbar-width: none;
     }
 
-    nav::-webkit-scrollbar {
-      display: none;
-    }
+    nav::-webkit-scrollbar { display: none; }
 
     nav a {
       flex: 0 0 auto;
@@ -326,7 +231,6 @@
       align-items: center;
       padding: 9px 14px;
       color: var(--muted);
-      border: 1px solid transparent;
       border-radius: 999px;
       font-size: .87rem;
       font-weight: 800;
@@ -336,20 +240,17 @@
     nav a:hover {
       color: var(--text);
       background: var(--glass);
-      border-color: var(--border-soft);
       transform: translateY(-1px);
     }
 
     nav a.active {
       color: white;
-      background: linear-gradient(135deg, #7851ff, #2497ff);
+      background: linear-gradient(135deg,#7851ff,#2497ff);
       box-shadow: 0 8px 20px rgba(65,117,255,.25);
     }
 
-    /* ---------- Layout ---------- */
-
     main {
-      width: min(1160px, calc(100% - 30px));
+      width: min(1160px,calc(100% - 30px));
       min-height: 65vh;
       margin: 32px auto 70px;
     }
@@ -366,18 +267,15 @@
     .page-content .page-link,
     .page-content .exercise-card,
     .page-content .photo-card,
-    .page-content .saved-entry,
-    .page-content table {
+    .page-content .saved-entry {
       animation: cardIn .45s ease both;
     }
 
     .grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(245px, 1fr));
+      grid-template-columns: repeat(auto-fit,minmax(245px,1fr));
       gap: 16px;
     }
-
-    /* ---------- Glass Cards ---------- */
 
     .card,
     .page-link,
@@ -387,13 +285,11 @@
       overflow: hidden;
       padding: 21px;
       background:
-        linear-gradient(135deg, rgba(255,255,255,.5), rgba(255,255,255,.16)),
+        linear-gradient(135deg,rgba(255,255,255,.5),rgba(255,255,255,.16)),
         var(--glass);
       border: 1px solid var(--border);
       border-radius: var(--radius);
-      box-shadow:
-        inset 0 1px rgba(255,255,255,.55),
-        var(--shadow);
+      box-shadow: inset 0 1px rgba(255,255,255,.55), var(--shadow);
       backdrop-filter: blur(24px);
       -webkit-backdrop-filter: blur(24px);
     }
@@ -403,26 +299,18 @@
     html[data-theme="dark"] .saved-entry,
     html[data-theme="dark"] .photo-card {
       background:
-        linear-gradient(135deg, rgba(255,255,255,.09), rgba(255,255,255,.02)),
+        linear-gradient(135deg,rgba(255,255,255,.09),rgba(255,255,255,.02)),
         var(--glass);
     }
 
-    .highlight {
-      border-left: 4px solid var(--blue);
-    }
-
-    .warning {
-      border-left: 4px solid var(--yellow);
-    }
-
-    .success {
-      border-left: 4px solid var(--green);
-    }
+    .highlight { border-left: 4px solid var(--blue); }
+    .warning { border-left: 4px solid var(--yellow); }
+    .success { border-left: 4px solid var(--green); }
 
     .page-link {
       min-height: 152px;
       display: block;
-      transition: transform .24s ease, border-color .24s ease;
+      transition: .24s ease;
     }
 
     .page-link::after {
@@ -440,8 +328,6 @@
       transform: translateY(-5px);
     }
 
-    /* ---------- Buttons ---------- */
-
     .button,
     .day-tabs a {
       min-height: 46px;
@@ -458,10 +344,8 @@
 
     .button {
       color: white;
-      background: linear-gradient(135deg, #7851ff, #2497ff);
-      box-shadow:
-        inset 0 1px rgba(255,255,255,.35),
-        0 9px 18px rgba(80,96,255,.2);
+      background: linear-gradient(135deg,#7851ff,#2497ff);
+      box-shadow: inset 0 1px rgba(255,255,255,.35);
     }
 
     .button:hover,
@@ -477,12 +361,12 @@
 
     .button.red {
       color: white;
-      background: linear-gradient(135deg, #f24f6b, #cc2347);
+      background: linear-gradient(135deg,#f24f6b,#cc2347);
     }
 
     .button.green {
       color: white;
-      background: linear-gradient(135deg, #20b967, #11814b);
+      background: linear-gradient(135deg,#20b967,#11814b);
     }
 
     .button-row {
@@ -501,9 +385,7 @@
       scrollbar-width: none;
     }
 
-    .day-tabs::-webkit-scrollbar {
-      display: none;
-    }
+    .day-tabs::-webkit-scrollbar { display: none; }
 
     .day-tabs a {
       flex: 0 0 auto;
@@ -513,10 +395,8 @@
 
     .day-tabs a:hover {
       color: white;
-      background: linear-gradient(135deg, #7851ff, #2497ff);
+      background: linear-gradient(135deg,#7851ff,#2497ff);
     }
-
-    /* ---------- Exercise Cards ---------- */
 
     .exercise-card {
       margin: 15px 0;
@@ -525,14 +405,12 @@
       border: 1px solid var(--border);
       border-radius: 20px;
       box-shadow: var(--shadow);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
       transition: .24s ease;
     }
 
     .exercise-card:hover {
-      border-color: rgba(103,126,255,.45);
       transform: translateY(-3px);
+      border-color: rgba(103,126,255,.45);
     }
 
     .exercise-media {
@@ -552,9 +430,7 @@
       background: #17181d;
     }
 
-    .exercise-details {
-      padding: 17px;
-    }
+    .exercise-details { padding: 17px; }
 
     .watch-link {
       min-height: 39px;
@@ -563,193 +439,29 @@
       margin-top: 10px;
       padding: 8px 12px;
       color: white;
-      background: linear-gradient(135deg, #fb4a58, #bd1832);
+      background: linear-gradient(135deg,#fb4a58,#bd1832);
       border-radius: 10px;
       font-size: .85rem;
       font-weight: 800;
-      transition: .2s ease;
     }
 
     .loading {
-      min-height: 220px;
+      min-height: 200px;
       display: grid;
       place-items: center;
-      padding: 22px;
       color: var(--muted);
       text-align: center;
-    }
-
-    /* ---------- Photo System ---------- */
-
-    .photo-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(245px, 1fr));
-      gap: 16px;
-      margin-top: 20px;
-    }
-
-    .photo-card {
-      padding: 0;
-    }
-
-    .photo-card img {
-      width: 100%;
-      aspect-ratio: 4 / 5;
-      display: block;
-      object-fit: cover;
-      background: #d8d8dc;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .photo-info {
-      padding: 16px;
-    }
-
-    .photo-info h3 {
-      margin-bottom: 4px;
-    }
-
-    .photo-date {
-      margin: 0;
-      color: var(--purple);
-      font-size: .88rem;
-      font-weight: 800;
-    }
-
-    .photo-note {
-      color: var(--muted);
-      white-space: pre-wrap;
-    }
-
-    .upload-preview {
-      width: 100%;
-      max-width: 310px;
-      display: none;
-      margin-top: 16px;
-      aspect-ratio: 4 / 5;
-      object-fit: cover;
-      border: 1px solid var(--border);
-      border-radius: 18px;
-      box-shadow: var(--shadow);
-    }
-
-    .comparison-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
-      margin-top: 16px;
-    }
-
-    .comparison-image {
-      width: 100%;
-      aspect-ratio: 4 / 5;
-      display: block;
-      object-fit: cover;
-      border: 1px solid var(--border);
-      border-radius: 18px;
-      background: var(--glass);
-    }
-
-    .comparison-label {
-      margin: 8px 0 0;
-      color: var(--muted);
-      text-align: center;
-      font-size: .88rem;
-      font-weight: 700;
-    }
-
-    .analysis-checks {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
-      gap: 10px;
-      margin-top: 15px;
-    }
-
-    .analysis-checks label {
-      min-height: 50px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 11px;
-      background: rgba(120,135,180,.08);
-      border: 1px solid var(--border-soft);
-      border-radius: 13px;
-      cursor: pointer;
-      font-weight: 600;
-    }
-
-    .analysis-checks input {
-      width: 20px;
-      height: 20px;
-      margin: 0;
-      accent-color: var(--purple);
-    }
-
-    /* ---------- Tables / Forms ---------- */
-
-    table {
-      width: 100%;
-      overflow: hidden;
-      border-collapse: separate;
-      border-spacing: 0;
-      background: var(--glass);
-      border: 1px solid var(--border);
-      border-radius: 18px;
-      box-shadow: var(--shadow);
-    }
-
-    th,
-    td {
-      padding: 14px;
-      text-align: left;
-      vertical-align: top;
-      border-bottom: 1px solid var(--border-soft);
-    }
-
-    th {
-      color: var(--blue);
-      background: rgba(120,150,255,.09);
-    }
-
-    tr:last-child td {
-      border-bottom: 0;
-    }
-
-    .checklist label {
-      min-height: 54px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      margin: 9px 0;
-      padding: 12px;
-      background: rgba(120,135,180,.08);
-      border-radius: 14px;
-      cursor: pointer;
-      font-weight: 600;
-    }
-
-    .checklist input {
-      width: 21px;
-      height: 21px;
-      margin: 0;
-      accent-color: var(--purple);
-    }
-
-    .checklist label:has(input:checked) {
-      background: rgba(89,119,255,.15);
-      border: 1px solid rgba(88,125,255,.34);
     }
 
     label {
       display: block;
-      color: var(--text);
       font-size: .92rem;
       font-weight: 800;
     }
 
     .form-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      grid-template-columns: repeat(auto-fit,minmax(210px,1fr));
       gap: 14px;
     }
 
@@ -770,7 +482,7 @@
     html[data-theme="dark"] input,
     html[data-theme="dark"] select,
     html[data-theme="dark"] textarea {
-      background: rgba(0,0,0,.20);
+      background: rgba(0,0,0,.2);
     }
 
     textarea {
@@ -778,11 +490,104 @@
       resize: vertical;
     }
 
-    input:focus,
-    select:focus,
-    textarea:focus {
-      outline: none;
-      animation: rainbowFocus 2.7s linear infinite;
+    .checklist label,
+    .analysis-checks label {
+      min-height: 54px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 9px 0;
+      padding: 12px;
+      background: rgba(120,135,180,.08);
+      border-radius: 14px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    .checklist input,
+    .analysis-checks input {
+      width: 21px;
+      height: 21px;
+      margin: 0;
+      accent-color: var(--purple);
+    }
+
+    .checklist label:has(input:checked) {
+      background: rgba(89,119,255,.15);
+      border: 1px solid rgba(88,125,255,.34);
+    }
+
+    .photo-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit,minmax(245px,1fr));
+      gap: 16px;
+      margin-top: 20px;
+    }
+
+    .photo-card { padding: 0; }
+
+    .photo-card img {
+      width: 100%;
+      aspect-ratio: 4 / 5;
+      display: block;
+      object-fit: cover;
+      background: #ddd;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .photo-info { padding: 16px; }
+
+    .photo-date {
+      margin: 0;
+      color: var(--purple);
+      font-weight: 800;
+      font-size: .88rem;
+    }
+
+    .photo-note {
+      color: var(--muted);
+      white-space: pre-wrap;
+    }
+
+    .upload-preview {
+      width: 100%;
+      max-width: 310px;
+      display: none;
+      margin-top: 16px;
+      aspect-ratio: 4 / 5;
+      object-fit: cover;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+    }
+
+    .comparison-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-top: 16px;
+    }
+
+    .comparison-image {
+      width: 100%;
+      aspect-ratio: 4 / 5;
+      object-fit: cover;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+    }
+
+    .comparison-label {
+      margin: 8px 0 0;
+      color: var(--muted);
+      text-align: center;
+      font-size: .88rem;
+      font-weight: 700;
+    }
+
+    .analysis-checks {
+      display: grid;
+      grid-template-columns: repeat(auto-fit,minmax(210px,1fr));
+      gap: 10px;
+      margin-top: 15px;
     }
 
     footer {
@@ -793,14 +598,14 @@
       border-top: 1px solid var(--border-soft);
     }
 
-    @media (max-width: 700px) {
+    @media (max-width:700px) {
       header {
         padding: calc(38px + env(safe-area-inset-top)) 16px 30px;
       }
 
       .hero-stats {
         display: grid;
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(3,1fr);
         gap: 7px;
       }
 
@@ -817,13 +622,8 @@
         display: block;
       }
 
-      .hero-stat strong {
-        font-size: .78rem;
-      }
-
-      .hero-stat small {
-        font-size: .64rem;
-      }
+      .hero-stat strong { font-size: .78rem; }
+      .hero-stat small { font-size: .64rem; }
 
       main {
         width: calc(100% - 24px);
@@ -849,29 +649,15 @@
       .button-row .button {
         width: 100%;
       }
-
-      table {
-        display: block;
-        overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
-      }
-
-      th,
-      td {
-        min-width: 150px;
-        padding: 11px;
-        font-size: .85rem;
-      }
     }
 
-    @media (prefers-reduced-motion: reduce) {
+    @media (prefers-reduced-motion:reduce) {
       *,
       *::before,
       *::after {
         animation-duration: .01ms !important;
         animation-iteration-count: 1 !important;
         transition-duration: .01ms !important;
-        scroll-behavior: auto !important;
       }
     }
   </style>
@@ -880,7 +666,6 @@
 <body>
   <header>
     <div class="hero-badge">🔥 12-WEEK TRANSFORMATION</div>
-
     <h1>My Fitness Dashboard</h1>
 
     <p class="hero-subtitle">
@@ -908,7 +693,7 @@
     </div>
   </header>
 
-  <nav aria-label="Fitness dashboard navigation">
+  <nav>
     <a href="#/home">🏠 Home</a>
     <a href="#/workouts">🏋️ Workouts</a>
     <a href="#/cardio">🚴 Cardio</a>
@@ -918,7 +703,7 @@
     <a href="#/settings">⚙️ Settings</a>
   </nav>
 
-  <main id="app" aria-live="polite"></main>
+  <main id="app"></main>
 
   <footer>
     💜 Train consistently · 🚶 Move daily · 😴 Sleep more · 📸 Track your progress
@@ -927,26 +712,18 @@
   <script>
     let YOUTUBE_API_KEY = localStorage.getItem("youtubeApiKey") || "";
     let previousRouteIndex = 0;
-    let privateGalleryOpened = false;
+    let galleryOpened = false;
 
     const STARTING_WEIGHT = 79.55;
-    const WEEKLY_LOSS_MIN = 0.4;
-    const WEEKLY_LOSS_MAX = 0.7;
+    const TARGET_LOSS_MIN = 0.4;
+    const TARGET_LOSS_MAX = 0.7;
 
     const routeOrder = [
-      "home",
-      "workouts",
-      "upper-a",
-      "lower-a",
-      "upper-b",
-      "lower-b",
-      "cardio",
-      "photos",
-      "checklist",
-      "tracking",
-      "settings"
+      "home", "workouts", "upper-a", "lower-a", "upper-b", "lower-b",
+      "cardio", "photos", "checklist", "tracking", "settings"
     ];
 
+    /* Machine-based abs/core work in every plan */
     const workouts = {
       upperA: [
         ["Barbell Bench Press", "3 × 6–10", "Keep shoulder blades pulled back. Lower under control."],
@@ -954,40 +731,39 @@
         ["Incline Dumbbell Press", "2–3 × 8–12", "Use a moderate incline and keep shoulders stable."],
         ["Lat Pulldown", "3 × 8–12", "Pull elbows down and avoid swinging."],
         ["Dumbbell Lateral Raise", "3 × 12–20", "Use light weight and avoid shrugging."],
-        ["Single-Arm Cable Triceps Pressdown", "2 × 10–15 each", "Start with weaker arm and match reps on stronger arm."],
-        ["Single-Arm Dumbbell Curl", "2 × 10–15 each", "Control lowering and start with weaker arm."]
+        ["Single-Arm Cable Triceps Pressdown", "2 × 10–15 each", "Start with weaker arm first."],
+        ["Single-Arm Dumbbell Curl", "2 × 10–15 each", "Control the lowering phase."],
+        ["Cable Crunch", "3 × 10–15", "Use a rope attachment. Curl ribs toward hips and do not pull with your arms."]
       ],
 
       lowerA: [
-        ["Leg Press", "3 × 8–12", "Use a comfortable range of motion and control every rep."],
-        ["Romanian Deadlift", "3 × 8–10", "Push hips back and maintain a neutral spine."],
+        ["Leg Press", "3 × 8–12", "Use a comfortable range and control every rep."],
+        ["Romanian Deadlift", "3 × 8–10", "Push hips back and keep a neutral spine."],
         ["Reverse Lunge", "2 × 8–12 each", "Stay balanced and move under control."],
         ["Seated Leg Curl", "3 × 10–15", "Control every repetition."],
-        ["Standing Calf Raise", "3 × 10–15", "Pause at stretch and at the top."],
-        ["Cable Crunch", "3 × 10–15", "Curl ribs toward hips."],
-        ["Hanging Knee Raise", "3 × 8–15", "Avoid swinging."]
+        ["Standing Calf Raise", "3 × 10–15", "Pause at the stretch and top."],
+        ["Ab Crunch Machine", "3 × 10–15", "Keep hips fixed and curl the upper body forward under control."]
       ],
 
       upperB: [
-        ["Assisted Pull-Up", "3 × 6–10", "Use a controlled full range of motion."],
-        ["Dumbbell Overhead Press", "3 × 6–10", "Keep core tight and avoid leaning backward."],
-        ["One-Arm Dumbbell Row", "3 × 8–12 each", "Start your weaker side first."],
+        ["Assisted Pull-Up", "3 × 6–10", "Use a controlled full range."],
+        ["Dumbbell Overhead Press", "3 × 6–10", "Keep core tight and avoid leaning back."],
+        ["One-Arm Dumbbell Row", "3 × 8–12 each", "Start with weaker side first."],
         ["Machine Chest Press", "3 × 8–12", "Use controlled repetitions."],
-        ["Face Pull", "3 × 12–20", "Use light weight and focus on rear delts."],
-        ["Single-Arm Incline Dumbbell Curl", "3 × 10–15 each", "Lower slowly and stay controlled."],
-        ["Single-Arm Overhead Cable Triceps Extension", "3 × 10–15 each", "Keep elbow stable."]
+        ["Face Pull", "3 × 12–20", "Focus on rear delts and upper back."],
+        ["Single-Arm Incline Dumbbell Curl", "3 × 10–15 each", "Lower slowly."],
+        ["Single-Arm Overhead Cable Triceps Extension", "3 × 10–15 each", "Keep elbow stable."],
+        ["Captain's Chair Knee Raise", "3 × 8–15", "Use the vertical knee-raise station. Raise knees slowly without swinging."]
       ],
 
       lowerB: [
-        ["Goblet Squat", "3 × 8–12", "Use a comfortable depth and maintain control."],
-        ["Hip Thrust", "3 × 8–12", "Squeeze glutes without over-arching your lower back."],
+        ["Goblet Squat", "3 × 8–12", "Use a comfortable depth and control the tempo."],
+        ["Hip Thrust", "3 × 8–12", "Squeeze glutes without over-arching."],
         ["Leg Extension", "2–3 × 12–15", "Use controlled repetitions."],
-        ["Single-Leg Romanian Deadlift", "2 × 8–12 each", "Hold a rack for balance if necessary."],
+        ["Single-Leg Romanian Deadlift", "2 × 8–12 each", "Hold a rack for balance if needed."],
         ["Lying Leg Curl", "2–3 × 10–15", "Control the lowering phase."],
         ["Seated Calf Raise", "3 × 10–15", "Use full range and avoid bouncing."],
-        ["Ab Wheel Rollout", "3 × 6–12", "Stop before lower back arches."],
-        ["Pallof Press", "2 × 10–15 each", "Resist rotation."],
-        ["Side Plank", "2 × 30–45 seconds", "Keep hips lifted."]
+        ["Rotary Torso Machine", "3 × 10–15 each side", "Rotate in a controlled range without momentum."]
       ]
     };
 
@@ -1005,11 +781,12 @@
     }
 
     function applyTheme(theme) {
-      const systemDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-      const darkMode = theme === "dark" || (theme === "system" && systemDark);
+      const isDark =
+        theme === "dark" ||
+        (theme === "system" && matchMedia("(prefers-color-scheme: dark)").matches);
 
-      document.documentElement.dataset.theme = darkMode ? "dark" : "light";
-      document.getElementById("themeColor").content = darkMode ? "#111216" : "#f5f5f7";
+      document.documentElement.dataset.theme = isDark ? "dark" : "light";
+      document.getElementById("themeColor").content = isDark ? "#111216" : "#f5f5f7";
     }
 
     function setTheme(theme) {
@@ -1018,11 +795,7 @@
       renderPage();
     }
 
-    window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => {
-      if (getTheme() === "system") applyTheme("system");
-    });
-
-    function todayDate() {
+    function today() {
       return new Date().toISOString().split("T")[0];
     }
 
@@ -1031,51 +804,41 @@
     }
 
     function updateHeaderWeight() {
-      const weightElement = document.getElementById("headerWeight");
-      const labelElement = document.getElementById("headerWeightLabel");
-      const checkins = getCheckins();
+      const entries = getCheckins().filter(entry =>
+        entry.weight && !isNaN(Number(entry.weight))
+      );
 
-      if (checkins.length < 2) {
-        weightElement.textContent = STARTING_WEIGHT.toFixed(2) + " kg";
-        labelElement.textContent = "Starting weight";
-        return;
-      }
+      const weight = document.getElementById("headerWeight");
+      const label = document.getElementById("headerWeightLabel");
 
-      const validCheckins = checkins.filter(entry => {
-        return entry.weight && !isNaN(Number(entry.weight));
-      });
+      weight.textContent = STARTING_WEIGHT.toFixed(2) + " kg";
+      label.textContent = "Starting weight";
 
-      if (validCheckins.length < 2) {
-        return;
-      }
+      if (entries.length < 2) return;
 
-      const newest = Number(validCheckins[validCheckins.length - 1].weight);
-      const previous = Number(validCheckins[validCheckins.length - 2].weight);
-      const weeklyChange = previous - newest;
+      const newest = Number(entries.at(-1).weight);
+      const previous = Number(entries.at(-2).weight);
+      const loss = previous - newest;
 
-      if (weeklyChange >= WEEKLY_LOSS_MIN && weeklyChange <= WEEKLY_LOSS_MAX) {
-        weightElement.textContent = newest.toFixed(1) + " kg";
-        labelElement.textContent = "✅ Weekly target met";
-      } else {
-        weightElement.textContent = STARTING_WEIGHT.toFixed(2) + " kg";
-        labelElement.textContent = "Starting weight";
+      if (loss >= TARGET_LOSS_MIN && loss <= TARGET_LOSS_MAX) {
+        weight.textContent = newest.toFixed(1) + " kg";
+        label.textContent = "✅ Weekly target met";
       }
     }
 
-    /* ---------- Photo Database ---------- */
+    /* Photo Database */
+    const DB_NAME = "FitnessPhotoDatabase";
+    const STORE_NAME = "photos";
 
-    const PHOTO_DB_NAME = "FitnessProgressPhotosDB";
-    const PHOTO_STORE_NAME = "progressPhotos";
-
-    function openPhotoDatabase() {
+    function openDB() {
       return new Promise((resolve, reject) => {
-        const request = indexedDB.open(PHOTO_DB_NAME, 1);
+        const request = indexedDB.open(DB_NAME, 1);
 
         request.onupgradeneeded = event => {
-          const database = event.target.result;
+          const db = event.target.result;
 
-          if (!database.objectStoreNames.contains(PHOTO_STORE_NAME)) {
-            database.createObjectStore(PHOTO_STORE_NAME, {
+          if (!db.objectStoreNames.contains(STORE_NAME)) {
+            db.createObjectStore(STORE_NAME, {
               keyPath: "id",
               autoIncrement: true
             });
@@ -1087,32 +850,32 @@
       });
     }
 
-    async function saveProgressPhoto(photo) {
-      const database = await openPhotoDatabase();
+    async function savePhoto(photo) {
+      const db = await openDB();
 
       return new Promise((resolve, reject) => {
-        const transaction = database.transaction(PHOTO_STORE_NAME, "readwrite");
-        const store = transaction.objectStore(PHOTO_STORE_NAME);
-        const request = store.add(photo);
+        const request = db
+          .transaction(STORE_NAME, "readwrite")
+          .objectStore(STORE_NAME)
+          .add(photo);
 
         request.onsuccess = () => resolve();
         request.onerror = () => reject(request.error);
       });
     }
 
-    async function getProgressPhotos() {
-      const database = await openPhotoDatabase();
+    async function getPhotos() {
+      const db = await openDB();
 
       return new Promise((resolve, reject) => {
-        const transaction = database.transaction(PHOTO_STORE_NAME, "readonly");
-        const store = transaction.objectStore(PHOTO_STORE_NAME);
-        const request = store.getAll();
+        const request = db
+          .transaction(STORE_NAME, "readonly")
+          .objectStore(STORE_NAME)
+          .getAll();
 
         request.onsuccess = () => {
           resolve(
-            request.result.sort((a, b) => {
-              return new Date(b.date) - new Date(a.date);
-            })
+            request.result.sort((a, b) => new Date(b.date) - new Date(a.date))
           );
         };
 
@@ -1120,13 +883,14 @@
       });
     }
 
-    async function deleteProgressPhoto(id) {
-      const database = await openPhotoDatabase();
+    async function deletePhoto(id) {
+      const db = await openDB();
 
       return new Promise((resolve, reject) => {
-        const transaction = database.transaction(PHOTO_STORE_NAME, "readwrite");
-        const store = transaction.objectStore(PHOTO_STORE_NAME);
-        const request = store.delete(Number(id));
+        const request = db
+          .transaction(STORE_NAME, "readwrite")
+          .objectStore(STORE_NAME)
+          .delete(Number(id));
 
         request.onsuccess = () => resolve();
         request.onerror = () => reject(request.error);
@@ -1142,14 +906,13 @@
       });
     }
 
-    /* ---------- YouTube ---------- */
-
-    function videoCacheKey(name) {
+    /* YouTube */
+    function videoKey(name) {
       return "exerciseVideo_" + name.replace(/[^a-z0-9]/gi, "_");
     }
 
     async function findVideo(name) {
-      const cached = localStorage.getItem(videoCacheKey(name));
+      const cached = localStorage.getItem(videoKey(name));
 
       if (cached) return JSON.parse(cached);
       if (!YOUTUBE_API_KEY) return null;
@@ -1157,8 +920,7 @@
       const searches = [
         `Jeremy Ethier ${name} proper form`,
         `Jeff Nippard ${name} proper form`,
-        `Renaissance Periodization ${name} proper form`,
-        `Squat University ${name} proper form`
+        `Renaissance Periodization ${name} proper form`
       ];
 
       for (const query of searches) {
@@ -1171,7 +933,6 @@
               type: "video",
               maxResults: "1",
               videoEmbeddable: "true",
-              safeSearch: "strict",
               q: query
             });
 
@@ -1185,17 +946,15 @@
               title: item.snippet.title,
               channel: item.snippet.channelTitle,
               thumbnail:
-                item.snippet.thumbnails.maxres?.url ||
                 item.snippet.thumbnails.high?.url ||
-                item.snippet.thumbnails.medium?.url ||
-                item.snippet.thumbnails.default?.url
+                item.snippet.thumbnails.medium?.url
             };
 
-            localStorage.setItem(videoCacheKey(name), JSON.stringify(video));
+            localStorage.setItem(videoKey(name), JSON.stringify(video));
             return video;
           }
         } catch (error) {
-          console.error("Video search error:", error);
+          console.error(error);
         }
       }
 
@@ -1213,7 +972,7 @@
                 <h4>🏋️ ${escapeHTML(name)}</h4>
                 <p><strong>Sets & reps:</strong> ${escapeHTML(sets)}</p>
                 <p>${escapeHTML(note)}</p>
-                <p class="small">⚙️ Add your YouTube API key in Settings to load the tutorial and thumbnail.</p>
+                <p class="small">⚙️ Add a YouTube API key in Settings to load videos.</p>
               </div>
             </div>
           </article>
@@ -1223,13 +982,17 @@
       return `
         <article class="exercise-card">
           <div class="exercise-media">
-            <img src="${video.thumbnail}" alt="${escapeHTML(video.title)} thumbnail" loading="lazy">
+            <img
+              src="${video.thumbnail}"
+              alt="${escapeHTML(video.title)} thumbnail"
+              loading="lazy"
+            >
 
             <iframe
               src="https://www.youtube-nocookie.com/embed/${video.id}"
               title="${escapeHTML(video.title)}"
               loading="lazy"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allow="accelerometer; autoplay; encrypted-media; picture-in-picture"
               allowfullscreen>
             </iframe>
           </div>
@@ -1240,8 +1003,13 @@
             <p><strong>Sets & reps:</strong> ${escapeHTML(sets)}</p>
             <p class="small">💡 ${escapeHTML(note)}</p>
 
-            <a class="watch-link" href="https://www.youtube.com/watch?v=${video.id}" target="_blank" rel="noopener noreferrer">
-              ▶ Watch Full Video on YouTube
+            <a
+              class="watch-link"
+              href="https://www.youtube.com/watch?v=${video.id}"
+              target="_blank"
+              rel="noopener"
+            >
+              ▶ Watch Full Video
             </a>
           </div>
         </article>
@@ -1259,13 +1027,15 @@
           <h3>⚡ Workout Focus</h3>
           <p>
             <strong>🔥 Warm-up:</strong>
-            5–10 minutes easy bike, incline walking, or elliptical.
-            Complete 1–3 lighter warm-up sets before your first exercise.
+            5–10 minutes easy cardio, plus 1–3 lighter warm-up sets
+            before your first major lift.
           </p>
 
           ${cardio ? `<p><strong>🚴 Cardio:</strong> ${cardio}</p>` : ""}
 
-          <p class="small">💡 Keep most working sets around 1–3 reps away from failure.</p>
+          <p class="small">
+            💡 Keep most working sets around 1–3 reps away from failure.
+          </p>
         </div>
 
         <div style="margin-top:16px;">
@@ -1274,21 +1044,24 @@
 
         <div class="card warning" style="margin-top:16px;">
           <h3>📈 Progression Rule</h3>
-          <p>When you reach the top of the rep range with clean form, increase the weight slightly next workout.</p>
+          <p>
+            When you reach the top of the rep range with good form,
+            add a small amount of weight next time.
+          </p>
         </div>
       `;
     }
 
-    function getStrengthUpgradeHTML() {
-      const checkins = getCheckins();
+    function strengthUpgrade() {
+      const count = getCheckins().length;
 
-      if (checkins.length < 4) {
+      if (count < 4) {
         return `
           <div class="card" style="margin-top:20px;">
             <h3>🔒 Strength Upgrade</h3>
             <p class="muted">
-              Save ${4 - checkins.length} more weekly check-in${4 - checkins.length === 1 ? "" : "s"}
-              to unlock your next four-week strength phase.
+              Save ${4 - count} more weekly check-in${4 - count === 1 ? "" : "s"}
+              to unlock your next strength phase.
             </p>
           </div>
         `;
@@ -1298,25 +1071,24 @@
         <div class="card success" style="margin-top:20px;">
           <h3>💪 Strength Upgrade Unlocked</h3>
           <p>
-            You have completed at least four weekly check-ins. For the next phase,
-            focus on slightly heavier compound movements and controlled progression.
+            After four consistent weeks, move into a slightly heavier progression phase.
           </p>
 
           <div class="grid" style="margin-top:14px;">
             <div>
-              <h4>🏋️ Upper Body Upgrade</h4>
+              <h4>🏋️ Upper Upgrade</h4>
               <p class="small">
                 Bench Press: 4 × 5–8<br>
                 Chest-Supported Row: 4 × 6–10<br>
                 Overhead Press: 3 × 5–8<br>
-                Pull-Ups / Lat Pulldown: 3 × 6–10
+                Pull-Up / Pulldown: 3 × 6–10
               </p>
             </div>
 
             <div>
-              <h4>🦵 Lower Body Upgrade</h4>
+              <h4>🦵 Lower Upgrade</h4>
               <p class="small">
-                Leg Press or Squat: 4 × 6–10<br>
+                Leg Press / Squat: 4 × 6–10<br>
                 Romanian Deadlift: 4 × 6–10<br>
                 Hip Thrust: 3 × 6–10<br>
                 Leg Curl: 3 × 8–12
@@ -1324,18 +1096,13 @@
             </div>
 
             <div>
-              <h4>📈 Progress Rule</h4>
+              <h4>🏗️ Machine Abs Upgrade</h4>
               <p class="small">
-                Keep accessory lifts at 8–15 reps. Add weight only after you reach
-                the top of the rep range with clean form.
+                Progress Cable Crunch and Ab Crunch Machine by adding small amounts
+                of weight after reaching 15 controlled reps.
               </p>
             </div>
           </div>
-
-          <p class="small">
-            💡 Optional: reduce total sets by about 30–40% for one easier recovery week
-            before starting this heavier phase.
-          </p>
         </div>
       `;
     }
@@ -1343,23 +1110,48 @@
     const pages = {
       home: () => `
         <h2>👋 Welcome Back</h2>
-        <p class="muted">Your workout, cardio, progress photo, and weekly tracking dashboard.</p>
+        <p class="muted">Your workouts, cardio, private photos, and weekly progress dashboard.</p>
 
         <div class="grid">
-          <a class="page-link" href="#/workouts"><h3>🏋️ Workout Plan</h3><p>Training days, videos, thumbnails, sets, reps, and form cues.</p></a>
-          <a class="page-link" href="#/cardio"><h3>🚴 Cardio & Steps</h3><p>Cardio targets and daily activity progression.</p></a>
-          <a class="page-link" href="#/photos"><h3>📸 Progress Photos</h3><p>Upload privately and compare weekly progress.</p></a>
-          <a class="page-link" href="#/checklist"><h3>✅ Weekly Checklist</h3><p>Stay consistent with workouts, cardio, sleep, steps, and photos.</p></a>
-          <a class="page-link" href="#/tracking"><h3>📈 Progress Tracker</h3><p>Save body weight, waist, training, sleep, and energy.</p></a>
-          <a class="page-link" href="#/settings"><h3>⚙️ Settings</h3><p>Change theme and manage your YouTube API key.</p></a>
+          <a class="page-link" href="#/workouts">
+            <h3>🏋️ Workout Plan</h3>
+            <p>Four strength days with a machine-based abs exercise every session.</p>
+          </a>
+
+          <a class="page-link" href="#/cardio">
+            <h3>🚴 Cardio & Steps</h3>
+            <p>Weekly cardio and daily walking progression.</p>
+          </a>
+
+          <a class="page-link" href="#/photos">
+            <h3>📸 Progress Photos</h3>
+            <p>Private weekly photo upload and comparison tool.</p>
+          </a>
+
+          <a class="page-link" href="#/checklist">
+            <h3>✅ Weekly Checklist</h3>
+            <p>Track consistent habits and training completion.</p>
+          </a>
+
+          <a class="page-link" href="#/tracking">
+            <h3>📈 Progress Tracker</h3>
+            <p>Save body weight, waist, strength, sleep, and energy.</p>
+          </a>
+
+          <a class="page-link" href="#/settings">
+            <h3>⚙️ Settings</h3>
+            <p>Theme settings and YouTube API key management.</p>
+          </a>
         </div>
 
-        ${getStrengthUpgradeHTML()}
+        ${strengthUpgrade()}
       `,
 
       workouts: () => `
         <h2>🏋️ Workout Plan</h2>
-        <p class="muted">Jeremy Ethier is searched first, then trusted fallback channels when needed.</p>
+        <p class="muted">
+          Every training day includes a different machine or gym-station ab exercise.
+        </p>
 
         <div class="day-tabs">
           <a href="#/upper-a">🏋️ Monday — Upper A</a>
@@ -1369,13 +1161,28 @@
         </div>
 
         <div class="grid">
-          <a class="page-link" href="#/upper-a"><h3>🏋️ Upper A</h3><p>Chest, back, shoulders, arms, and cardio.</p></a>
-          <a class="page-link" href="#/lower-a"><h3>🦵 Lower A + Abs</h3><p>Legs, hamstrings, calves, and core work.</p></a>
-          <a class="page-link" href="#/upper-b"><h3>💪 Upper B</h3><p>Back, shoulders, chest, arms, and cardio.</p></a>
-          <a class="page-link" href="#/lower-b"><h3>🔥 Lower B + Abs</h3><p>Squat pattern, glutes, hamstrings, and abs.</p></a>
+          <a class="page-link" href="#/upper-a">
+            <h3>🏋️ Upper A + Machine Abs</h3>
+            <p>Upper body, cardio, and Cable Crunches.</p>
+          </a>
+
+          <a class="page-link" href="#/lower-a">
+            <h3>🦵 Lower A + Machine Abs</h3>
+            <p>Lower body and the Ab Crunch Machine.</p>
+          </a>
+
+          <a class="page-link" href="#/upper-b">
+            <h3>💪 Upper B + Machine Abs</h3>
+            <p>Upper body, cardio, and Captain's Chair Knee Raises.</p>
+          </a>
+
+          <a class="page-link" href="#/lower-b">
+            <h3>🔥 Lower B + Machine Abs</h3>
+            <p>Lower body and the Rotary Torso Machine.</p>
+          </a>
         </div>
 
-        ${getStrengthUpgradeHTML()}
+        ${strengthUpgrade()}
       `,
 
       cardio: () => `
@@ -1384,37 +1191,49 @@
         <div class="grid">
           <div class="card highlight">
             <h3>✅ Cardio Options</h3>
-            <p>🚴 Stationary bike<br>🚶 Outdoor walking<br>🌀 Elliptical<br>🏃 Incline walking</p>
-            <p><strong>Zone 2:</strong> About 5–6/10 effort. You can speak in short sentences.</p>
+            <p>
+              🚴 Stationary bike<br>
+              🚶 Outdoor walking<br>
+              🌀 Elliptical<br>
+              🏃 Incline walking
+            </p>
+            <p>
+              <strong>Zone 2:</strong>
+              About 5–6/10 effort. You can speak in short sentences.
+            </p>
           </div>
 
           <div class="card">
             <h3>💡 Simple Rule</h3>
-            <p>Prioritize low-impact cardio and daily walking. Build gradually instead of doing too much too early.</p>
+            <p>
+              Build gradually. Focus on consistency with walking
+              and low-impact cardio.
+            </p>
           </div>
         </div>
 
-        <table style="margin-top:20px;">
-          <tr><th>Weeks</th><th>Cardio</th><th>Steps</th></tr>
-          <tr><td>1–2</td><td>65–70 min/week</td><td>7,000/day</td></tr>
-          <tr><td>3–4</td><td>80–85 min/week</td><td>8,000/day</td></tr>
-          <tr><td>5–6</td><td>90–100 min/week</td><td>8,500/day</td></tr>
-          <tr><td>7</td><td>70–80 easy min/week</td><td>8,000/day</td></tr>
-          <tr><td>8–12</td><td>100–120 min/week</td><td>9,000–10,000/day</td></tr>
-        </table>
+        <div class="card" style="margin-top:16px;">
+          <h3>📅 Weekly Target</h3>
+          <p>
+            Weeks 1–2: 65–70 minutes weekly.
+            Build toward 100–120 minutes weekly by weeks 8–12.
+          </p>
+          <p>🚶 Aim to build toward 8,000–10,000 daily steps.</p>
+        </div>
       `,
 
       photos: () => `
         <h2>📸 Progress Photos</h2>
-        <p class="muted">Photos remain private on this device. They are hidden unless you deliberately open the private gallery.</p>
+        <p class="muted">
+          Photos are saved only in this browser and remain hidden
+          until you open your private gallery.
+        </p>
 
         <div class="card highlight">
           <h3>💡 Best Photo Setup</h3>
           <p>
-            📍 Same location and lighting<br>
-            👕 Similar clothing each week<br>
-            📅 Take photos once per week, ideally in the morning<br>
-            📐 Use front, side, or back labels for easier comparisons
+            📍 Same lighting · 👕 Similar clothing · 📅 Same time each week ·
+            📐 Front, side, and back photos if possible
           </p>
         </div>
 
@@ -1423,8 +1242,15 @@
 
           <form id="photoForm">
             <div class="form-grid">
-              <label>📅 Date<input id="photoDate" type="date" required></label>
-              <label>🏷️ Title<input id="photoTitle" type="text" placeholder="Week 1 - Front"></label>
+              <label>
+                📅 Date
+                <input id="photoDate" type="date" required>
+              </label>
+
+              <label>
+                🏷️ Title
+                <input id="photoTitle" placeholder="Week 1 - Front">
+              </label>
             </div>
 
             <label style="margin-top:14px;">
@@ -1436,7 +1262,7 @@
 
             <label style="margin-top:14px;">
               📝 Optional Notes
-              <textarea id="photoNote" placeholder="Morning weight, lighting, clothing, changes noticed, etc."></textarea>
+              <textarea id="photoNote" placeholder="Morning weight, clothing, lighting, observations..."></textarea>
             </label>
 
             <button class="button" type="submit">💾 Save Progress Photo</button>
@@ -1444,15 +1270,9 @@
         </div>
 
         <div class="card warning" style="margin-top:16px;">
-          <h3>🔍 Photo Review</h3>
-          <p>
-            This offline app cannot accurately diagnose physique changes automatically.
-            Open the gallery and use the comparison tool to review visible changes consistently.
-          </p>
-
-          <button class="button secondary" onclick="openPrivateGallery()">
-            🔐 Open Private Gallery
-          </button>
+          <h3>🔐 Private Gallery</h3>
+          <p>Saved images do not display automatically. Open the gallery only when you want to review them.</p>
+          <button class="button secondary" onclick="openGallery()">🔐 Open Private Gallery</button>
         </div>
 
         <div id="privateGallery" class="hidden"></div>
@@ -1468,7 +1288,7 @@
             "🚴 Complete planned cardio",
             "🚶 Hit step target",
             "😴 Reach sleep target",
-            "🔥 Complete 3 ab sessions",
+            "🏗️ Complete machine abs sessions",
             "⚖️ Record daily body weight",
             "📏 Measure waist",
             "📸 Take progress photos"
@@ -1485,7 +1305,7 @@
 
       tracking: () => `
         <h2>📈 Weekly Progress Check-In</h2>
-        <p class="muted">Track weekly averages, waist, training, cardio, sleep, and energy.</p>
+        <p class="muted">Save your weekly average, waist, training, activity, sleep, and recovery.</p>
 
         <div class="card">
           <form id="checkinForm">
@@ -1502,12 +1322,12 @@
 
             <label style="margin-top:14px;">
               🏋️ Gym Performance Notes
-              <textarea id="performance" placeholder="Strength improvements, exercises, sets, reps, and performance changes."></textarea>
+              <textarea id="performance" placeholder="Strength changes, exercises, reps, machine abs performance, and progress..."></textarea>
             </label>
 
             <label style="margin-top:14px;">
               📝 Weekly Notes
-              <textarea id="notes" placeholder="Sleep, stress, recovery, habits, and your biggest win this week."></textarea>
+              <textarea id="notes" placeholder="Sleep, stress, consistency, recovery, and biggest win..."></textarea>
             </label>
 
             <button class="button" type="submit">💾 Save Check-In</button>
@@ -1515,11 +1335,11 @@
         </div>
 
         <div id="savedCheckins"></div>
-        ${getStrengthUpgradeHTML()}
+        ${strengthUpgrade()}
       `,
 
       settings: () => {
-        const activeTheme = getTheme();
+        const theme = getTheme();
 
         return `
           <h2>⚙️ Settings</h2>
@@ -1527,24 +1347,25 @@
           <div class="grid">
             <div class="card highlight">
               <h3>🎨 Appearance</h3>
-              <p class="small">Choose light mode, dark mode, or follow your device appearance.</p>
 
               <label>
                 Theme
                 <select onchange="setTheme(this.value)">
-                  <option value="system" ${activeTheme === "system" ? "selected" : ""}>🖥️ System Default</option>
-                  <option value="light" ${activeTheme === "light" ? "selected" : ""}>☀️ Light Mode</option>
-                  <option value="dark" ${activeTheme === "dark" ? "selected" : ""}>🌙 Dark Mode</option>
+                  <option value="system" ${theme === "system" ? "selected" : ""}>🖥️ System Default</option>
+                  <option value="light" ${theme === "light" ? "selected" : ""}>☀️ Light Mode</option>
+                  <option value="dark" ${theme === "dark" ? "selected" : ""}>🌙 Dark Mode</option>
                 </select>
               </label>
             </div>
 
             <div class="card">
               <h3>🎥 YouTube API Key</h3>
-              <p class="small">Stored only in this browser. Restrict your key when hosting online.</p>
+              <p class="small">
+                Stored locally in this browser. Required to automatically load exercise videos.
+              </p>
 
               <label>
-                YouTube API Key
+                API Key
                 <input id="apiKeyInput" type="password" value="${escapeHTML(YOUTUBE_API_KEY)}" placeholder="Paste YouTube API key">
               </label>
 
@@ -1554,11 +1375,6 @@
               </div>
             </div>
           </div>
-
-          <div class="card warning" style="margin-top:16px;">
-            <h3>📱 iPhone Tip</h3>
-            <p>Open this page in Safari → tap <strong>Share</strong> → choose <strong>Add to Home Screen</strong>.</p>
-          </div>
         `;
       }
     };
@@ -1566,37 +1382,37 @@
     async function renderPage() {
       const route = location.hash.replace("#/", "") || "home";
       const app = document.getElementById("app");
-      const routeIndex = routeOrder.indexOf(route);
-      const movingBack = routeIndex !== -1 && routeIndex < previousRouteIndex;
+      const index = routeOrder.indexOf(route);
+      const back = index !== -1 && index < previousRouteIndex;
 
-      privateGalleryOpened = false;
+      galleryOpened = false;
 
       let content = "";
 
       if (route === "upper-a") {
         content = await workoutPage(
-          "🏋️ Monday — Upper A + Cardio",
-          "Chest, back, shoulders, and arms.",
+          "🏋️ Monday — Upper A + Machine Abs + Cardio",
+          "Chest, back, shoulders, arms, and Cable Crunches for weighted abdominal training.",
           workouts.upperA,
           "20–30 minutes Zone 2 after weights."
         );
       } else if (route === "lower-a") {
         content = await workoutPage(
-          "🦵 Tuesday — Lower A + Abs",
-          "Lower body strength and direct abdominal work.",
+          "🦵 Tuesday — Lower A + Machine Abs",
+          "Lower-body strength with the Ab Crunch Machine for direct core training.",
           workouts.lowerA
         );
       } else if (route === "upper-b") {
         content = await workoutPage(
-          "💪 Friday — Upper B + Cardio",
-          "Back, shoulders, chest, arms, and rear delts.",
+          "💪 Friday — Upper B + Machine Abs + Cardio",
+          "Back, shoulders, chest, arms, and Captain's Chair Knee Raises.",
           workouts.upperB,
           "20–30 minutes Zone 2 after weights."
         );
       } else if (route === "lower-b") {
         content = await workoutPage(
-          "🔥 Saturday — Lower B + Abs",
-          "Glutes, hamstrings, squat work, and core.",
+          "🔥 Saturday — Lower B + Machine Abs",
+          "Glutes, hamstrings, legs, and Rotary Torso Machine training.",
           workouts.lowerB
         );
       } else {
@@ -1604,146 +1420,111 @@
       }
 
       app.innerHTML = `
-        <div class="page-content ${movingBack ? "back" : ""}">
+        <div class="page-content ${back ? "back" : ""}">
           ${content}
         </div>
       `;
 
       document.querySelectorAll("nav a").forEach(link => {
-        const linkRoute = link.getAttribute("href").replace("#/", "");
+        const target = link.getAttribute("href").replace("#/", "");
         const workoutSubpage =
-          linkRoute === "workouts" &&
-          ["upper-a", "lower-a", "upper-b", "lower-b"].includes(route);
+          target === "workouts" &&
+          ["upper-a","lower-a","upper-b","lower-b"].includes(route);
 
-        link.classList.toggle("active", linkRoute === route || workoutSubpage);
+        link.classList.toggle("active", target === route || workoutSubpage);
       });
 
-      if (route === "photos") setupPhotoPage();
+      if (route === "photos") setupPhotos();
       if (route === "checklist") loadChecklist();
       if (route === "tracking") setupTracking();
 
-      if (routeIndex !== -1) previousRouteIndex = routeIndex;
+      if (index !== -1) previousRouteIndex = index;
 
       updateHeaderWeight();
-
-      window.scrollTo({
-        top: 0,
-        behavior: "smooth"
-      });
+      window.scrollTo({ top: 0, behavior: "smooth" });
     }
 
     window.addEventListener("hashchange", renderPage);
 
-    /* ---------- Photos ---------- */
-
-    async function setupPhotoPage() {
+    function setupPhotos() {
       const form = document.getElementById("photoForm");
-      const dateInput = document.getElementById("photoDate");
-      const fileInput = document.getElementById("photoFile");
+      const date = document.getElementById("photoDate");
+      const file = document.getElementById("photoFile");
       const preview = document.getElementById("uploadPreview");
 
-      dateInput.value = todayDate();
+      date.value = today();
 
-      fileInput.addEventListener("change", () => {
-        const file = fileInput.files[0];
+      file.onchange = () => {
+        const selected = file.files[0];
 
-        if (!file) {
-          preview.style.display = "none";
-          preview.src = "";
-          return;
-        }
+        if (!selected) return;
 
-        if (!file.type.startsWith("image/")) {
-          alert("Please choose an image file.");
-          fileInput.value = "";
-          return;
-        }
-
-        preview.src = URL.createObjectURL(file);
+        preview.src = URL.createObjectURL(selected);
         preview.style.display = "block";
-      });
+      };
 
       form.onsubmit = async event => {
         event.preventDefault();
 
-        const file = fileInput.files[0];
-        const title = document.getElementById("photoTitle").value.trim();
-        const date = dateInput.value;
-        const note = document.getElementById("photoNote").value.trim();
+        const selected = file.files[0];
 
-        if (!file) {
+        if (!selected) {
           alert("Please choose a photo.");
           return;
         }
 
-        if (file.size > 8 * 1024 * 1024) {
-          alert("Please select a photo smaller than 8 MB.");
+        if (selected.size > 8 * 1024 * 1024) {
+          alert("Please use a photo below 8 MB.");
           return;
         }
 
-        try {
-          await saveProgressPhoto({
-            title: title || "Progress Photo",
-            date,
-            note,
-            imageData: await fileToDataURL(file),
-            createdAt: new Date().toISOString()
-          });
+        await savePhoto({
+          title: document.getElementById("photoTitle").value.trim() || "Progress Photo",
+          date: date.value,
+          note: document.getElementById("photoNote").value.trim(),
+          imageData: await fileToDataURL(selected)
+        });
 
-          form.reset();
-          dateInput.value = todayDate();
-          preview.style.display = "none";
-          preview.src = "";
+        form.reset();
+        date.value = today();
+        preview.style.display = "none";
 
-          alert("✅ Progress photo saved privately on this device.");
-        } catch (error) {
-          console.error(error);
-          alert("Could not save this image. Try using a smaller photo.");
-        }
+        alert("✅ Photo saved privately on this device.");
       };
     }
 
-    async function openPrivateGallery() {
-      const gallery = document.getElementById("privateGallery");
+    async function openGallery() {
+      const container = document.getElementById("privateGallery");
+      const photos = await getPhotos();
 
-      if (!gallery) return;
-
-      privateGalleryOpened = true;
-      gallery.classList.remove("hidden");
-
-      const photos = await getProgressPhotos();
+      galleryOpened = true;
+      container.classList.remove("hidden");
 
       if (!photos.length) {
-        gallery.innerHTML = `
+        container.innerHTML = `
           <div class="card" style="margin-top:16px;">
-            <h3>📭 No Saved Photos</h3>
-            <p class="muted">Upload your first progress photo above.</p>
+            <h3>📭 No Photos Saved</h3>
+            <p class="muted">Upload your first photo above.</p>
           </div>
         `;
         return;
       }
 
-      gallery.innerHTML = `
+      container.innerHTML = `
         <div class="card success" style="margin-top:16px;">
           <h3>🔐 Private Gallery Open</h3>
-          <p class="small">These images are stored only in this browser on this device.</p>
-
-          <div class="button-row">
-            <button class="button secondary" onclick="closePrivateGallery()">🙈 Hide Gallery</button>
-          </div>
+          <p class="small">These photos are stored locally in this browser.</p>
+          <button class="button secondary" onclick="closeGallery()">🙈 Hide Gallery</button>
         </div>
 
         <div class="card" style="margin-top:16px;">
-          <h3>🔍 Compare Two Photos</h3>
-          <p class="small">
-            Choose an earlier and a newer image. Use the review checklist below
-            to create a consistent weekly progress summary.
-          </p>
+          <h3>🔍 Compare Weekly Photos</h3>
+          <p class="small">Choose an earlier photo and a newer photo to compare visible changes.</p>
 
           <div class="form-grid">
             <label>
               Earlier Photo
-              <select id="beforePhoto" onchange="renderPhotoComparison()">
+              <select id="beforePhoto" onchange="comparePhotos()">
                 ${photos.slice().reverse().map(photo => `
                   <option value="${photo.id}">
                     ${escapeHTML(photo.date)} — ${escapeHTML(photo.title)}
@@ -1754,8 +1535,8 @@
 
             <label>
               Newer Photo
-              <select id="afterPhoto" onchange="renderPhotoComparison()">
-                ${photos.map((photo, index) => `
+              <select id="afterPhoto" onchange="comparePhotos()">
+                ${photos.map((photo,index) => `
                   <option value="${photo.id}" ${index === 0 ? "selected" : ""}>
                     ${escapeHTML(photo.date)} — ${escapeHTML(photo.title)}
                   </option>
@@ -1772,16 +1553,17 @@
         <div class="photo-grid">
           ${photos.map(photo => `
             <article class="photo-card">
-              <img src="${photo.imageData}" alt="${escapeHTML(photo.title)}" loading="lazy">
+              <img src="${photo.imageData}" alt="${escapeHTML(photo.title)}">
 
               <div class="photo-info">
                 <h3>${escapeHTML(photo.title)}</h3>
                 <p class="photo-date">📅 ${escapeHTML(photo.date)}</p>
-
                 ${photo.note ? `<p class="photo-note">📝 ${escapeHTML(photo.note)}</p>` : ""}
 
                 <div class="button-row">
-                  <button class="button red" onclick="removePhoto(${photo.id})">🗑️ Delete Photo</button>
+                  <button class="button red" onclick="removePhoto(${photo.id})">
+                    🗑️ Delete Photo
+                  </button>
                 </div>
               </div>
             </article>
@@ -1789,30 +1571,26 @@
         </div>
       `;
 
-      renderPhotoComparison();
+      comparePhotos();
     }
 
-    function closePrivateGallery() {
+    function closeGallery() {
       const gallery = document.getElementById("privateGallery");
-      if (gallery) {
-        gallery.innerHTML = "";
-        gallery.classList.add("hidden");
-      }
-      privateGalleryOpened = false;
+      gallery.innerHTML = "";
+      gallery.classList.add("hidden");
+      galleryOpened = false;
     }
 
-    async function renderPhotoComparison() {
-      const beforeSelector = document.getElementById("beforePhoto");
-      const afterSelector = document.getElementById("afterPhoto");
+    async function comparePhotos() {
+      const beforeId = Number(document.getElementById("beforePhoto")?.value);
+      const afterId = Number(document.getElementById("afterPhoto")?.value);
       const area = document.getElementById("comparisonArea");
+      const photos = await getPhotos();
 
-      if (!beforeSelector || !afterSelector || !area) return;
+      const before = photos.find(photo => photo.id === beforeId);
+      const after = photos.find(photo => photo.id === afterId);
 
-      const photos = await getProgressPhotos();
-      const before = photos.find(photo => photo.id === Number(beforeSelector.value));
-      const after = photos.find(photo => photo.id === Number(afterSelector.value));
-
-      if (!before || !after) return;
+      if (!before || !after || !area) return;
 
       area.innerHTML = `
         <div class="comparison-grid">
@@ -1830,8 +1608,7 @@
         <div class="card highlight" style="margin-top:16px;">
           <h3>🧠 Weekly Visual Review</h3>
           <p class="small">
-            Select only what you can clearly see in consistent lighting and posture.
-            This creates your personalised weekly comparison summary.
+            Select visible differences only when lighting, pose, and clothing are similar.
           </p>
 
           <div class="analysis-checks">
@@ -1840,16 +1617,15 @@
             <label><input type="checkbox" value="Chest definition appears clearer"> Chest definition appears clearer</label>
             <label><input type="checkbox" value="Shoulders or arms appear more defined"> Shoulders or arms appear more defined</label>
             <label><input type="checkbox" value="Leg definition appears clearer"> Leg definition appears clearer</label>
-            <label><input type="checkbox" value="Posture or pose looks more confident"> Posture or pose looks more confident</label>
             <label><input type="checkbox" value="No clear visible difference yet"> No clear visible difference yet</label>
           </div>
 
           <label style="margin-top:14px;">
-            📝 Your comparison note
-            <textarea id="comparisonNote" placeholder="Example: Waist looks slightly tighter, but lighting was different this week."></textarea>
+            📝 Comparison Note
+            <textarea id="comparisonNote" placeholder="Example: Waist looks slightly tighter. Lighting was similar this week."></textarea>
           </label>
 
-          <button class="button green" style="margin-top:14px;" onclick="generatePhotoSummary()">
+          <button class="button green" style="margin-top:14px;" onclick="generateSummary()">
             ✨ Generate Weekly Summary
           </button>
 
@@ -1858,53 +1634,38 @@
       `;
     }
 
-    function generatePhotoSummary() {
+    function generateSummary() {
       const selected = [...document.querySelectorAll(".analysis-checks input:checked")]
         .map(input => input.value);
 
-      const note = document.getElementById("comparisonNote")?.value.trim();
+      const note = document.getElementById("comparisonNote").value.trim();
       const summary = document.getElementById("photoSummary");
-
-      if (!summary) return;
-
-      let text = "";
-
-      if (selected.length) {
-        text += `<p><strong>📸 Visible changes selected:</strong> ${selected.map(escapeHTML).join(", ")}.</p>`;
-      } else {
-        text += `<p><strong>📸 Review result:</strong> No visual changes were selected yet.</p>`;
-      }
-
-      if (note) {
-        text += `<p><strong>📝 Your note:</strong> ${escapeHTML(note)}</p>`;
-      }
-
-      text += `
-        <p class="small">
-          💡 Keep photo conditions consistent. Small differences often become more obvious
-          after 3–4 weeks than after a single week.
-        </p>
-      `;
 
       summary.innerHTML = `
         <div class="card success" style="margin-top:16px;">
           <h3>✅ Weekly Photo Summary</h3>
-          ${text}
+          <p>
+            <strong>📸 Visible changes:</strong>
+            ${selected.length ? selected.map(escapeHTML).join(", ") : "No changes selected yet."}
+          </p>
+          ${note ? `<p><strong>📝 Your note:</strong> ${escapeHTML(note)}</p>` : ""}
+          <p class="small">
+            💡 Small differences are often easier to see after 3–4 weeks
+            of consistent photos.
+          </p>
         </div>
       `;
     }
 
     async function removePhoto(id) {
-      if (!confirm("Delete this progress photo? This cannot be undone.")) return;
+      if (!confirm("Delete this photo permanently?")) return;
 
-      await deleteProgressPhoto(id);
+      await deletePhoto(id);
 
-      if (privateGalleryOpened) {
-        openPrivateGallery();
+      if (galleryOpened) {
+        openGallery();
       }
     }
-
-    /* ---------- Checklist ---------- */
 
     function loadChecklist() {
       document.querySelectorAll("[data-check]").forEach(box => {
@@ -1926,32 +1687,14 @@
       });
     }
 
-    /* ---------- Settings ---------- */
-
-    function saveApiKey() {
-      YOUTUBE_API_KEY = document.getElementById("apiKeyInput").value.trim();
-      localStorage.setItem("youtubeApiKey", YOUTUBE_API_KEY);
-      alert("✅ API key saved. Open a workout page to load videos.");
-    }
-
-    function clearVideoCache() {
-      Object.keys(localStorage)
-        .filter(key => key.startsWith("exerciseVideo_"))
-        .forEach(key => localStorage.removeItem(key));
-
-      alert("🗑️ Saved video results cleared.");
-    }
-
-    /* ---------- Tracking ---------- */
-
     function setupTracking() {
       const form = document.getElementById("checkinForm");
 
       function showEntries() {
-        const saved = getCheckins();
+        const entries = getCheckins();
         const container = document.getElementById("savedCheckins");
 
-        if (!saved.length) {
+        if (!entries.length) {
           container.innerHTML = `
             <p class="small" style="margin-top:20px;">
               📭 No weekly check-ins saved yet.
@@ -1963,8 +1706,8 @@
         container.innerHTML = `
           <h3 style="margin-top:25px;">📚 Saved Check-Ins</h3>
 
-          ${saved.slice().reverse().map((entry, reverseIndex) => {
-            const originalIndex = saved.length - 1 - reverseIndex;
+          ${entries.slice().reverse().map((entry, reverseIndex) => {
+            const realIndex = entries.length - 1 - reverseIndex;
 
             return `
               <div class="saved-entry" style="margin-top:14px;">
@@ -1990,7 +1733,7 @@
                 ${entry.notes ? `<p><strong>📝 Notes:</strong> ${escapeHTML(entry.notes)}</p>` : ""}
 
                 <div class="button-row">
-                  <button class="button red" onclick="deleteCheckin(${originalIndex})">
+                  <button class="button red" onclick="deleteCheckin(${realIndex})">
                     🗑️ Delete This Check-In
                   </button>
                 </div>
@@ -2020,15 +1763,13 @@
           entry[id] = document.getElementById(id).value;
         });
 
-        const saved = getCheckins();
-        saved.push(entry);
+        const allEntries = getCheckins();
+        allEntries.push(entry);
 
-        localStorage.setItem("fitnessCheckins", JSON.stringify(saved));
+        localStorage.setItem("fitnessCheckins", JSON.stringify(allEntries));
 
         form.reset();
-        showEntries();
         updateHeaderWeight();
-
         renderPage();
       };
 
@@ -2036,20 +1777,38 @@
     }
 
     function deleteCheckin(index) {
-      const saved = getCheckins();
+      const entries = getCheckins();
 
-      if (!saved[index]) return;
+      if (!entries[index]) return;
 
-      if (!confirm(`Delete check-in "${saved[index].week}"?`)) return;
+      if (!confirm(`Delete check-in "${entries[index].week}"?`)) return;
 
-      saved.splice(index, 1);
-      localStorage.setItem("fitnessCheckins", JSON.stringify(saved));
+      entries.splice(index, 1);
+      localStorage.setItem("fitnessCheckins", JSON.stringify(entries));
 
       updateHeaderWeight();
       renderPage();
     }
 
-    /* ---------- Start ---------- */
+    function saveApiKey() {
+      YOUTUBE_API_KEY = document.getElementById("apiKeyInput").value.trim();
+      localStorage.setItem("youtubeApiKey", YOUTUBE_API_KEY);
+      alert("✅ API key saved.");
+    }
+
+    function clearVideoCache() {
+      Object.keys(localStorage)
+        .filter(key => key.startsWith("exerciseVideo_"))
+        .forEach(key => localStorage.removeItem(key));
+
+      alert("🗑️ Video cache cleared.");
+    }
+
+    matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => {
+      if (getTheme() === "system") {
+        applyTheme("system");
+      }
+    });
 
     applyTheme(getTheme());
     updateHeaderWeight();
