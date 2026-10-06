@@ -2833,5 +2833,1002 @@ Give a realistic calorie range and likely estimate. Keep it brief and explain wh
 
     window.addEventListener("hashchange",renderPage);
   </script>
+
+<!-- =====================================================
+     TRUNK-FAT REDUCTION + MUSCLE-PRESERVATION UPDATE
+     Paste this immediately before </body>
+====================================================== -->
+<script>
+  /* ---------- UPDATED BODY-REPORT SETTINGS ---------- */
+
+  const REPORT_WEIGHT = 79.3;
+  const RECOMP_LOSS_MIN = 0.15;
+  const RECOMP_LOSS_MAX = 0.30;
+
+  const dashboardBadge = document.querySelector("header .badge");
+
+  if (dashboardBadge) {
+    dashboardBadge.textContent =
+      "🔥 TRUNK-FAT REDUCTION · MUSCLE PRESERVATION";
+  }
+
+  const heroStats = document.querySelector(".hero-stats");
+
+  if (heroStats) {
+    heroStats.innerHTML = `
+      <div class="hero-stat">
+        <span>⚖️</span>
+        <strong id="headerWeight">79.3 kg</strong>
+        <small id="headerWeightLabel">Body-report weight</small>
+      </div>
+
+      <div class="hero-stat">
+        <span>💪</span>
+        <strong>39.2 kg</strong>
+        <small>Skeletal muscle</small>
+      </div>
+
+      <div class="hero-stat">
+        <span>📊</span>
+        <strong>13.3%</strong>
+        <small>Body fat</small>
+      </div>
+    `;
+  }
+
+
+  /* ---------- REVISED WORKOUT PLAN ---------- */
+
+  workouts.upperA = [
+    [
+      "Barbell Bench Press",
+      "3 × 5–8",
+      "Keep your shoulder blades stable. Finish most working sets with 1–3 repetitions in reserve."
+    ],
+    [
+      "Chest-Supported Row",
+      "3 × 6–10",
+      "Pull your elbows toward your hips without using momentum."
+    ],
+    [
+      "Incline Dumbbell Press",
+      "2 × 8–12",
+      "Use a moderate incline and lower the dumbbells under control."
+    ],
+    [
+      "Lat Pulldown",
+      "3 × 8–12",
+      "Pull your elbows down without excessive backward leaning."
+    ],
+    [
+      "Dumbbell Lateral Raise",
+      "3 × 12–20",
+      "Use controlled repetitions and avoid shrugging."
+    ],
+    [
+      "Dumbbell or Cable Curl",
+      "3 × 8–15",
+      "Keep your elbows stable and control the lowering phase."
+    ],
+    [
+      "Cable Triceps Pressdown",
+      "3 × 8–15",
+      "Keep your elbows close to your sides."
+    ],
+    [
+      "Resistance-Band Pallof Press",
+      "2–3 × 10–15 each side",
+      "Keep your ribs stacked over your pelvis and resist torso rotation.",
+      "core"
+    ]
+  ];
+
+  workouts.lowerA = [
+    [
+      "Leg Press or Back Squat",
+      "3 × 6–10",
+      "Use a comfortable, controlled range and keep 1–3 repetitions in reserve."
+    ],
+    [
+      "Romanian Deadlift",
+      "3 × 6–10",
+      "Push your hips backward while maintaining a neutral spine."
+    ],
+    [
+      "Reverse Lunge",
+      "3 × 8–12 each leg",
+      "Begin with your weaker leg and match its repetitions on the stronger side."
+    ],
+    [
+      "Seated Leg Curl",
+      "3 × 10–15",
+      "Pause briefly in the contracted position."
+    ],
+    [
+      "Standing Calf Raise",
+      "4 × 8–15",
+      "Pause in the stretched and contracted positions without bouncing."
+    ],
+    [
+      "Hanging Knee Raise",
+      "3 × 8–15",
+      "Curl your pelvis upward instead of only lifting your knees.",
+      "core"
+    ],
+    [
+      "Dead Bug",
+      "2 × 8–12 each side",
+      "Keep your lower back gently pressed toward the floor.",
+      "core"
+    ]
+  ];
+
+  workouts.upperB = [
+    [
+      "Pull-Up or Assisted Pull-Up",
+      "3 × 6–10",
+      "Use a controlled full range and avoid swinging."
+    ],
+    [
+      "Dumbbell Overhead Press",
+      "3 × 6–10",
+      "Keep your torso stable and avoid excessive lower-back arching."
+    ],
+    [
+      "One-Arm Dumbbell Row",
+      "3 × 8–12 each side",
+      "Begin with your weaker side and match its repetitions."
+    ],
+    [
+      "Machine Chest Press",
+      "2–3 × 8–12",
+      "Use smooth repetitions and keep your shoulders stable."
+    ],
+    [
+      "Face Pull or Reverse Fly",
+      "3 × 12–20",
+      "Focus on your rear shoulders and upper back."
+    ],
+    [
+      "Incline Dumbbell Curl",
+      "3 × 10–15",
+      "Keep your upper arms still and lower the dumbbells slowly."
+    ],
+    [
+      "Overhead Cable Triceps Extension",
+      "3 × 10–15",
+      "Keep your elbows stable and use a comfortable range."
+    ],
+    [
+      "Ab-Wheel Rollout",
+      "2–3 × 6–12",
+      "Stop before your lower back begins to arch.",
+      "core"
+    ]
+  ];
+
+  workouts.lowerB = [
+    [
+      "Hack Squat, Front Squat, or Goblet Squat",
+      "3 × 8–12",
+      "Choose the version that allows controlled, pain-free repetitions."
+    ],
+    [
+      "Hip Thrust",
+      "3 × 6–10",
+      "Squeeze your glutes without overextending your lower back."
+    ],
+    [
+      "Bulgarian Split Squat",
+      "3 × 8–12 each leg",
+      "Begin with your weaker leg and keep both sides equal."
+    ],
+    [
+      "Lying Leg Curl",
+      "3 × 10–15",
+      "Control the lifting and lowering portions of every repetition."
+    ],
+    [
+      "Leg Extension",
+      "2 × 12–15",
+      "Use controlled repetitions without swinging."
+    ],
+    [
+      "Seated Calf Raise",
+      "4 × 10–15",
+      "Use a full range of motion without bouncing."
+    ],
+    [
+      "Reverse Crunch",
+      "3 × 10–15",
+      "Curl your pelvis toward your ribs without using momentum.",
+      "core"
+    ],
+    [
+      "Side Plank",
+      "2 × 30–45 seconds each side",
+      "Keep your hips elevated and your body aligned.",
+      "core"
+    ]
+  ];
+
+
+  /* ---------- UPDATED HEADER-WEIGHT LOGIC ---------- */
+
+  updateHeaderWeight = function() {
+    const valid = getCheckins().filter(
+      entry =>
+        entry.weight &&
+        !Number.isNaN(Number(entry.weight))
+    );
+
+    const weight =
+      document.getElementById("headerWeight");
+
+    const label =
+      document.getElementById("headerWeightLabel");
+
+    if (!weight || !label) return;
+
+    if (!valid.length) {
+      weight.textContent =
+        REPORT_WEIGHT.toFixed(1) + " kg";
+
+      label.textContent =
+        "Body-report weight";
+
+      return;
+    }
+
+    const current =
+      Number(valid.at(-1).weight);
+
+    weight.textContent =
+      current.toFixed(1) + " kg";
+
+    label.textContent =
+      "Latest average weight";
+
+    if (valid.length < 2) return;
+
+    const previous =
+      Number(valid.at(-2).weight);
+
+    const weeklyLoss =
+      previous - current;
+
+    if (
+      weeklyLoss >= RECOMP_LOSS_MIN &&
+      weeklyLoss <= RECOMP_LOSS_MAX
+    ) {
+      label.textContent =
+        "✅ Muscle-friendly loss rate";
+    } else if (weeklyLoss > 0.4) {
+      label.textContent =
+        "⚠️ Loss may be too fast";
+    } else if (weeklyLoss < 0) {
+      label.textContent =
+        "Weight increased this week";
+    }
+  };
+
+
+  /* ---------- UPDATED WORKOUT-PAGE FORMAT ---------- */
+
+  workoutPage = function(
+    title,
+    subtitle,
+    exercises,
+    cardio = ""
+  ) {
+    const strengthExercises =
+      exercises.filter(item => item[3] !== "core");
+
+    const coreExercises =
+      exercises.filter(item => item[3] === "core");
+
+    return `
+      <h2>${title}</h2>
+      <p class="muted">${subtitle}</p>
+
+      <div class="card highlight">
+        <h3>⚡ Session Instructions</h3>
+
+        <p>
+          <strong>Warm-up:</strong>
+          Complete 5–10 minutes of easy movement and
+          1–3 lighter warm-up sets before your first
+          main exercise.
+        </p>
+
+        ${
+          cardio
+            ? `
+              <p>
+                <strong>Post-workout cardio:</strong>
+                ${escapeHTML(cardio)}
+              </p>
+            `
+            : `
+              <p>
+                <strong>Post-workout cardio:</strong>
+                Not required. Protect lower-body recovery
+                and focus on normal daily walking.
+              </p>
+            `
+        }
+
+        <p>
+          <strong>Training effort:</strong>
+          Finish most working sets with approximately
+          1–3 repetitions in reserve.
+        </p>
+
+        <p class="small">
+          Maintaining your resistance and repetitions during
+          a calorie deficit counts as successful muscle
+          preservation.
+        </p>
+      </div>
+
+      <h3 style="margin-top:24px">
+        🏋️ Muscle-Preservation Exercises
+      </h3>
+
+      <div>
+        ${strengthExercises.map(exerciseCard).join("")}
+      </div>
+
+      <h3 style="margin-top:28px">
+        🧱 Core Training
+      </h3>
+
+      <p class="muted">
+        Core exercises strengthen your abdominal muscles
+        and trunk stability. They cannot selectively remove
+        fat from your trunk.
+      </p>
+
+      <div>
+        ${coreExercises.map(exerciseCard).join("")}
+      </div>
+
+      <div class="card success" style="margin-top:22px">
+        <h3>📈 Double-Progression Rule</h3>
+
+        <ol>
+          <li>
+            Start with a resistance you can perform at the
+            lower end of the prescribed repetition range.
+          </li>
+
+          <li>
+            Keep that resistance until every set reaches
+            the top of the range with controlled technique.
+          </li>
+
+          <li>
+            Increase the resistance by the smallest
+            available amount.
+          </li>
+
+          <li>
+            Return to the lower end of the repetition range.
+          </li>
+        </ol>
+
+        <p>
+          <strong>Compound exercises:</strong>
+          rest 2–3 minutes.
+        </p>
+
+        <p>
+          <strong>Isolation exercises:</strong>
+          rest 60–90 seconds.
+        </p>
+
+        <p>
+          <strong>Core exercises:</strong>
+          rest 45–75 seconds.
+        </p>
+      </div>
+    `;
+  };
+
+
+  /* ---------- NEW HOME PAGE ---------- */
+
+  pages.home = () => `
+    <h2>🎯 Trunk-Fat Reduction & Muscle Preservation</h2>
+
+    <p class="muted">
+      Your revised plan is based on your body-composition
+      report and existing four-day training schedule.
+    </p>
+
+    <div class="grid">
+      <div class="card success">
+        <h3>✅ Overall Result</h3>
+
+        <p>
+          Your overall body composition is already lean and
+          healthy. Use gradual recomposition instead of
+          aggressive weight loss.
+        </p>
+      </div>
+
+      <div class="card">
+        <h3>⚖️ Weight</h3>
+
+        <p>
+          <strong>79.3 kg</strong> at 182 cm
+        </p>
+
+        <p class="small">
+          BMI: 23.9, which is within the scanner's
+          normal range.
+        </p>
+      </div>
+
+      <div class="card">
+        <h3>💪 Skeletal Muscle</h3>
+
+        <p>
+          <strong>39.2 kg</strong>
+        </p>
+
+        <p class="small">
+          This was classified as high. Preserving this muscle
+          is one of the main goals of your plan.
+        </p>
+      </div>
+
+      <div class="card">
+        <h3>📊 Total Body Fat</h3>
+
+        <p>
+          <strong>13.3%</strong>, or approximately
+          <strong>10.5 kg</strong>
+        </p>
+
+        <p class="small">
+          This is already a relatively lean overall
+          body-fat level.
+        </p>
+      </div>
+
+      <div class="card">
+        <h3>🫀 Visceral Fat</h3>
+
+        <p>
+          <strong>Level 4</strong>
+        </p>
+
+        <p class="small">
+          This is within the scanner's healthy range.
+        </p>
+      </div>
+
+      <div class="card">
+        <h3>📏 Waist-to-Hip Ratio</h3>
+
+        <p>
+          <strong>0.8</strong>
+        </p>
+
+        <p class="small">
+          This is within the scanner's normal range.
+        </p>
+      </div>
+    </div>
+
+    <div class="card warning" style="margin-top:20px">
+      <h3>🔎 Understanding Your Trunk-Fat Result</h3>
+
+      <p>
+        Your scanner recorded approximately
+        <strong>5.3 kg of trunk fat</strong> and classified
+        it as high relative to its regional reference.
+      </p>
+
+      <p>
+        However, your overall body-fat percentage,
+        waist-to-hip ratio, and visceral-fat level are
+        all within healthy ranges.
+      </p>
+
+      <p>
+        Treat the trunk reading as a regional trend rather
+        than a medical diagnosis.
+      </p>
+
+      <p>
+        Your low arm-fat readings do
+        <strong>not</strong> mean your arm-muscle levels
+        are low.
+      </p>
+
+      <p class="small">
+        Body-composition scanners can be affected by
+        hydration, meals, sodium, carbohydrates, skin
+        temperature, and recent exercise.
+      </p>
+    </div>
+
+    <div class="card highlight" style="margin-top:20px">
+      <h3>⭐ Your Main Priorities</h3>
+
+      <ol>
+        <li>
+          Use a small estimated calorie deficit of
+          approximately 250–350 calories per day.
+        </li>
+
+        <li>
+          Consume approximately 150–175 g of protein daily.
+        </li>
+
+        <li>
+          Continue challenging upper- and lower-body
+          resistance training.
+        </li>
+
+        <li>
+          Complete approximately 70–100 minutes of
+          moderate Zone 2 cardio each week.
+        </li>
+
+        <li>
+          Build toward 8,000–10,000 daily steps.
+        </li>
+
+        <li>
+          Sleep approximately 7.5–9 hours per night.
+        </li>
+      </ol>
+    </div>
+
+    <div class="grid" style="margin-top:20px">
+      <a class="page-link" href="#/workouts">
+        <h3>🏋️ Revised Workouts</h3>
+        <p>
+          Follow your four-day muscle-preservation plan.
+        </p>
+      </a>
+
+      <a class="page-link" href="#/daily-log">
+        <h3>📝 Daily Training Log</h3>
+        <p>
+          Record resistance, sets, repetitions, and duration.
+        </p>
+      </a>
+
+      <a class="page-link" href="#/cardio">
+        <h3>🚴 Cardio Schedule</h3>
+        <p>
+          Follow the revised cardio and daily-step plan.
+        </p>
+      </a>
+
+      <a class="page-link" href="#/tracking">
+        <h3>📈 Weekly Progress</h3>
+        <p>
+          Track weight, waist, strength, sleep, and energy.
+        </p>
+      </a>
+
+      <a class="page-link" href="#/photos">
+        <h3>📸 Progress Photos</h3>
+        <p>
+          Compare consistent photos every two to four weeks.
+        </p>
+      </a>
+    </div>
+
+    <div class="card warning" style="margin-top:20px">
+      <h3>🚫 Spot Reduction Is Not Possible</h3>
+
+      <p>
+        Abdominal exercises cannot force your body to remove
+        fat specifically from your trunk.
+      </p>
+
+      <p>
+        Core training develops your abdominal muscles and
+        improves trunk stability, while gradual overall fat
+        loss reduces the fat covering your trunk.
+      </p>
+    </div>
+
+    ${strengthUpgrade()}
+  `;
+
+
+  /* ---------- UPDATED WORKOUT OVERVIEW ---------- */
+
+  pages.workouts = () => `
+    <h2>🏋️ Revised Four-Day Workout Plan</h2>
+
+    <p class="muted">
+      This plan helps preserve your arm and leg muscles while
+      supporting slow overall fat loss and improved trunk
+      definition.
+    </p>
+
+    <div class="card warning" style="margin-bottom:20px">
+      <h3>⚠️ Muscle-Preservation Rule</h3>
+
+      <p>
+        Do not replace resistance training with excessive
+        cardio or daily abdominal workouts.
+      </p>
+
+      <p>
+        Your limb muscles need consistent, challenging
+        resistance training to remain stimulated during
+        fat loss.
+      </p>
+    </div>
+
+    <div class="day-tabs">
+      <a href="#/upper-a">🏋️ Monday — Upper A</a>
+      <a href="#/lower-a">🦵 Tuesday — Lower A</a>
+      <a href="#/upper-b">💪 Friday — Upper B</a>
+      <a href="#/lower-b">🔥 Saturday — Lower B</a>
+    </div>
+
+    <div class="grid">
+      <a class="page-link" href="#/upper-a">
+        <h3>🏋️ Monday — Upper A</h3>
+
+        <p>
+          Chest, back, shoulders, arms, Pallof press,
+          and 20–25 minutes of Zone 2 cardio.
+        </p>
+      </a>
+
+      <a class="page-link" href="#/lower-a">
+        <h3>🦵 Tuesday — Lower A</h3>
+
+        <p>
+          Squat or leg press, posterior chain, unilateral
+          legs, calves, and core training.
+        </p>
+      </a>
+
+      <div class="page-link">
+        <h3>🚴 Wednesday — Recovery Cardio</h3>
+
+        <p>
+          Complete 30–40 minutes of Zone 2 cardio,
+          optional mobility, and at least 8,000 steps.
+        </p>
+      </div>
+
+      <div class="page-link">
+        <h3>😴 Thursday — Rest</h3>
+
+        <p>
+          Easy walking is encouraged. No demanding
+          workout is required.
+        </p>
+      </div>
+
+      <a class="page-link" href="#/upper-b">
+        <h3>💪 Friday — Upper B</h3>
+
+        <p>
+          Back, shoulders, chest, arms, ab-wheel rollouts,
+          and 20–25 minutes of Zone 2 cardio.
+        </p>
+      </a>
+
+      <a class="page-link" href="#/lower-b">
+        <h3>🔥 Saturday — Lower B</h3>
+
+        <p>
+          Squat pattern, hip thrusts, unilateral legs,
+          hamstrings, calves, and core training.
+        </p>
+      </a>
+
+      <div class="page-link">
+        <h3>🌿 Sunday — Rest</h3>
+
+        <p>
+          Use easy walking, meal preparation, sleep,
+          and optional gentle stretching.
+        </p>
+      </div>
+    </div>
+
+    <div class="card success" style="margin-top:20px">
+      <h3>📈 Progression Example</h3>
+
+      <p>
+        If your bench-press target is 3 × 5–8:
+      </p>
+
+      <ul>
+        <li>Week 1: 8, 7, 6 repetitions</li>
+        <li>Week 2: 8, 8, 7 repetitions</li>
+        <li>Week 3: 8, 8, 8 repetitions</li>
+        <li>
+          Week 4: increase resistance slightly and return
+          to approximately 5–7 repetitions.
+        </li>
+      </ul>
+
+      <p class="small">
+        During a calorie deficit, maintaining your current
+        resistance and repetitions is also a successful result.
+      </p>
+    </div>
+
+    ${strengthUpgrade()}
+  `;
+
+  /* ---------- UPDATED CARDIO PAGE ---------- */
+
+  pages.cardio = () => `
+    <h2>🚴 Cardio & Daily Activity</h2>
+
+    <p class="muted">
+      Use moderate cardio to support fat loss without
+      interfering with leg-muscle recovery.
+    </p>
+
+    <div class="grid">
+      <div class="card highlight">
+        <h3>🏋️ Monday</h3>
+
+        <p>
+          Complete 20–25 minutes of Zone 2 cardio after
+          your Upper A workout.
+        </p>
+      </div>
+
+      <div class="card">
+        <h3>🚴 Wednesday</h3>
+
+        <p>
+          Complete a separate 30–40 minute Zone 2 session.
+        </p>
+      </div>
+
+      <div class="card highlight">
+        <h3>💪 Friday</h3>
+
+        <p>
+          Complete 20–25 minutes of Zone 2 cardio after
+          your Upper B workout.
+        </p>
+      </div>
+
+      <div class="card">
+        <h3>🚶 Daily Steps</h3>
+
+        <p>
+          Build gradually toward approximately
+          <strong>8,000–10,000 steps per day</strong>.
+        </p>
+      </div>
+    </div>
+
+    <div class="card success" style="margin-top:20px">
+      <h3>✅ Weekly Cardio Target</h3>
+
+      <p>
+        Begin with approximately
+        <strong>70–90 minutes per week</strong>.
+      </p>
+
+      <p>
+        If strength, sleep, energy, and lower-body recovery
+        remain good, gradually build toward approximately
+        100 minutes per week.
+      </p>
+    </div>
+
+    <div class="card" style="margin-top:20px">
+      <h3>🫁 Zone 2 Intensity</h3>
+
+      <p>
+        Zone 2 should feel approximately 5–6 out of 10.
+        You should still be able to speak in short sentences.
+      </p>
+
+      <p>
+        Suitable options include:
+      </p>
+
+      <ul>
+        <li>Stationary cycling</li>
+        <li>Outdoor walking</li>
+        <li>Incline treadmill walking</li>
+        <li>Elliptical training</li>
+      </ul>
+    </div>
+
+    <div class="card warning" style="margin-top:20px">
+      <h3>⚠️ Recovery Rule</h3>
+
+      <p>
+        Do not add demanding cardio after lower-body workouts.
+      </p>
+
+      <p>
+        If leg performance repeatedly declines, reduce cardio
+        volume before reducing strength-training volume.
+      </p>
+    </div>
+  `;
+
+
+  /* ---------- UPDATED CHECKLIST ---------- */
+
+  pages.checklist = () => `
+    <h2>✅ Weekly Recomposition Checklist</h2>
+
+    <p class="muted">
+      Checklist progress is stored privately in this browser.
+    </p>
+
+    <div class="card checklist">
+      ${[
+        "🏋️ Complete four strength workouts",
+        "💪 Keep most working sets within 1–3 repetitions in reserve",
+        "🥩 Reach the protein target on most days",
+        "🚴 Complete approximately 70–90 minutes of Zone 2 cardio",
+        "🚶 Average 8,000–10,000 daily steps",
+        "😴 Aim for 7.5–9 hours of sleep",
+        "📝 Record resistance, sets, and repetitions",
+        "⚖️ Calculate average weekly body weight",
+        "📏 Measure waist once under similar conditions",
+        "📸 Take progress photos when scheduled",
+        "🧠 Avoid reacting to a single weight or scanner result"
+      ].map((text,index) => `
+        <label>
+          <input
+            type="checkbox"
+            data-check="recomp_check_${index}"
+          >
+          ${text}
+        </label>
+      `).join("")}
+
+      <button
+        class="button secondary"
+        type="button"
+        onclick="resetChecklist()"
+      >
+        🔄 Reset for New Week
+      </button>
+    </div>
+  `;
+
+  /* ---------- REVISED PAGE ROUTER ---------- */
+
+  renderPage = function() {
+    const route =
+      (location.hash || "#/home")
+        .replace(/^#\/?/,"")
+        .trim()
+        .toLowerCase() || "home";
+
+    const app =
+      document.getElementById("app");
+
+    const index =
+      routes.indexOf(route);
+
+    const back =
+      index !== -1 &&
+      index < previousIndex;
+
+    galleryOpened = false;
+    dailyLogOpened = false;
+
+    let content = "";
+
+    if (route === "upper-a") {
+      content = workoutPage(
+        "🏋️ Monday — Upper A + Core + Cardio",
+        "Upper-body muscle preservation with chest, back, shoulders, arms, and anti-rotation core training.",
+        workouts.upperA,
+        "Complete 20–25 minutes of Zone 2 cardio after weights."
+      );
+    } else if (route === "lower-a") {
+      content = workoutPage(
+        "🦵 Tuesday — Lower A + Core",
+        "Lower-body muscle preservation with a squat pattern, hip hinge, unilateral work, calves, and core training.",
+        workouts.lowerA
+      );
+    } else if (route === "upper-b") {
+      content = workoutPage(
+        "💪 Friday — Upper B + Core + Cardio",
+        "Upper-body muscle preservation with vertical pulling, pressing, rowing, arms, and controlled core training.",
+        workouts.upperB,
+        "Complete 20–25 minutes of Zone 2 cardio after weights."
+      );
+    } else if (route === "lower-b") {
+      content = workoutPage(
+        "🔥 Saturday — Lower B + Core",
+        "Lower-body muscle preservation with squats, hip thrusts, unilateral work, hamstrings, calves, and core training.",
+        workouts.lowerB
+      );
+    } else {
+      content =
+        pages[route]
+          ? pages[route]()
+          : pages.home();
+    }
+
+    app.innerHTML = `
+      <div class="page ${back ? "back" : ""}">
+        ${content}
+      </div>
+    `;
+
+    document
+      .querySelectorAll("nav a")
+      .forEach(link => {
+        const target =
+          link
+            .getAttribute("href")
+            .replace(/^#\/?/,"")
+            .trim()
+            .toLowerCase();
+
+        const workoutChild =
+          target === "workouts" &&
+          [
+            "upper-a",
+            "lower-a",
+            "upper-b",
+            "lower-b"
+          ].includes(route);
+
+        link.classList.toggle(
+          "active",
+          target === route || workoutChild
+        );
+      });
+
+    if (route === "daily-log") {
+      setupDailyLog();
+    }
+
+    if (route === "photos") {
+      setupPhotos();
+    }
+
+    if (route === "checklist") {
+      loadChecklist();
+    }
+
+    if (route === "tracking") {
+      setupTracking();
+    }
+
+    if (index !== -1) {
+      previousIndex = index;
+    }
+
+    updateHeaderWeight();
+
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
+  };
+
+
+  /* ---------- DISPLAY UPDATED CONTENT ---------- */
+
+  renderPage();
+</script>
+<!-- END TRUNK-FAT UPDATE -->
+
 </body>
 </html>
