@@ -3830,5 +3830,152 @@ Give a realistic calorie range and likely estimate. Keep it brief and explain wh
 </script>
 <!-- END TRUNK-FAT UPDATE -->
 
+<script>
+  /* ---------- SAFE SETTINGS EXPORT ADD-ON ---------- */
+  pages.settings = () => {
+    const theme = getTheme();
+
+    return `
+      <h2>⚙️ Settings</h2>
+
+      <div class="grid">
+        <div class="card highlight">
+          <h3>🎨 Appearance</h3>
+
+          <label>
+            Theme
+            <select onchange="setTheme(this.value)">
+              <option value="system" ${theme === "system" ? "selected" : ""}>
+                🖥️ System Default
+              </option>
+              <option value="light" ${theme === "light" ? "selected" : ""}>
+                ☀️ Light Mode
+              </option>
+              <option value="dark" ${theme === "dark" ? "selected" : ""}>
+                🌙 Dark Mode
+              </option>
+            </select>
+          </label>
+        </div>
+
+        <div class="card">
+          <h3>📱 Device Storage</h3>
+          <p class="small">
+            Daily logs, workout minutes, check-ins, checklist items,
+            and photos are stored only in this browser and device.
+          </p>
+
+          <div class="button-row">
+            <button class="button" type="button" onclick="exportAllFitnessData()">
+              ⬇️ Export Data (.json)
+            </button>
+
+            <button class="button green" type="button" onclick="copyAllLogsText()">
+              📋 Copy All Logs
+            </button>
+
+            <label for="importBackupFile" class="button secondary">
+              ⬆️ Import Backup
+            </label>
+            <input
+              id="importBackupFile"
+              class="file-input-hidden"
+              type="file"
+              accept=".json,application/json"
+              onchange="importAllFitnessData(event)"
+            >
+          </div>
+        </div>
+      </div>
+    `;
+  };
+
+  async function exportAllFitnessData() {
+    let photos = [];
+    try { photos = await getPhotos(); } catch {}
+
+    const checklist = {};
+    Object.keys(localStorage)
+      .filter(k => k.startsWith("fitness_"))
+      .forEach(k => { checklist[k] = localStorage.getItem(k); });
+
+    const backup = {
+      exportedAt: new Date().toISOString(),
+      fitnessTheme: getTheme(),
+      fitnessDailyLogs: getDailyLogs(),
+      fitnessCheckins: getCheckins(),
+      fitnessWorkoutMinutes: getWorkoutMinutesData(),
+      checklist,
+      photos
+    };
+
+    const blob = new Blob([JSON.stringify(backup, null, 2)], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `fitness-backup-${today()}.json`;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(url);
+  }
+
+  async function copyAllLogsText() {
+    const logs = getDailyLogs();
+    const checkins = getCheckins();
+    const minutes = getWorkoutMinutesData();
+
+    const summary = [
+      "=== WEEKLY CHECK-INS ===",
+      checkins.length
+        ? checkins.map(c => `${c.week}: ${c.weight || "—"} kg | Waist: ${c.waist || "—"} cm | Strength: ${c.strength || "—"} | Cardio: ${c.cardio || "—"} min | Steps: ${c.steps || "—"} | Sleep: ${c.sleep || "—"}h`).join("\n")
+        : "No weekly check-ins saved.",
+      "",
+      "=== DAILY EXERCISE LOGS ===",
+      logs.length
+        ? logs.map(l => `${l.date} (${l.workoutDay}) - ${l.exercise}: ${l.sets || "?"} sets × ${l.reps || "?"} reps @ ${l.weight || "BW"} ${l.weightUnit || "kg"} [Duration: ${minutes[l.date] ? minutes[l.date] + " min" : "N/A"}]`).join("\n")
+        : "No daily logs saved."
+    ].join("\n");
+
+    await copyText(summary);
+    alert("✅ All logs copied to clipboard.");
+  }
+
+  async function importAllFitnessData(event) {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    try {
+      const data = JSON.parse(await file.text());
+      if (Array.isArray(data.fitnessDailyLogs)) {
+        localStorage.setItem("fitnessDailyLogs", JSON.stringify(data.fitnessDailyLogs));
+      }
+      if (Array.isArray(data.fitnessCheckins)) {
+        localStorage.setItem("fitnessCheckins", JSON.stringify(data.fitnessCheckins));
+      }
+      if (data.fitnessWorkoutMinutes) {
+        localStorage.setItem("fitnessWorkoutMinutes", JSON.stringify(data.fitnessWorkoutMinutes));
+      }
+      if (data.checklist) {
+        Object.entries(data.checklist).forEach(([k, v]) => localStorage.setItem(k, v));
+      }
+      if (Array.isArray(data.photos)) {
+        for (const p of data.photos) {
+          const { id, ...cleanPhoto } = p;
+          await savePhoto(cleanPhoto);
+        }
+      }
+      alert("✅ Backup restored successfully.");
+      updateHeaderWeight();
+      renderPage();
+    } catch {
+      alert("⚠️ Could not read backup file.");
+    }
+  }
+
+  window.addEventListener("hashchange", () => renderPage());
+  renderPage();
+</script>
+
 </body>
 </html>
