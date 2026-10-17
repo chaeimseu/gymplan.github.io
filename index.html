@@ -604,7 +604,7 @@
   <header>
     <div class="badge">🔥 12-WEEK TRANSFORMATION</div>
     <h1>My Fitness Dashboard</h1>
-    <p class="muted">💪 Strength training · 🚴 Cardio · 📸 Photos · 📝 Daily progress logs</p>
+    <p class="muted">💪 Strength training · 🧱 Ab Hypertrophy · 📸 Photos · 📝 Daily progress logs</p>
 
     <div class="hero-stats">
       <div class="hero-stat">
@@ -631,7 +631,6 @@
     <a href="#/home">🏠 Home</a>
     <a href="#/workouts">🏋️ Workouts</a>
     <a href="#/daily-log">📝 Daily Log</a>
-    <a href="#/cardio">🚴 Cardio</a>
     <a href="#/photos">📸 Photos</a>
     <a href="#/checklist">✅ Checklist</a>
     <a href="#/tracking">📈 Progress</a>
@@ -661,7 +660,6 @@
       "upper-b",
       "lower-b",
       "daily-log",
-      "cardio",
       "photos",
       "checklist",
       "tracking",
@@ -943,7 +941,7 @@
       `;
     }
 
-    function workoutPage(title,subtitle,exercises,cardio="") {
+    function workoutPage(title,subtitle,exercises) {
       const strengthExercises = exercises.filter(item => item[3] !== "core");
       const coreExercises = exercises.filter(item => item[3] === "core");
 
@@ -956,11 +954,9 @@
 
           <p>
             <strong>🔥 Warm-up:</strong>
-            5–10 minutes of easy cardio plus 1–3 lighter warm-up sets
+            5 minutes of dynamic movement plus 1–3 lighter warm-up sets
             before your first main lift.
           </p>
-
-          ${cardio ? `<p><strong>🚴 Cardio:</strong> ${escapeHTML(cardio)}</p>` : ""}
 
           <p class="small">
             💡 Keep most working sets approximately 1–3 repetitions away from failure.
@@ -997,14 +993,14 @@
       home: () => `
         <h2>👋 Welcome Back</h2>
         <p class="muted">
-          Your workout, cardio, photo, weekly check-in, and daily training dashboard.
+          Your workout, photo, weekly check-in, and daily training dashboard.
         </p>
 
         <div class="grid">
           <a class="page-link" href="#/workouts">
             <h3>🏋️ Workouts</h3>
             <p>
-              Four strength days with 20 non-repeating lower-ab,
+              Four strength days with lower-ab,
               waist, and core exercise options.
             </p>
           </a>
@@ -1014,11 +1010,6 @@
             <p>Track sets, repetitions, weight, duration, reports, and progress.</p>
           </a>
 
-          <a class="page-link" href="#/cardio">
-            <h3>🚴 Cardio</h3>
-            <p>Build your weekly cardio and step consistency.</p>
-          </a>
-
           <a class="page-link" href="#/photos">
             <h3>📸 Progress Photos</h3>
             <p>Private upload, gallery, comparison, and review tool.</p>
@@ -1026,7 +1017,7 @@
 
           <a class="page-link" href="#/tracking">
             <h3>📈 Weekly Progress</h3>
-            <p>Track weight, waist, sleep, energy, and recovery.</p>
+            <p>Track weight, waist, steps, sleep, energy, and recovery.</p>
           </a>
 
           <a class="page-link" href="#/checklist">
@@ -1160,7 +1151,7 @@
                   <option value="Lower A">🦵 Lower A</option>
                   <option value="Upper B">💪 Upper B</option>
                   <option value="Lower B">🔥 Lower B</option>
-                  <option value="Cardio / Other">🚴 Cardio / Other</option>
+                  <option value="Core / Other">🧱 Core / Other</option>
                 </select>
               </label>
 
@@ -1262,32 +1253,6 @@
         <div id="savedDailyLogs" class="hidden"></div>
       `,
 
-      cardio: () => `
-        <h2>🚴 Cardio & Daily Activity</h2>
-
-        <div class="grid">
-          <div class="card highlight">
-            <h3>✅ Cardio Options</h3>
-            <p>
-              🚴 Stationary bike<br>
-              🚶 Outdoor walking<br>
-              🌀 Elliptical<br>
-              🏃 Incline walking
-            </p>
-            <p>
-              <strong>Zone 2:</strong> Approximately 5–6/10 effort.
-              You should be able to speak in short sentences.
-            </p>
-          </div>
-
-          <div class="card">
-            <h3>📅 Weekly Target</h3>
-            <p>Begin around 65–70 minutes per week and build toward 100–120 minutes.</p>
-            <p>🚶 Build gradually toward 8,000–10,000 daily steps.</p>
-          </div>
-        </div>
-      `,
-
       photos: () => `
         <h2>📸 Progress Photos</h2>
         <p class="muted">
@@ -1364,7 +1329,6 @@
             "🏋️ Complete 4 strength workouts",
             "🧱 Complete planned lower-ab sessions",
             "↔️ Complete planned waist or anti-rotation work",
-            "🚴 Complete planned cardio",
             "🚶 Hit step target",
             "😴 Reach sleep target",
             "📝 Complete daily training logs",
@@ -1408,11 +1372,6 @@
               <label>
                 🏋️ Strength Sessions
                 <input id="strength" placeholder="4 / 4">
-              </label>
-
-              <label>
-                🚴 Cardio / Football Minutes
-                <input id="cardio" type="number" placeholder="120">
               </label>
 
               <label>
@@ -1506,28 +1465,26 @@
 
       if (route === "upper-a") {
         content = workoutPage(
-          "🏋️ Monday — Upper A + Lower Abs + Waist + Cardio",
-          "Upper-body strength with unique bench, floor, hanging, carrying, and side-plank core options.",
-          workouts.upperA,
-          "20–30 minutes of Zone 2 after weights."
+          "🏋️ Monday — Upper A + Lower Abs + Waist",
+          "Upper-body strength with bench, row, incline, lateral raise, arms, and core options.",
+          workouts.upperA
         );
       } else if (route === "lower-a") {
         content = workoutPage(
           "🦵 Tuesday — Lower A + Lower Abs + Waist",
-          "Lower-body strength with knee raises, pelvic curls, rotation, and core-stability work.",
+          "Lower-body strength with leg press, curls, extensions, calves, and core work.",
           workouts.lowerA
         );
       } else if (route === "upper-b") {
         content = workoutPage(
-          "💪 Friday — Upper B + Lower Abs + Waist + Cardio",
-          "Upper-body strength with bench, stability-ball, resistance-band, dumbbell, and plank core options.",
-          workouts.upperB,
-          "20–30 minutes of Zone 2 after weights."
+          "💪 Friday — Upper B + Lower Abs + Waist",
+          "Upper-body strength with vertical pull, overhead press, row, rear delts, arms, and core options.",
+          workouts.upperB
         );
       } else if (route === "lower-b") {
         content = workoutPage(
           "🔥 Saturday — Lower B + Lower Abs + Waist",
-          "Lower-body strength with incline, slider, dumbbell, side-plank, and ab-wheel core options.",
+          "Lower-body strength with squat, hip thrust, curls, calves, and core options.",
           workouts.lowerB
         );
       } else {
@@ -2715,8 +2672,6 @@ Give a realistic calorie range and likely estimate. Keep it brief and explain wh
                 <p>
                   <strong>🏋️ Training:</strong>
                   ${escapeHTML(entry.strength || "—")}
-                  · <strong>⚽ Football/Cardio:</strong>
-                  ${escapeHTML(entry.cardio || "—")} min
                   · <strong>🚶 Steps:</strong>
                   ${escapeHTML(entry.steps || "—")}
                 </p>
@@ -2761,7 +2716,6 @@ Give a realistic calorie range and likely estimate. Keep it brief and explain wh
           "weight",
           "waist",
           "strength",
-          "cardio",
           "steps",
           "sleep",
           "energy",
@@ -2835,7 +2789,7 @@ Give a realistic calorie range and likely estimate. Keep it brief and explain wh
   </script>
 
 <!-- =====================================================
-     AB DEFINITION + TRUNK-FAT + 120 MIN FOOTBALL ADD-ON
+     AB DEFINITION & TRUNK-FAT HYPERTROPHY ADD-ON
 ====================================================== -->
 <script>
   const REPORT_WEIGHT = 79.3;
@@ -2845,7 +2799,7 @@ Give a realistic calorie range and likely estimate. Keep it brief and explain wh
   const dashboardBadge = document.querySelector("header .badge");
   if (dashboardBadge) {
     dashboardBadge.textContent =
-      "🔥 AB DEFINITION · TRUNK-FAT & 120m FOOTBALL PLAN";
+      "🔥 AB DEFINITION & TRUNK-FAT HYPERTROPHY PLAN";
   }
 
   const heroStats = document.querySelector(".hero-stats");
@@ -2864,9 +2818,9 @@ Give a realistic calorie range and likely estimate. Keep it brief and explain wh
       </div>
 
       <div class="hero-stat">
-        <span>⚽</span>
-        <strong>120 min/wk</strong>
-        <small>Football cardio</small>
+        <span>💪</span>
+        <strong>39.2 kg</strong>
+        <small>Skeletal muscle</small>
       </div>
     `;
   }
@@ -2899,13 +2853,11 @@ Give a realistic calorie range and likely estimate. Keep it brief and explain wh
     if (weeklyLoss >= RECOMP_LOSS_MIN && weeklyLoss <= RECOMP_LOSS_MAX) {
       label.textContent = "✅ Ideal ab-reveal loss rate";
     } else if (weeklyLoss > 0.4) {
-      label.textContent = "⚠️ Eat more carbs on football days";
+      label.textContent = "⚠️ Loss may be too fast";
     } else if (weeklyLoss < 0) {
       label.textContent = "Weight increased this week";
     }
   };
-
-  /* ---------- MACHINE + 6-PACK HYPERTROPHY WORKOUTS ---------- */
 
   workouts.upperA = [
     [
@@ -2951,12 +2903,12 @@ Give a realistic calorie range and likely estimate. Keep it brief and explain wh
     [
       "1. Leg Press (Record-Push Top Set + Back-Off Sets)",
       "1 Top Set × 5–8 (210+ kg) + 2 Back-Off Sets × 8–10 (190 kg)",
-      "Schedule 48h away from football! Warm up: 100×8, 150×5, 185×3 (unlogged). Push your PR on Set 1 with hips flat on the pad, then drop ~10% for Sets 2–3. Log Top Set weight."
+      "Warm up: 100×8, 150×5, 185×3 (unlogged). Push your PR on Set 1 with hips flat on the pad, then drop ~10% for Sets 2–3. Log Top Set weight."
     ],
     [
       "2. Seated Leg Curl",
       "3 × 10–12 · Target: 35–40 kg (straight sets)",
-      "Crucial for protecting hamstrings during football sprints. Do 1 warm-up at 25 kg, then 3 working sets at 35–40 kg."
+      "Do 1 warm-up at 25 kg, then 3 straight working sets at 35–40 kg with a 1-second squeeze."
     ],
     [
       "3. Leg Extension Machine",
@@ -3026,7 +2978,7 @@ Give a realistic calorie range and likely estimate. Keep it brief and explain wh
     [
       "1. Hack Squat Machine (or Single-Leg Press)",
       "3 × 8–10 · Target: Controlled machine load",
-      "Note: If your legs are sore from 120 min of football on a busy week, Football counts as Session 4 and you can just do 6A & 6B Ab work!"
+      "Keep your lower back pressed flat against the back pad through the entire range of motion."
     ],
     [
       "2. Hip Thrust Machine (or Glute / Back Extension Machine)",
@@ -3057,7 +3009,7 @@ Give a realistic calorie range and likely estimate. Keep it brief and explain wh
     ]
   ];
 
-  workoutPage = function(title, subtitle, exercises, cardio = "") {
+  workoutPage = function(title, subtitle, exercises) {
     const strengthExercises = exercises.filter(item => item[3] !== "core");
     const coreExercises = exercises.filter(item => item[3] === "core");
 
@@ -3069,7 +3021,7 @@ Give a realistic calorie range and likely estimate. Keep it brief and explain wh
         <h3>⚡ 40–45 Min Session & Ab Rules</h3>
         <p><strong>1. Compounds First, 6-Min Ab Superset Last:</strong> Do Exercises 1 & 2 first while fresh, and finish every workout with the <strong>2-Exercise Ab Superset (6 minutes)</strong>.</p>
         <p><strong>2. Progressive Overload on Abs:</strong> Treat <em>Ab Crunch Machine (45 → 50+ kg)</em> and <em>Decline Reverse Crunch</em> like main lifts—log them in Daily Log so your ab muscles grow thicker and pop earlier.</p>
-        <p><strong>3. 120 Min Football = Zero Gym Cardio:</strong> Your 120 minutes/week of football + 8,500–10,500 daily steps covers 100% of your cardio. Save your energy for sleep and lifting.</p>
+        <p><strong>3. Busy-Week 25-Min Option:</strong> On tight weeks, complete <strong>Exercises 1, 2, and the Ab Superset</strong> so you never miss a session.</p>
       </div>
 
       <h3 style="margin-top:24px">🏋️ Machine Strength Sequence</h3>
@@ -3093,32 +3045,32 @@ Give a realistic calorie range and likely estimate. Keep it brief and explain wh
   };
 
   pages.home = () => `
-    <h2>🎯 Ab Definition, Trunk-Fat & Football Plan</h2>
-    <p class="muted">Calibrated for your 13.3% body fat (79.3 kg), 5.3 kg trunk fat reading, machine preference, and 120 minutes/week of football.</p>
+    <h2>🎯 Ab Definition & Trunk-Fat Plan</h2>
+    <p class="muted">Calibrated for your 13.3% body fat (79.3 kg), 5.3 kg trunk fat reading, and machine hypertrophy preference.</p>
 
     <div class="grid">
       <div class="card highlight">
         <h3>🧱 Why Trunk Fat Is 5.3 kg at 13.3% BF</h3>
-        <p>At 79.3 kg (13.3% BF), you have ~10.5 kg total fat. Because <strong>120 min/wk of football</strong> keeps your legs very lean, ~50% of your fat (5.3 kg) sits on your torso. Visceral fat is <strong>Level 4 (low)</strong>—so this is just surface belly fat.</p>
+        <p>At 79.3 kg (13.3% BF), you carry ~10.5 kg total fat. Because your arms and legs are already lean, roughly half of your remaining fat (5.3 kg) sits on your torso. Visceral fat is <strong>Level 4 (low)</strong>—so this is just surface belly fat.</p>
       </div>
       <div class="card success">
         <h3>🎯 The Ab-Reveal Target: 77.5 kg</h3>
         <p>Losing just <strong>1.5–1.8 kg of fat</strong> (79.3 kg → <strong>77.5 kg</strong> over 6–8 weeks) drops body fat to <strong>~11.2%</strong> and cuts trunk fat from 5.3 kg to <strong>~3.6 kg</strong>—revealing full abs.</p>
       </div>
       <div class="card">
-        <h3>⚽ 120 Min/Wk Football</h3>
-        <p><strong>1,000–1,400 kcal/wk burned</strong></p>
-        <p class="small">Replaces all formal gym cardio. Schedule Lower A (210 kg Leg Press) 48h away from football.</p>
-      </div>
-      <div class="card">
         <h3>💪 Build Thicker "Ab Bricks"</h3>
         <p><strong>6-Min Core Superset (3–4×/wk)</strong></p>
         <p class="small">Ab Crunch Machine (45 → 50+ kg) + Decline Reverse Crunch makes abs pop at 11.5–12.5% BF.</p>
       </div>
+      <div class="card">
+        <h3>🚶 Daily Steps: 8,500–10,500</h3>
+        <p><strong>8,431 → 10,571 steps/day logged</strong></p>
+        <p class="small">Your daily walking drives steady fat loss while keeping your legs fresh for Leg Press PRs.</p>
+      </div>
       <div class="card warning">
         <h3>😴 Fix the 6h Sleep Cortisol Trap</h3>
         <p><strong>6.0h → 7.0–7.5h/night</strong></p>
-        <p class="small">Sleeping 6h raises cortisol, which forces your body to store fat on the trunk. Use saved cardio time to sleep.</p>
+        <p class="small">Sleeping 6h raises cortisol, which encourages the body to store fat on the trunk. Prioritize 7+ hours of sleep.</p>
       </div>
     </div>
 
@@ -3127,18 +3079,18 @@ Give a realistic calorie range and likely estimate. Keep it brief and explain wh
       <ol>
         <li><strong>Mild Calorie Deficit (-300 kcal/day) + 160g Protein:</strong> Lose 0.2–0.25 kg/week so you reach 77.5 kg in 6–8 weeks while keeping all 39.2 kg of muscle.</li>
         <li><strong>Train Abs Like a Muscle (Every Session):</strong> Finish every workout with <strong>Ab Crunch Machine (45–50+ kg)</strong> supersetted with <strong>Decline Reverse Crunch (pelvic curl) + 20s Stomach Vacuum</strong>.</li>
-        <li><strong>Zero Gym Cardio (Football Covers It):</strong> Your 120 min/week of football + 8,500–10,500 daily steps is all the cardio you need.</li>
-        <li><strong>Leg Press Top-Set PR (48h Before Football):</strong> Warm up (100×8, 150×5, 185×3 unlogged), push <strong>1 Top Set × 5–8 (210+ kg)</strong>, then do <strong>2 Back-Off Sets × 8–10 (190 kg)</strong>.</li>
-        <li><strong>Busy-Week Football Rule:</strong> On tight weeks with 120 min of football, complete <strong>Upper A + Lower A + Upper B</strong> in the gym (football acts as your 4th lower-body session).</li>
+        <li><strong>Leg Press Top-Set PR Protocol:</strong> Warm up (100×8, 150×5, 185×3 unlogged), push <strong>1 Top Set × 5–8 (210+ kg)</strong>, then do <strong>2 Back-Off Sets × 8–10 (190 kg)</strong>.</li>
+        <li><strong>Rolling 4-Session Queue:</strong> Run Upper A → Lower A → Upper B → Lower B in order so Lower B is never skipped after a busy week.</li>
+        <li><strong>Sleep & Steps Over Extra Fatigue:</strong> Hit 8,500–10,500 daily steps and aim for 7.0–7.5 hours of sleep per night to lower trunk-fat cortisol.</li>
       </ol>
     </div>
 
     <div class="grid" style="margin-top:20px">
       <a class="page-link" href="#/workouts"><h3>🏋️ Machine + Ab Workouts</h3><p>40–45 min machine sessions with 6-min Ab Supersets.</p></a>
       <a class="page-link" href="#/daily-log"><h3>📝 Daily Training Log</h3><p>Log Top Set weights and Ab Crunch Machine progression.</p></a>
-      <a class="page-link" href="#/cardio"><h3>⚽ Football & Steps</h3><p>How to balance 120 min/wk football, leg recovery, and steps.</p></a>
-      <a class="page-link" href="#/tracking"><h3>📈 Weekly Progress</h3><p>Track morning weight (toward 77.5 kg), navel waist (cm), and football minutes.</p></a>
+      <a class="page-link" href="#/tracking"><h3>📈 Weekly Progress</h3><p>Track morning weight (toward 77.5 kg), navel waist (cm), steps, and sleep.</p></a>
       <a class="page-link" href="#/photos"><h3>📸 Progress Photos</h3><p>Compare ab definition every 2–4 weeks under identical lighting.</p></a>
+      <a class="page-link" href="#/checklist"><h3>✅ Weekly Checklist</h3><p>Stay consistent with your weekly ab and recomposition habits.</p></a>
       <a class="page-link" href="#/settings"><h3>⚙️ Backup & Export</h3><p>Export (.json), copy logs, or import backups.</p></a>
     </div>
 
@@ -3150,9 +3102,9 @@ Give a realistic calorie range and likely estimate. Keep it brief and explain wh
     <p class="muted">Every session ends with a 6-minute Weighted Upper Ab + Pelvic Lower Ab Superset to thicken your abdominal wall.</p>
 
     <div class="card warning" style="margin-bottom:20px">
-      <h3>⚽ How to Combine With 120 Min/Week Football</h3>
-      <p><strong>Standard Week (4 Gym + Football):</strong> Upper A → Lower A → Upper B → Lower B.</p>
-      <p><strong>Busy Week (3 Gym + 120m Football):</strong> Do <strong>Upper A, Lower A, and Upper B</strong>. Your 120 minutes of football counts as your 4th lower-body session! Keep <strong>Lower A (210+ kg Leg Press)</strong> at least 48 hours before your main football match.</p>
+      <h3>🔄 Rolling 4-Session Schedule & Busy-Week Rule</h3>
+      <p><strong>Standard Week (4 Sessions):</strong> Upper A → Lower A → Upper B → Lower B.</p>
+      <p><strong>Busy Week (3 Sessions):</strong> Run the next 3 sessions in order and start the following week with the 4th session so every workout gets trained equally.</p>
     </div>
 
     <div class="day-tabs">
@@ -3184,26 +3136,6 @@ Give a realistic calorie range and likely estimate. Keep it brief and explain wh
     ${strengthUpgrade()}
   `;
 
-  pages.cardio = () => `
-    <h2>⚽ Football (120 Min/Wk), Steps & Trunk-Fat Loss</h2>
-    <p class="muted">Your 120 minutes of weekly football + daily steps is a powerful fat-burning combination when paired with proper sleep and recovery.</p>
-
-    <div class="grid">
-      <div class="card success">
-        <h3>⚽ 120 Min/Week Football = Primary Cardio</h3>
-        <p>Playing 120 minutes of football burns <strong>1,000–1,400 kcal/week</strong> and trains sprint conditioning. <strong>Do not do extra gym cardio</strong>—use that time to recover and sleep.</p>
-      </div>
-      <div class="card highlight">
-        <h3>🚶 Daily Steps: 8,500–10,500/Day</h3>
-        <p>Your Week 1 (8,431) and Week 2 (10,571) step counts keep fat oxidation high on non-football days without fatiguing your legs.</p>
-      </div>
-      <div class="card warning">
-        <h3>🍌 Pre-Football Fueling & Leg Timing</h3>
-        <p>Eat <strong>35–50g carbs</strong> (banana, rice ball, or sports drink) 45 min before football to protect muscle mass. Do heavy <strong>Leg Press (Lower A)</strong> at least 48h away from match day.</p>
-      </div>
-    </div>
-  `;
-
   pages.checklist = () => `
     <h2>✅ Weekly Ab & Recomposition Checklist</h2>
     <p class="muted">Checklist progress is stored privately in this browser.</p>
@@ -3213,8 +3145,7 @@ Give a realistic calorie range and likely estimate. Keep it brief and explain wh
         "🏋️ Complete 3–4 machine workouts (40–45 min each)",
         "🧱 Complete the 6-min Ab Superset (Ab Crunch Machine + Reverse Crunch) at the end of every workout",
         "💨 Perform 3 × 20-second Stomach Vacuums after core sets to tighten waistline",
-        "⚽ Play ~120 minutes of football (and log in Weekly Check-In)",
-        "🦵 Schedule Lower A (210+ kg Leg Press PR) at least 48h before football",
+        "🦵 Push Leg Press Top Set (210+ kg) + 2 Back-Off Sets (190 kg)",
         "🥩 Hit 155–165 g protein/day and a mild -300 kcal deficit (target: 77.5 kg)",
         "🚶 Average 8,500–10,000+ daily steps",
         "😴 Sleep 7.0–7.5+ hours/night to lower trunk-fat cortisol",
@@ -3310,7 +3241,7 @@ Give a realistic calorie range and likely estimate. Keep it brief and explain wh
     const summary = [
       "=== WEEKLY CHECK-INS ===",
       checkins.length
-        ? checkins.map(c => `${c.week}: ${c.weight || "—"} kg | Waist: ${c.waist || "—"} cm | Strength: ${c.strength || "—"} | Football/Cardio: ${c.cardio || "—"} min | Steps: ${c.steps || "—"} | Sleep: ${c.sleep || "—"}h`).join("\n")
+        ? checkins.map(c => `${c.week}: ${c.weight || "—"} kg | Waist: ${c.waist || "—"} cm | Strength: ${c.strength || "—"} | Steps: ${c.steps || "—"} | Sleep: ${c.sleep || "—"}h`).join("\n")
         : "No weekly check-ins saved.",
       "",
       "=== DAILY EXERCISE LOGS ===",
