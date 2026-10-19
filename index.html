@@ -813,19 +813,19 @@
     */
     const workouts = {
       upperA: [
-        ["Barbell Bench Press","3 × 6–10","Keep your shoulder blades pulled back and lower the bar with control."],
-        ["Chest-Supported Row","3 × 8–12","Pull your elbows toward your hips and avoid using momentum."],
-        ["Incline Dumbbell Press","2–3 × 8–12","Use a moderate incline and keep your shoulders stable."],
-        ["Lat Pulldown","3 × 8–12","Pull your elbows down and avoid swinging."],
-        ["Dumbbell Lateral Raise","3 × 12–20","Use a light weight and avoid shrugging."],
-        ["Single-Arm Cable Triceps Pressdown","2 × 10–15 each","Start with your weaker arm and keep your elbow stable."],
-        ["Single-Arm Dumbbell Curl","2 × 10–15 each","Control the lowering phase."],
+        ["Barbell Bench Press","3 × 6–10","Keep your shoulder blades pulled back and lower the bar with control.","","https://www.youtube.com/watch?v=ysUTNll8JQ8"],
+        ["Chest-Supported Row","3 × 8–12","Pull your elbows toward your hips and avoid using momentum.","","https://www.youtube.com/watch?v=bmWA2yO9Aa0"],
+        ["Incline Dumbbell Press","2–3 × 8–12","Use a moderate incline and keep your shoulders stable.","","https://www.youtube.com/watch?v=RGeSgQmO1EU"],
+        ["Lat Pulldown","3 × 8–12","Pull your elbows down and avoid swinging.","","https://www.youtube.com/watch?v=SALxEARiMkw"],
+        ["Dumbbell Lateral Raise","3 × 12–20","Use a light weight and avoid shrugging.","","https://www.youtube.com/watch?v=2QnfgQc7VaE"],
+        ["Single-Arm Cable Triceps Pressdown","2 × 10–15 each","Start with your weaker arm and keep your elbow stable.","","https://www.youtube.com/watch?v=8qYYuI9GjN0"],
+        ["Single-Arm Dumbbell Curl","2 × 10–15 each","Control the lowering phase.","","https://www.youtube.com/watch?v=Zl1eiQN5Dxs"],
 
-        ["Weighted Decline Bench Crunch","2–3 × 10–15","Hold a light plate at your chest and curl your ribs toward your pelvis.","core"],
-        ["Floor Reverse Crunch","2–3 × 10–15","Curl your pelvis away from the floor without throwing your legs backward.","core"],
-        ["Hanging Straight-Leg Raise","2–3 × 6–12","Raise your legs under control and finish with a small posterior pelvic tilt.","core"],
-        ["Dumbbell Suitcase Carry","2–3 × 30–45 seconds each side","Carry one dumbbell while staying upright and resisting sideways bending.","core"],
-        ["Side Plank Hip Lift","2–3 × 8–15 each side","Lower and raise your hips slowly while keeping your body aligned.","core"]
+        ["Weighted Decline Bench Crunch","2–3 × 10–15","Hold a light plate at your chest and curl your ribs toward your pelvis.","core","https://www.youtube.com/watch?v=V22jgraaPo8"],
+        ["Floor Reverse Crunch","2–3 × 10–15","Curl your pelvis away from the floor without throwing your legs backward.","core","https://www.youtube.com/watch?v=vCPewsVmhz8"],
+        ["Hanging Straight-Leg Raise","2–3 × 6–12","Raise your legs under control and finish with a small posterior pelvic tilt.","core","https://www.youtube.com/watch?v=0t4t3IpiEao"],
+        ["Dumbbell Suitcase Carry","2–3 × 30–45 seconds each side","Carry one dumbbell while staying upright and resisting sideways bending.","core",""],
+        ["Side Plank Hip Lift","2–3 × 8–15 each side","Lower and raise your hips slowly while keeping your body aligned.","core","https://www.youtube.com/watch?v=eT93C-xUZI8"]
       ],
 
       lowerA: [
@@ -881,6 +881,80 @@
         .replaceAll(">","&gt;")
         .replaceAll('"',"&quot;")
         .replaceAll("'","&#039;");
+    }
+
+    function escapeURL(url) {
+      return String(url ?? "")
+        .trim()
+        .replaceAll("&","&amp;")
+        .replaceAll('"',"&quot;")
+        .replaceAll("'","&#039;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;")
+        .replace(/\s+/g," ");
+    }
+
+    function renderExerciseMedia(mediaURL, name) {
+      const url = String(mediaURL || "").trim();
+
+      if (!url) return "";
+
+      const isYouTube = /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.?be)/i.test(url);
+      const isImage = /\.(jpe?g|png|gif|webp|bmp)(\?.*)?$/i.test(url);
+
+      if (isYouTube) {
+        let embedURL = url
+          .replace(/^https?:\/\//i,"")
+          .replace(/^www\./i,"");
+
+        const watchMatch = embedURL.match(/youtu\.be\/([A-Za-z0-9_-]{6,})/);
+        const watchURL = embedURL.match(/watch\?v=([A-Za-z0-9_-]{6,})/);
+        const shortMatch = embedURL.match(/shorts\/([A-Za-z0-9_-]{6,})/);
+
+        const videoId =
+          (watchMatch && watchMatch[1]) ||
+          (watchURL && watchURL[1]) ||
+          (shortMatch && shortMatch[1]);
+
+        if (videoId) {
+          return `
+            <div class="exercise-media" style="margin:14px 0">
+              <iframe
+                width="100%"
+                height="200"
+                src="https://www.youtube.com/embed/${escapeHTML(videoId)}"
+                title="${escapeHTML(name)} tutorial"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen
+              ></iframe>
+            </div>
+          `;
+        }
+
+        return `
+          <a class="watch-link" target="_blank" rel="noopener noreferrer" href="${escapeURL(url)}">
+            ▶ Watch Video
+          </a>
+        `;
+      }
+
+      if (isImage) {
+        return `
+          <img
+            class="exercise-media-image"
+            src="${escapeURL(url)}"
+            alt="${escapeHTML(name)} demonstration"
+            style="width:100%;max-width:320px;max-height:220px;object-fit:cover;border-radius:14px;margin:14px 0;border:1px solid var(--border);box-shadow:var(--shadow-sm)"
+          >
+        `;
+      }
+
+      return `
+        <a class="watch-link" target="_blank" rel="noopener noreferrer" href="${escapeURL(url)}">
+          🔗 Open Media
+        </a>
+      `;
     }
 
     function today() {
@@ -1061,9 +1135,61 @@
       `;
     }
 
-    function exerciseCard([name,sets,note,type]) {
+    function exerciseCard([name,sets,note,type,media]) {
       const search = encodeURIComponent(name + " proper form tutorial");
       const isCore = type === "core";
+
+      const mediaURL = String(media || "").trim();
+      const isYouTube = /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.?be)/i.test(mediaURL);
+      const isImage = /\.(jpe?g|png|gif|webp|bmp)(\?.*)?$/i.test(mediaURL);
+
+      let mediaHTML = "";
+
+      if (isYouTube) {
+        let embedURL = mediaURL
+          .replace(/^https?:\/\//i,"")
+          .replace(/^www\./i,"");
+
+        const watchMatch = embedURL.match(/youtu\.be\/([A-Za-z0-9_-]{6,})/);
+        const watchURL = embedURL.match(/watch\?v=([A-Za-z0-9_-]{6,})/);
+        const shortMatch = embedURL.match(/shorts\/([A-Za-z0-9_-]{6,})/);
+
+        const videoId =
+          (watchMatch && watchMatch[1]) ||
+          (watchURL && watchURL[1]) ||
+          (shortMatch && shortMatch[1]);
+
+        if (videoId) {
+          mediaHTML = `
+            <div class="exercise-media" style="margin:14px 0">
+              <iframe
+                width="100%"
+                height="200"
+                src="https://www.youtube.com/embed/${escapeHTML(videoId)}"
+                title="${escapeHTML(name)} tutorial"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen
+              ></iframe>
+            </div>
+          `;
+        } else {
+          mediaHTML = `
+            <a class="watch-link" target="_blank" rel="noopener noreferrer" href="${escapeURL(mediaURL)}">
+              ▶ Watch Video
+            </a>
+          `;
+        }
+      } else if (isImage) {
+        mediaHTML = `
+          <img
+            class="exercise-media-image"
+            src="${escapeURL(mediaURL)}"
+            alt="${escapeHTML(name)} demonstration"
+            style="width:100%;max-width:320px;max-height:220px;object-fit:cover;border-radius:14px;margin:14px 0;border:1px solid var(--border);box-shadow:var(--shadow-sm)"
+          >
+        `;
+      }
 
       return `
         <article class="exercise-card ${isCore ? "core-exercise" : ""}">
@@ -1073,14 +1199,18 @@
           <p><strong>Sets & reps:</strong> ${escapeHTML(sets)}</p>
           <p class="small">💡 ${escapeHTML(note)}</p>
 
-          <a
-            class="watch-link"
-            target="_blank"
-            rel="noopener noreferrer"
-            href="https://www.youtube.com/results?search_query=${search}"
-          >
-            ▶ Search Tutorial Video
-          </a>
+          ${mediaHTML}
+
+          ${!isYouTube && !isImage ? `
+            <a
+              class="watch-link"
+              target="_blank"
+              rel="noopener noreferrer"
+              href="https://www.youtube.com/results?search_query=${search}"
+            >
+              ▶ Search Tutorial Video
+            </a>
+          ` : ""}
         </article>
       `;
     }
@@ -1345,23 +1475,31 @@
                 <input id="logRest" placeholder="Example: 90 seconds">
               </label>
 
-              <label>
-                ⭐ Difficulty 1–10
-                <input id="logDifficulty" type="number" min="1" max="10" placeholder="Example: 8">
-              </label>
-            </div>
+<label>
+                 ⭐ Difficulty 1–10
+                 <input id="logDifficulty" type="number" min="1" max="10" placeholder="Example: 8">
+               </label>
+             </div>
 
-            <div id="previousExerciseResult"></div>
+             <label style="margin-top:14px">
+               🎥 Exercise Media URL (YouTube video or image)
+               <input id="logMedia" type="url" placeholder="https://www.youtube.com/watch?v=... or https://example.com/form.jpg">
+             </label>
+             <p class="small">
+               Paste a YouTube link or image URL. It will display directly on this exercise when you view the plan.
+             </p>
 
-            <label style="margin-top:14px">
-              📝 Notes
-              <textarea id="logNotes" placeholder="Example: Form felt good. Add weight or repetitions next time."></textarea>
-            </label>
+             <div id="previousExerciseResult"></div>
 
-            <button class="button" type="submit" style="margin-top:14px">
-              💾 Save Exercise Progress
-            </button>
-          </form>
+             <label style="margin-top:14px">
+               📝 Notes
+               <textarea id="logNotes" placeholder="Example: Form felt good. Add weight or repetitions next time."></textarea>
+             </label>
+
+             <button class="button" type="submit" style="margin-top:14px">
+               💾 Save Exercise Progress
+             </button>
+           </form>
         </div>
 
         <div class="card warning" style="margin-top:16px">
@@ -1917,6 +2055,8 @@
                     · ⭐ ${escapeHTML(log.difficulty || "—")} / 10
                   </p>
 
+                  ${log.media ? renderExerciseMedia(log.media, escapeHTML(log.exercise)) : ""}
+
                   ${log.rest
                     ? `<p><strong>⏱️ Rest:</strong> ${escapeHTML(log.rest)}</p>`
                     : ""}
@@ -1955,6 +2095,7 @@
           weightUnit:document.getElementById("logWeightUnit").value,
           rest:document.getElementById("logRest").value.trim(),
           difficulty:document.getElementById("logDifficulty").value,
+          media:document.getElementById("logMedia").value.trim(),
           notes:document.getElementById("logNotes").value.trim()
         };
 
@@ -3007,39 +3148,51 @@ Give a realistic calorie range and likely estimate. Keep it brief and explain wh
     [
       "1. Barbell Bench Press (or Chest Press Machine)",
       "3 × 6–10 · Target: 10–12.5 kg/side",
-      "Do 1–2 light warm-up sets first. Log 1-side plate weight. Increase to 12.5 kg/side once you hit 3 × 10."
+      "Do 1–2 light warm-up sets first. Log 1-side plate weight. Increase to 12.5 kg/side once you hit 3 × 10.",
+      "",
+      "https://www.youtube.com/watch?v=ysUTNll8JQ8"
     ],
     [
       "2. Chest-Supported Row Machine",
       "3 × 8–12 · Target: 12.5–15 kg/side",
-      "Pull elbows toward your hips and pause briefly at peak contraction without using momentum."
+      "Pull elbows toward your hips and pause briefly at peak contraction without using momentum.",
+      "",
+      "https://www.youtube.com/watch?v=bmWA2yO9Aa0"
     ],
     [
       "3. Incline Chest Press Machine (or Incline DB Press)",
       "3 × 8–10 · Target: 10–12 kg",
-      "Keep shoulder blades tucked against the pad and lower under control."
+      "Keep shoulder blades tucked against the pad and lower under control.",
+      "",
+      "https://www.youtube.com/watch?v=RGeSgQmO1EU"
     ],
     [
       "4. Lateral Raise Machine (or Dumbbell Lateral Raise)",
       "3 × 12–15 · Target: 6–8 kg",
-      "Raise with controlled tempo and avoid shrugging."
+      "Raise with controlled tempo and avoid shrugging.",
+      "",
+      "https://www.youtube.com/watch?v=2QnfgQc7VaE"
     ],
     [
       "5. Single-Arm DB Curl + Cable Triceps Pressdown (Superset)",
       "2–3 × 10–12 each · Target: 7.5–8 kg Curl / 25 kg Triceps",
-      "Perform back-to-back to finish arm work in 5 minutes."
+      "Perform back-to-back to finish arm work in 5 minutes.",
+      "",
+      "https://www.youtube.com/watch?v=8qYYuI9GjN0"
     ],
     [
       "6A. Ab Crunch Machine (Upper/Mid 6-Pack Brick Builder)",
       "3 × 10–12 · Target: 45–50 kg",
       "Curl your ribs down toward your pelvis (do not hinge at the hips). Exhale all air at the bottom squeeze. Add 5 kg once you hit 3 × 12.",
-      "core"
+      "core",
+      "https://www.youtube.com/watch?v=V22jgraaPo8"
     ],
     [
       "6B. Decline Bench Reverse Crunch + 20s Stomach Vacuum",
       "3 × 10–15 · Target: Slow 3-sec lowering",
       "Superset with Ab Crunch Machine: curl your tailbone/pelvis up off the bench, lower slowly, then hold a 20-second stomach vacuum.",
-      "core"
+      "core",
+      "https://www.youtube.com/watch?v=vCPewsVmhz8"
     ]
   ];
 
