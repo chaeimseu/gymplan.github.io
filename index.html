@@ -277,21 +277,23 @@
     }
 
     nav {
-      position: sticky;
-      top: 0;
-      z-index: 20;
+      position: fixed;
+      left: 50%;
+      bottom: calc(12px + env(safe-area-inset-bottom));
+      transform: translateX(-50%);
+      z-index: 50;
       display: flex;
-      gap: 8px;
+      gap: 6px;
+      width: min(96vw, 760px);
+      padding: 6px;
+      border-radius: 9999px;
+      background: rgba(58,53,47,.65);
+      border: 1px solid rgba(255,255,255,.15);
+      -webkit-backdrop-filter: blur(16px);
+      backdrop-filter: blur(16px);
+      box-shadow: 0 12px 40px rgba(0,0,0,.35);
       overflow-x: auto;
-      padding: 12px 16px calc(12px + env(safe-area-inset-top));
-      background: var(--nav);
-      border-bottom: 1px solid var(--soft);
-      -webkit-backdrop-filter: blur(40px) saturate(200%);
-
-      backdrop-filter: blur(40px) saturate(200%);
       scrollbar-width: none;
-      box-shadow: 0 6px 18px rgba(0,0,0,.06);
-      -webkit-overflow-scrolling: touch;
     }
 
     nav::-webkit-scrollbar,
