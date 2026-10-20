@@ -16,8 +16,8 @@
       --bg: #f4f5fa;
       --text: #16171f;
       --muted: #6b6d7a;
-      --glass: rgba(255,255,255,.78);
-      --nav: rgba(251,251,253,.90);
+       --glass: rgba(255,255,255,.46);
+       --nav: rgba(255,255,255,.52);
       --border: rgba(28,30,40,.12);
       --soft: rgba(28,30,40,.07);
       --blue: #2f6fed;
@@ -36,8 +36,8 @@
       --bg: #0e0f14;
       --text: #f4f5fa;
       --muted: #9a9bb0;
-      --glass: rgba(30,32,42,.72);
-      --nav: rgba(20,21,28,.90);
+       --glass: rgba(40,42,52,.46);
+       --nav: rgba(28,29,38,.52);
       --border: rgba(255,255,255,.14);
       --soft: rgba(255,255,255,.08);
       --blue: #7eb3ff;
@@ -70,10 +70,11 @@
       font-family: "DM Sans", Arial, sans-serif;
       line-height: 1.6;
       background:
-        radial-gradient(circle at 8% 4%, rgba(139,92,246,.14), transparent 30%),
-        radial-gradient(circle at 92% 12%, rgba(47,111,237,.12), transparent 32%),
-        radial-gradient(circle at 50% 98%, rgba(225,29,72,.07), transparent 36%),
-        var(--bg);
+         radial-gradient(circle at 8% 4%, rgba(139,92,246,.22), transparent 30%),
+         radial-gradient(circle at 92% 12%, rgba(47,111,237,.20), transparent 32%),
+         radial-gradient(circle at 50% 98%, rgba(225,29,72,.14), transparent 36%),
+         radial-gradient(circle at 80% 60%, rgba(22,163,106,.12), transparent 34%),
+         var(--bg);
     }
 
     a {
@@ -182,7 +183,9 @@
       text-align: center;
       background: var(--glass);
       border-bottom: 1px solid var(--soft);
-      backdrop-filter: blur(26px);
+      -webkit-backdrop-filter: blur(26px) saturate(180%);
+
+      backdrop-filter: blur(26px) saturate(180%);
       position: relative;
       overflow: hidden;
     }
@@ -206,7 +209,7 @@
       margin-bottom: 18px;
       color: var(--purple);
       background: var(--glass);
-      border: 1px solid var(--border);
+       border: 1px solid rgba(255,255,255,.35);
       border-radius: 999px;
       font-size: .76rem;
       font-weight: 800;
@@ -242,10 +245,12 @@
       padding: 14px 16px;
       text-align: left;
       background: var(--glass);
-      border: 1px solid var(--border);
+       border: 1px solid rgba(255,255,255,.35);
       border-radius: 20px;
       box-shadow: var(--shadow-sm);
-      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px) saturate(180%);
+
+      backdrop-filter: blur(18px) saturate(180%);
       transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
     }
 
@@ -281,7 +286,9 @@
       padding: 12px 16px calc(12px + env(safe-area-inset-top));
       background: var(--nav);
       border-bottom: 1px solid var(--soft);
-      backdrop-filter: blur(26px);
+      -webkit-backdrop-filter: blur(26px) saturate(180%);
+
+      backdrop-filter: blur(26px) saturate(180%);
       scrollbar-width: none;
       box-shadow: 0 6px 18px rgba(0,0,0,.06);
       -webkit-overflow-scrolling: touch;
@@ -348,10 +355,12 @@
       overflow: hidden;
       padding: 22px;
       background: var(--glass);
-      border: 1px solid var(--border);
+       border: 1px solid rgba(255,255,255,.35);
       border-radius: 24px;
       box-shadow: var(--shadow);
-      backdrop-filter: blur(22px);
+      -webkit-backdrop-filter: blur(22px) saturate(180%);
+
+      backdrop-filter: blur(22px) saturate(180%);
       transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
     }
 
@@ -404,7 +413,7 @@
     .button.secondary {
       color: var(--text);
       background: var(--glass);
-      border: 1px solid var(--border);
+       border: 1px solid rgba(255,255,255,.35);
       box-shadow: var(--shadow-sm);
     }
 
@@ -438,7 +447,7 @@
       flex: 0 0 auto;
       padding: 11px 16px;
       background: var(--glass);
-      border: 1px solid var(--border);
+       border: 1px solid rgba(255,255,255,.35);
       border-radius: 14px;
       font-weight: 800;
       transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
@@ -510,7 +519,7 @@
       padding: 12px 14px;
       color: var(--text);
       background: rgba(255,255,255,.42);
-      border: 1px solid var(--border);
+       border: 1px solid rgba(255,255,255,.35);
       border-radius: 14px;
       font-size: 16px;
       font-weight: 600;
@@ -630,7 +639,7 @@
       margin-top: 18px;
       aspect-ratio: 4 / 5;
       object-fit: cover;
-      border: 1px solid var(--border);
+       border: 1px solid rgba(255,255,255,.35);
       border-radius: 18px;
       box-shadow: var(--shadow);
     }
@@ -643,7 +652,7 @@
     }
 
     .comparison-image {
-      border: 1px solid var(--border);
+       border: 1px solid rgba(255,255,255,.35);
       border-radius: 18px;
       box-shadow: var(--shadow-sm);
     }
