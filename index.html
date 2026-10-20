@@ -3506,5 +3506,1013 @@ Give a realistic calorie range and likely estimate. Keep it brief and explain wh
   renderPage();
 </script>
 
+
+  <!-- ===================================================================
+       Liquid Glass — refraction engine.
+       Delete this block to remove the effect; the dashboard keeps working.
+       =================================================================== -->
+  <script>
+/*!
+ * Liquid Glass engine — classic build (no modules).
+ * Refractive glass panels via SVG displacement maps.
+ * Strip this whole block to remove the effect; the page keeps working.
+ */
+(function (global) {
+  'use strict';
+
+  /**
+   * liquid-glass.js
+   * ---------------------------------------------------------------------------
+   * Refractive "Liquid Glass" surfaces for the web, built entirely on SVG
+   * displacement maps. No WebGL, no dependencies.
+   *
+   * Pipeline
+   *   1. SURFACE PROFILE   A height function h(d) describes the glass surface as
+   *                        a function of the distance d from the shape border.
+   *                        Only its slope matters: the surface normal is the
+   *                        derivative rotated by -90 degrees.
+   *   2. REFRACTION        Snell-Descartes turns that slope into the horizontal
+   *                        offset of the refracted ray, measured in units of the
+   *                        local glass thickness.
+   *   3. DISPLACEMENT MAP  The offsets are rasterised into an RGBA image:
+   *                        R = dx, G = dy, B = progressive-blur mask, A = 255.
+   *                        The direction comes from the gradient of the shape's
+   *                        signed distance field, so one profile works for
+   *                        circles, rounded rects, capsules and pills.
+   *   4. SPECULAR MAP      A second image holds the rim highlight: a grey value
+   *                        that brightens where the surface normal faces the
+   *                        light.
+   *   5. SVG FILTER        feImage -> feDisplacementMap -> feComposite, wired
+   *                        into the element with `backdrop-filter: url(#id)`.
+   *
+   * Usage
+   *   import { LiquidGlass } from './liquid-glass.js';
+   *
+   *   const engine = new LiquidGlass();
+   *   const panel = engine.attach(document.querySelector('.panel'), {
+   *     radius: 40,
+   *     bezel: 32,
+   *     thickness: 26,
+   *     surface: 'squircle',
+   *   });
+   *
+   *   panel.update({ refraction: 1.6 });   // cheap, no map rebuild
+   *   panel.update({ thickness: 40 });     // expensive, rebuilds the maps
+   *   panel.destroy();
+   *
+   * Browser support
+   *   Chrome / Chromium (and Electron) only: `backdrop-filter: url(#filter)` is
+   *   the one piece of this effect that no other engine renders. Where it is
+   *   unsupported the module marks the element `data-lg-state="fallback"` and the
+   *   stylesheet falls back to a layered blur.
+   */
+  
+  const SVG_NS = 'http://www.w3.org/2000/svg';
+  const XLINK_NS = 'http://www.w3.org/1999/xlink';
+  
+  const clamp = (v, lo, hi) => (v < lo ? lo : v > hi ? hi : v);
+  const lerp = (a, b, t) => a + (b - a) * t;
+  
+  /* ========================================================================== *
+   * 1. Surface profiles
+   * ========================================================================== */
+  
+  const smootherstep = (t) => {
+    t = clamp(t, 0, 1);
+    return t * t * t * (t * (t * 6 - 15) + 10);
+  };
+  
+  const convexCircle = (x) => Math.sqrt(Math.max(0, 1 - (1 - x) * (1 - x)));
+  const convexSquircle = (x) => Math.pow(Math.max(0, 1 - Math.pow(1 - x, 4)), 0.25);
+  
+  /**
+   * The four cross-sections from the article. `x` is the normalised distance
+   * from the shape border (0 at the border, 1 at the inner edge of the bezel)
+   * and the return value is the normalised height of the surface.
+   */
+  const SURFACES = {
+    circle: { label: 'Convex circle', fn: convexCircle },
+    squircle: { label: 'Convex squircle', fn: convexSquircle },
+    concave: { label: 'Concave', fn: (x) => 1 - convexCircle(x) },
+    lip: {
+      label: 'Lip',
+      fn: (x) => lerp(convexCircle(x), 1 - convexCircle(x), smootherstep(x)),
+    },
+  };
+  
+  /* ========================================================================== *
+   * 2. Refraction
+   * ========================================================================== */
+  
+  /**
+   * Builds the refraction profile of one bezel.
+   *
+   * The surface is h(d) = thickness * profile(d / bezel). Its slope is
+   * dh/dd = thickness * profile'(d / bezel) / bezel, which is the tangent of the
+   * incidence angle. Snell-Descartes (air, n1 = 1, into glass, n2 = index) gives
+   * the transmitted angle, and the horizontal offset of the landing point
+   * relative to the surface point is
+   *
+   *   dev = (cos(theta2) * h' - sin(theta2)) / (sin(theta2) * h' + cos(theta2))
+   *
+   * expressed in units of the local glass height. A convex profile bends light
+   * back inside the shape (dev > 0), a concave one pushes it out (dev < 0).
+   *
+   * @returns {{magnitude: Float64Array, slope: Float64Array, height: Float64Array,
+   *            maxAbs: number, bezel: number, samples: number}}
+   */
+  function buildProfile({
+    surface = 'squircle',
+    bezel = 32,
+    thickness = 26,
+    index = 1.5,
+    samples = 256,
+  } = {}) {
+    const fn = (SURFACES[surface] || SURFACES.squircle).fn;
+    const n = Math.max(16, samples | 0);
+    const d = 1e-3;
+    const magnitude = new Float64Array(n + 1);
+    const slope = new Float64Array(n + 1);
+    const height = new Float64Array(n + 1);
+    let maxAbs = 0;
+  
+    for (let i = 0; i <= n; i++) {
+      const x = i / n;
+  
+      let dfdx;
+      if (x - d < 0) dfdx = (fn(x + d) - fn(x)) / d;
+      else if (x + d > 1) dfdx = (fn(x) - fn(x - d)) / d;
+      else dfdx = (fn(x + d) - fn(x - d)) / (2 * d);
+  
+      const h = (thickness * dfdx) / bezel;
+      const surfaceHeight = thickness * fn(x);
+  
+      const sin1 = h / Math.sqrt(1 + h * h);
+      const sin2 = clamp(sin1 / index, -1, 1);
+      const cos2 = Math.sqrt(Math.max(0, 1 - sin2 * sin2));
+      const dev = (cos2 * h - sin2) / (sin2 * h + cos2);
+      const m = dev * surfaceHeight;
+  
+      slope[i] = h;
+      height[i] = surfaceHeight;
+      magnitude[i] = m;
+      if (Math.abs(m) > maxAbs) maxAbs = Math.abs(m);
+    }
+  
+    return { magnitude, slope, height, maxAbs, bezel, samples: n, thickness, index };
+  }
+  
+  function sampleArray(array, profile, dist) {
+    const t = clamp(dist / profile.bezel, 0, 1) * profile.samples;
+    const i = Math.min(profile.samples, Math.floor(t));
+    const f = t - i;
+    const a = array[i];
+    const b = array[Math.min(profile.samples, i + 1)];
+    return a + (b - a) * f;
+  }
+  
+  function profileMagnitude(profile, dist) {
+    return sampleArray(profile.magnitude, profile, dist);
+  }
+  
+  function profileSlope(profile, dist) {
+    return sampleArray(profile.slope, profile, dist);
+  }
+  
+  /* ========================================================================== *
+   * 3. Shapes
+   * ========================================================================== */
+  
+  /**
+   * Signed distance field of a rounded rectangle centred on the origin.
+   * Negative inside. Returns the distance and the *outward* unit gradient.
+   *
+   * @param {number} x
+   * @param {number} y
+   * @param {number} hw half width
+   * @param {number} hh half height
+   * @param {number} r  corner radius
+   */
+  function roundedRect(x, y, hw, hh, r) {
+    const sx = x < 0 ? -1 : 1;
+    const sy = y < 0 ? -1 : 1;
+    const qx = Math.abs(x) - hw + r;
+    const qy = Math.abs(y) - hh + r;
+  
+    if (qx > 0 && qy > 0) {
+      const len = Math.hypot(qx, qy) || 1;
+      return { d: len - r, gx: (sx * qx) / len, gy: (sy * qy) / len };
+    }
+    if (qx > qy) return { d: Math.max(qx, qy) - r, gx: sx, gy: 0 };
+    return { d: Math.max(qx, qy) - r, gx: 0, gy: sy };
+  }
+  
+  /**
+   * Builds the function that answers "how far is this pixel from the border,
+   * and which way is out?".
+   *
+   * `shape` may be:
+   *   'rounded-rect'  the default, driven by the `radius` option
+   *   'circle'        a rounded rect with a full radius
+   *   a function      (x, y, halfWidth, halfHeight) => signedDistance, or
+   *                   => { d, gx, gy } when the gradient is known analytically
+   *
+   * The custom form receives coordinates in the element's local space, centred
+   * on the origin, in pixels.
+   */
+  function resolveShape(shape, radius) {
+    if (typeof shape === 'function') {
+      return (x, y, hw, hh) => {
+        const raw = shape(x, y, hw, hh);
+        if (typeof raw === 'number') {
+          const e = 0.5;
+          const gx = (shape(x + e, y, hw, hh) - shape(x - e, y, hw, hh)) / (2 * e);
+          const gy = (shape(x, y + e, hw, hh) - shape(x, y - e, hw, hh)) / (2 * e);
+          const len = Math.hypot(gx, gy) || 1;
+          return { d: raw, gx: gx / len, gy: gy / len };
+        }
+        return raw;
+      };
+    }
+    if (shape === 'circle') {
+      return (x, y, hw, hh) => roundedRect(x, y, hw, hh, Math.min(hw, hh));
+    }
+    return (x, y, hw, hh) => roundedRect(x, y, hw, hh, radius);
+  }
+  
+  /* ========================================================================== *
+   * 4. Map rasterisers
+   * ========================================================================== */
+  
+  function createCanvas(width, height) {
+    const canvas = document.createElement('canvas');
+    canvas.width = width;
+    canvas.height = height;
+    return canvas;
+  }
+  
+  /**
+   * Rasterises the displacement map.
+   *
+   * Channel layout:
+   *   R = normalised displacement on X
+   *   G = normalised displacement on Y
+   *   B = progressive blur mask (1 at the border, 0 in the flat interior)
+   *   A = 255, so the image survives premultiplied decoding without colour loss
+   */
+  function renderDisplacementMap({
+    width,
+    height,
+    shapeFn,
+    profile,
+    blurReach,
+    scale,
+  }) {
+    const canvas = createCanvas(width, height);
+    const ctx = canvas.getContext('2d');
+    const img = ctx.createImageData(width, height);
+    const data = img.data;
+    const hw = width / 2;
+    const hh = height / 2;
+    const invMax = profile.maxAbs > 0 ? 1 / profile.maxAbs : 0;
+  
+    for (let y = 0; y < height; y++) {
+      const py = y + 0.5 - hh;
+      for (let x = 0; x < width; x++) {
+        const px = x + 0.5 - hw;
+        const i = (y * width + x) * 4;
+        const { d, gx, gy } = shapeFn(px, py, hw, hh);
+        const dist = -d / scale;
+  
+        if (dist > 0 && dist < profile.bezel) {
+          const m = profileMagnitude(profile, dist) * invMax;
+          const dx = -gx * m;
+          const dy = -gy * m;
+          data[i] = clamp(Math.round(127.5 + 127.5 * dx), 0, 255);
+          data[i + 1] = clamp(Math.round(127.5 + 127.5 * dy), 0, 255);
+        } else {
+          data[i] = 128;
+          data[i + 1] = 128;
+        }
+  
+        const mask = blurReach > 0 ? clamp(1 - dist / blurReach, 0, 1) : 0;
+        data[i + 2] = Math.round(mask * 255);
+        data[i + 3] = 255;
+      }
+    }
+  
+    ctx.putImageData(img, 0, 0);
+    return canvas.toDataURL('image/png');
+  }
+  
+  /**
+   * Rasterises the specular highlight.
+   *
+   * The surface normal at a point on the bezel is (-h', 1) in the frame where
+   * +x points into the shape and +y points out of the screen. Its in-plane
+   * component points outward for a convex profile, so a rim light appears on the
+   * edges that face the light.
+   */
+  function renderSpecularMap({
+    width,
+    height,
+    shapeFn,
+    profile,
+    angle,
+    elevation,
+    sharpness,
+    intensity,
+    scale,
+  }) {
+    const canvas = createCanvas(width, height);
+    const ctx = canvas.getContext('2d');
+    const img = ctx.createImageData(width, height);
+    const data = img.data;
+    const hw = width / 2;
+    const hh = height / 2;
+    const az = (angle * Math.PI) / 180;
+    const el = (elevation * Math.PI) / 180;
+    const lx = Math.cos(el) * Math.cos(az);
+    const ly = Math.cos(el) * Math.sin(az);
+    const lz = Math.sin(el);
+  
+    for (let y = 0; y < height; y++) {
+      const py = y + 0.5 - hh;
+      for (let x = 0; x < width; x++) {
+        const px = x + 0.5 - hw;
+        const i = (y * width + x) * 4;
+        const { d, gx, gy } = shapeFn(px, py, hw, hh);
+        const dist = -d / scale;
+  
+        let value = 0;
+        if (dist > 0 && dist < profile.bezel) {
+          const h = profileSlope(profile, dist);
+          const n = Math.hypot(h, 1);
+          const nx = (h / n) * gx;
+          const ny = (h / n) * gy;
+          const nz = 1 / n;
+          const dot = nx * lx + ny * ly + nz * lz;
+          if (dot > 0) value = Math.pow(dot, sharpness) * intensity;
+        }
+  
+        const grey = clamp(Math.round(value * 255), 0, 255);
+        data[i] = grey;
+        data[i + 1] = grey;
+        data[i + 2] = grey;
+        data[i + 3] = 255;
+      }
+    }
+  
+    ctx.putImageData(img, 0, 0);
+    return canvas.toDataURL('image/png');
+  }
+  
+  /* ========================================================================== *
+   * 5. SVG filter
+   * ========================================================================== */
+  
+  function svgEl(name, attrs) {
+    const el = document.createElementNS(SVG_NS, name);
+    for (const key in attrs) el.setAttribute(key, String(attrs[key]));
+    return el;
+  }
+  
+  function setImageHref(el, url) {
+    el.setAttribute('href', url);
+    el.setAttributeNS(XLINK_NS, 'xlink:href', url);
+  }
+  
+  /**
+   * Builds the filter graph.
+   *
+   *   feImage(map) -> feDisplacementMap -> feComposite(specular)
+   *
+   * with an optional blur stage in front of the displacement, so the frosted
+   * backdrop is refracted rather than the crisp one.
+   */
+  function buildFilter({
+    id,
+    width,
+    height,
+    mapUrl,
+    specUrl,
+    scale,
+    blur,
+    progressive,
+    specularOpacity,
+    saturation,
+  }) {
+    const filter = svgEl('filter', {
+      id,
+      filterUnits: 'userSpaceOnUse',
+      primitiveUnits: 'userSpaceOnUse',
+      x: 0,
+      y: 0,
+      width,
+      height,
+      'color-interpolation-filters': 'sRGB',
+    });
+  
+    const map = svgEl('feImage', {
+      x: 0,
+      y: 0,
+      width,
+      height,
+      preserveAspectRatio: 'none',
+      result: 'lgMap',
+    });
+    setImageHref(map, mapUrl);
+    filter.appendChild(map);
+  
+    let backdrop = 'SourceGraphic';
+  
+    if (progressive > 0) {
+      const mask = svgEl('feColorMatrix', {
+        in: 'lgMap',
+        type: 'matrix',
+        values: '0 0 1 0 0  0 0 1 0 0  0 0 1 0 0  0 0 1 0 0',
+        result: 'lgMask',
+      });
+      filter.appendChild(mask);
+  
+      const invMask = svgEl('feComponentTransfer', { in: 'lgMask', result: 'lgMaskInv' });
+      invMask.appendChild(svgEl('feFuncA', { type: 'table', tableValues: '1 0' }));
+      filter.appendChild(invMask);
+    }
+  
+    filter.appendChild(
+      svgEl('feGaussianBlur', {
+        in: 'SourceGraphic',
+        stdDeviation: blur,
+        result: 'lgBlur',
+      }),
+    );
+    backdrop = 'lgBlur';
+  
+    if (progressive > 0) {
+      const blurredMasked = svgEl('feComposite', {
+        in: 'lgBlur',
+        in2: 'lgMask',
+        operator: 'in',
+        result: 'lgBlurMasked',
+      });
+      filter.appendChild(blurredMasked);
+  
+      const sharpMasked = svgEl('feComposite', {
+        in: 'SourceGraphic',
+        in2: 'lgMaskInv',
+        operator: 'in',
+        result: 'lgSharpMasked',
+      });
+      filter.appendChild(sharpMasked);
+  
+      const merged = svgEl('feComposite', {
+        in: 'lgBlurMasked',
+        in2: 'lgSharpMasked',
+        operator: 'arithmetic',
+        k1: 0,
+        k2: 1,
+        k3: 1,
+        k4: 0,
+        result: 'lgBackdrop',
+      });
+      filter.appendChild(merged);
+      backdrop = 'lgBackdrop';
+    }
+  
+    filter.appendChild(
+      svgEl('feDisplacementMap', {
+        in: backdrop,
+        in2: 'lgMap',
+        scale,
+        xChannelSelector: 'R',
+        yChannelSelector: 'G',
+        result: 'lgRefracted',
+      }),
+    );
+  
+    const spec = svgEl('feImage', {
+      x: 0,
+      y: 0,
+      width,
+      height,
+      preserveAspectRatio: 'none',
+      result: 'lgSpec',
+    });
+    setImageHref(spec, specUrl);
+    filter.appendChild(spec);
+  
+    const specLit = svgEl('feComponentTransfer', { in: 'lgSpec', result: 'lgSpecLit' });
+    specLit.appendChild(svgEl('feFuncR', { type: 'linear', slope: specularOpacity }));
+    specLit.appendChild(svgEl('feFuncG', { type: 'linear', slope: specularOpacity }));
+    specLit.appendChild(svgEl('feFuncB', { type: 'linear', slope: specularOpacity }));
+    filter.appendChild(specLit);
+  
+    filter.appendChild(
+      svgEl('feComposite', {
+        in: 'lgRefracted',
+        in2: 'lgSpecLit',
+        operator: 'arithmetic',
+        k1: 0,
+        k2: 1,
+        k3: 1,
+        k4: 0,
+        result: 'lgLit',
+      }),
+    );
+  
+    filter.appendChild(
+      svgEl('feColorMatrix', {
+        in: 'lgLit',
+        type: 'saturate',
+        values: saturation,
+      }),
+    );
+  
+    return filter;
+  }
+  
+  /* ========================================================================== *
+   * 6. Support detection
+   * ========================================================================== */
+  
+  /**
+   * `backdrop-filter: url(#filter)` is implemented in Chromium only. Safari is
+   * still working on it, Firefox does not render reference filters as a
+   * backdrop.
+   */
+  function supportsSvgBackdropFilter() {
+    if (typeof CSS === 'undefined' || typeof CSS.supports !== 'function') return false;
+    const probe = 'url("#lg-probe")';
+    return (
+      CSS.supports('backdrop-filter', probe) ||
+      CSS.supports('-webkit-backdrop-filter', probe)
+    );
+  }
+  
+  /* ========================================================================== *
+   * 7. Engine
+   * ========================================================================== */
+  
+  const DEFAULTS = {
+    className: 'liquid-glass',
+    shape: 'rounded-rect',
+    radius: 'auto',
+    bezel: 32,
+    thickness: 26,
+    index: 1.5,
+    surface: 'squircle',
+    refraction: 1,
+    blur: 0,
+    progressiveBlur: 0,
+    saturation: 1,
+    specular: 0.55,
+    specularAngle: -60,
+    specularElevation: 45,
+    specularSharpness: 9,
+    mapScale: 1,
+    maxMapSize: 640,
+  };
+  
+  const GEOMETRY_KEYS = [
+    'shape',
+    'radius',
+    'bezel',
+    'thickness',
+    'index',
+    'surface',
+    'specularAngle',
+    'specularElevation',
+    'specularSharpness',
+    'progressiveBlur',
+  ];
+  
+  let uid = 0;
+  let buildCounter = 0;
+  
+  function readRadius(element, fallback) {
+    if (typeof getComputedStyle !== 'function') return fallback;
+    const style = getComputedStyle(element);
+    const raw = (style.borderTopLeftRadius || '').trim();
+    if (!raw) return fallback;
+    const first = raw.split(/\s+/)[0];
+    if (first.endsWith('%')) {
+      const rect = element.getBoundingClientRect();
+      return (Math.min(rect.width, rect.height) * parseFloat(first)) / 100;
+    }
+    const px = parseFloat(first);
+    return Number.isFinite(px) ? px : fallback;
+  }
+  
+  function readDataOptions(element, defaults) {
+    const options = {};
+    const map = {
+      'lg-radius': 'radius',
+      'lg-bezel': 'bezel',
+      'lg-thickness': 'thickness',
+      'lg-index': 'index',
+      'lg-surface': 'surface',
+      'lg-refraction': 'refraction',
+      'lg-blur': 'blur',
+      'lg-progressive': 'progressiveBlur',
+      'lg-saturation': 'saturation',
+      'lg-specular': 'specular',
+      'lg-specular-angle': 'specularAngle',
+    };
+    for (const attr in map) {
+      if (!element.hasAttribute(attr)) continue;
+      const value = element.getAttribute(attr);
+      options[map[attr]] =
+        map[attr] === 'surface' ? value : parseFloat(value);
+    }
+    for (const key in options) {
+      if (!Number.isFinite(options[key]) && key !== 'surface') delete options[key];
+    }
+    return { ...defaults, ...options };
+  }
+  
+  class GlassInstance {
+    constructor(engine, element, options) {
+      this.engine = engine;
+      this.element = element;
+      this.options = { ...options };
+      this.id = `lg-filter-${++uid}`;
+      this._filter = null;
+      this._profile = null;
+      this._scale = 0;
+      this._frame = 0;
+      this._observer = null;
+      this._specOpacity = options.specular;
+    }
+  
+    mount() {
+      const el = this.element;
+      if (this.options.className) el.classList.add(this.options.className);
+  
+      if (!this.engine.supported) {
+        el.setAttribute('data-lg-state', 'fallback');
+        return;
+      }
+      el.setAttribute('data-lg-state', 'refracted');
+  
+      this._build();
+  
+      if (typeof ResizeObserver === 'function') {
+        this._observer = new ResizeObserver(() => this.schedule());
+        this._observer.observe(el);
+      }
+    }
+  
+    schedule() {
+      if (this._frame) return;
+      const raf =
+        typeof requestAnimationFrame === 'function'
+          ? requestAnimationFrame
+          : (cb) => setTimeout(cb, 16);
+      this._frame = raf(() => {
+        this._frame = 0;
+        this._build();
+      });
+    }
+  
+    /**
+     * @param {object} partial
+     */
+    update(partial = {}) {
+      const before = { ...this.options };
+      Object.assign(this.options, partial);
+  
+      const geometryChanged = GEOMETRY_KEYS.some(
+        (key) => before[key] !== this.options[key],
+      );
+  
+      if (geometryChanged) this._build();
+      else this._applyFilterAttributes();
+    }
+  
+    _applyFilterAttributes() {
+      if (!this._filter) return;
+      const o = this.options;
+      const displacement = this._filter.querySelector('feDisplacementMap');
+      if (displacement) {
+        displacement.setAttribute(
+          'scale',
+          String(this._scale * clamp(o.refraction, 0, 4)),
+        );
+      }
+      const blur = this._filter.querySelector('feGaussianBlur');
+      if (blur) {
+        blur.setAttribute(
+          'stdDeviation',
+          String(o.blur + (o.progressiveBlur > 0 ? o.progressiveBlur * 12 : 0)),
+        );
+      }
+      const specLit = this._filter.querySelector('feComponentTransfer[result="lgSpecLit"]');
+      if (specLit) {
+        const slope = clamp(o.specular, 0, 1);
+        for (const tag of ['feFuncR', 'feFuncG', 'feFuncB']) {
+          const fn = specLit.querySelector(tag);
+          if (fn) fn.setAttribute('slope', String(slope));
+        }
+      }
+      const saturate = this._filter.querySelector('feColorMatrix[type="saturate"]');
+      if (saturate) saturate.setAttribute('values', String(o.saturation));
+    }
+  
+    _build() {
+      const el = this.element;
+      const rect = el.getBoundingClientRect();
+      const width = Math.max(1, Math.round(rect.width));
+      const height = Math.max(1, Math.round(rect.height));
+      const o = this.options;
+  
+      const radiusPx = o.radius === 'auto' ? readRadius(el, 24) : o.radius;
+      const radius = clamp(radiusPx, 0, Math.min(width, height) / 2);
+  
+      const dpr = typeof devicePixelRatio === 'number' ? devicePixelRatio : 1;
+      const scale = Math.min(
+        dpr,
+        o.maxMapSize / width,
+        o.maxMapSize / height,
+        1,
+      ) * clamp(o.mapScale, 0.25, 4);
+      const mapW = Math.max(1, Math.round(width * scale));
+      const mapH = Math.max(1, Math.round(height * scale));
+  
+      const profile = buildProfile({
+        surface: o.surface,
+        bezel: o.bezel,
+        thickness: o.thickness,
+        index: o.index,
+      });
+      this._profile = profile;
+  
+      const blurReach = o.progressiveBlur > 0 ? o.bezel * 2.2 : 0;
+  
+      const shapeFn = resolveShape(
+        o.shape,
+        radius * scale,
+      );
+  
+      const mapUrl = renderDisplacementMap({
+        width: mapW,
+        height: mapH,
+        shapeFn,
+        profile,
+        blurReach,
+        scale,
+      });
+  
+      const specUrl = renderSpecularMap({
+        width: mapW,
+        height: mapH,
+        shapeFn,
+        profile,
+        angle: o.specularAngle,
+        elevation: o.specularElevation,
+        sharpness: o.specularSharpness,
+        intensity: 1,
+        scale,
+      });
+  
+      // The displacement map is normalised to [-1, 1]. Per the feDisplacementMap
+      // formula the channel value is interpreted as (value - 0.5) * scale, so the
+      // scale has to be twice the maximum displacement to reach it.
+      this._scale = profile.maxAbs * 2;
+  
+      const filter = buildFilter({
+        id: `${this.id}-${++buildCounter}`,
+        width,
+        height,
+        mapUrl,
+        specUrl,
+        scale: this._scale * clamp(o.refraction, 0, 4),
+        blur: o.blur + (o.progressiveBlur > 0 ? o.progressiveBlur * 12 : 0),
+        progressive: o.progressiveBlur > 0 ? 1 : 0,
+        specularOpacity: clamp(o.specular, 0, 1),
+        saturation: o.saturation,
+      });
+  
+      const defs = this.engine.defs;
+      if (this._filter) this._filter.remove();
+      defs.appendChild(filter);
+      this._filter = filter;
+  
+      // A fresh id on every rebuild: Chromium can keep a resolved reference
+      // filter alive, so reusing the id would leave a stale backdrop.
+      const url = `url(#${filter.getAttribute('id')})`;
+      el.style.setProperty('--lg-backdrop', url);
+      el.style.backdropFilter = url;
+      el.style.webkitBackdropFilter = url;
+    }
+  
+    destroy() {
+      if (this._frame) cancelAnimationFrame(this._frame);
+      if (this._observer) this._observer.disconnect();
+      if (this._filter) this._filter.remove();
+      if (this.options.className) this.element.classList.remove(this.options.className);
+      this.element.style.removeProperty('--lg-backdrop');
+      this.element.style.removeProperty('backdrop-filter');
+      this.element.style.removeProperty('-webkit-backdrop-filter');
+      this.element.removeAttribute('data-lg-state');
+      this.engine.instances.delete(this);
+    }
+  }
+  
+  class LiquidGlass {
+    constructor(options = {}) {
+      this.defaults = { ...DEFAULTS, ...options };
+      this.instances = new Set();
+      this.supported = supportsSvgBackdropFilter();
+  
+      const svg = document.createElementNS(SVG_NS, 'svg');
+      svg.setAttribute('aria-hidden', 'true');
+      svg.setAttribute('focusable', 'false');
+      svg.setAttribute(
+        'style',
+        'position:fixed;top:0;left:0;width:0;height:0;overflow:hidden;pointer-events:none;',
+      );
+      const defs = document.createElementNS(SVG_NS, 'defs');
+      svg.appendChild(defs);
+      document.body.appendChild(svg);
+  
+      this.svg = svg;
+      this.defs = defs;
+    }
+  
+    /**
+     * Attaches the effect to an element.
+     * @param {HTMLElement} element
+     * @param {object} [options]
+     * @returns {GlassInstance}
+     */
+    attach(element, options = {}) {
+      const instance = new GlassInstance(this, element, {
+        ...this.defaults,
+        ...options,
+      });
+      this.instances.add(instance);
+      instance.mount();
+      return instance;
+    }
+  
+    /**
+     * Attaches every descendant carrying `data-liquid-glass`.
+     * @param {ParentNode} [root]
+     * @returns {LiquidGlass}
+     */
+    static autoInit(root = document, options = {}) {
+      const engine = new LiquidGlass(options);
+      const nodes = root.querySelectorAll('[data-liquid-glass]');
+      nodes.forEach((node) => {
+        engine.attach(node, readDataOptions(node, engine.defaults));
+      });
+      return engine;
+    }
+  
+    destroy() {
+      for (const instance of Array.from(this.instances)) instance.destroy();
+      this.svg.remove();
+    }
+  }
+  
+  
+
+  global.LiquidGlass = LiquidGlass;
+  global.LiquidGlassCore = {
+    SURFACES,
+    DEFAULTS,
+    buildProfile,
+    profileMagnitude,
+    profileSlope,
+    roundedRect,
+    resolveShape,
+    renderDisplacementMap,
+    renderSpecularMap,
+    buildFilter,
+    supportsSvgBackdropFilter,
+  };
+})(typeof window !== 'undefined' ? window : globalThis);
+
+  </script>
+
+  <script>
+
+  /* ======================================================================
+   * Liquid Glass — refractive backdrop for the glass surfaces.
+   *
+   * The panels, chips and nav pill already use backdrop-filter for the
+   * frosted look. This swaps that CSS blur for an SVG filter that also
+   * refracts what is behind the element, using a displacement map computed
+   * from Snell-Descartes. Browsers without SVG reference filters as a
+   * backdrop keep the original CSS blur untouched.
+   * ==================================================================== */
+  (() => {
+    if (!window.LiquidGlass) return;
+
+    const engine = new window.LiquidGlass();
+    if (!engine.supported) return;
+
+    const MAX_CARDS = 5;
+
+    const PRESETS = {
+      nav: {
+        radius: 'auto',
+        bezel: 24,
+        thickness: 20,
+        surface: 'squircle',
+        blur: 16,
+        saturation: 1,
+        specular: 0.55,
+        specularSharpness: 10
+      },
+      chip: {
+        radius: 'auto',
+        bezel: 26,
+        thickness: 24,
+        surface: 'squircle',
+        blur: 28,
+        saturation: 2,
+        specular: 0.45
+      },
+      card: {
+        radius: 'auto',
+        bezel: 30,
+        thickness: 26,
+        surface: 'squircle',
+        blur: 34,
+        saturation: 2,
+        specular: 0.4
+      }
+    };
+
+    const instances = new Map();
+    const nav = document.querySelector('nav');
+    let liveCards = 0;
+
+    const apply = (el, preset) => {
+      if (!el || instances.has(el)) return;
+      instances.set(el, engine.attach(el, Object.assign({ className: '' }, preset)));
+    };
+
+    const release = (el) => {
+      const instance = instances.get(el);
+      if (!instance) return;
+      instance.destroy();
+      instances.delete(el);
+    };
+
+    apply(nav, PRESETS.nav);
+    document.querySelectorAll('.hero-stat').forEach((el) => apply(el, PRESETS.chip));
+
+    const CARD_SELECTOR =
+      '.card, .page-link, .photo-card, .exercise-card, .saved-entry';
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          const el = entry.target;
+          if (entry.isIntersecting) {
+            if (!instances.has(el) && liveCards < MAX_CARDS) {
+              apply(el, PRESETS.card);
+              liveCards++;
+            }
+          } else if (instances.has(el)) {
+            release(el);
+            liveCards--;
+          }
+        }
+      },
+      { rootMargin: '250px 0px' }
+    );
+
+    const scan = (root) => {
+      if (!root) return;
+      root.querySelectorAll(CARD_SELECTOR).forEach((el) => {
+        if (el.dataset.lgWatched) return;
+        el.dataset.lgWatched = '1';
+        observer.observe(el);
+      });
+    };
+
+    const app = document.getElementById('app');
+    scan(document);
+
+    if (app && window.MutationObserver) {
+      new MutationObserver(() => {
+        scan(app);
+        instances.forEach((instance, el) => {
+          if (el === nav || document.contains(el)) return;
+          instance.destroy();
+          instances.delete(el);
+          liveCards--;
+        });
+      }).observe(app, { childList: true, subtree: true });
+    }
+
+    window.fitnessGlass = { engine, instances };
+  })();
+
+  </script>
 </body>
 </html>
