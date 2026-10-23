@@ -280,6 +280,7 @@
       transform: translateX(-50%);
       z-index: 50;
       display: flex;
+      align-items: center;
       gap: 6px;
       width: min(96vw, 760px);
       padding: 6px;
@@ -303,6 +304,8 @@
       min-height: 46px;
       display: inline-flex;
       align-items: center;
+      justify-content: center;
+      text-align: center;
       padding: 10px 16px;
       color: var(--muted);
       border-radius: 999px;
@@ -322,7 +325,6 @@
       color: #fff;
       background: var(--grad);
       box-shadow: 0 10px 24px rgba(139,92,246,.35);
-      transform: translateY(-2px);
     }
 
     main {
@@ -1201,25 +1203,6 @@
       home: () => `
         <h2>🎯 Ab Definition & Trunk-Fat Plan</h2>
         <p class="muted">Calibrated for your 78.1 kg weight, 5.3 kg trunk fat reading, and machine hypertrophy progression.</p>
-
-        <div class="grid">
-          <a class="page-link" href="#/workouts">
-            <h3>🏋️ Workouts</h3>
-            <p>Four strength days with lower-ab, waist, and core exercise options.</p>
-          </a>
-          <a class="page-link" href="#/daily-log">
-            <h3>📝 Daily Log</h3>
-            <p>Track sets, repetitions, weight, duration, reports, and progress.</p>
-          </a>
-          <a class="page-link" href="#/photos">
-            <h3>📸 Progress Photos</h3>
-            <p>Private upload, gallery, comparison, and review tool.</p>
-          </a>
-          <a class="page-link" href="#/tracking">
-            <h3>📈 Weekly Progress</h3>
-            <p>Track weight, waist, steps, sleep, energy, and recovery.</p>
-          </a>
-        </div>
         
         <div class="card highlight" style="margin-top:20px">
           <h3>🧱 Why Trunk Fat Is 5.3 kg at 13.3% BF</h3>
