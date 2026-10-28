@@ -473,6 +473,10 @@
       border-left: 4px solid var(--purple);
     }
 
+    .exercise-card.bicep-exercise {
+      border-left: 4px solid var(--blue);
+    }
+
     .exercise-type {
       display: inline-flex;
       margin-bottom: 12px;
@@ -484,6 +488,12 @@
       font-size: .74rem;
       font-weight: 800;
       letter-spacing: .02em;
+    }
+
+    .exercise-type.bicep-badge {
+      color: var(--blue);
+      background: rgba(47,111,237,.12);
+      border-color: rgba(47,111,237,.28);
     }
 
     .watch-link {
@@ -854,27 +864,27 @@
   <div id="toastBanner" class="toast-banner"></div>
 
   <header>
-    <div class="badge">🔥 12-WEEK TRANSFORMATION</div>
+    <div class="badge">🔥 ABS 1ST + BICEPS VOLUME + TRUNK-FAT CUT</div>
     <h1>My Fitness Dashboard</h1>
-    <p class="muted">💪 Strength training · 🧱 Ab Hypertrophy · 📸 Photos · 📝 Daily progress logs</p>
+    <p class="muted">🧱 Abs First · 💪 14-Set Biceps Priority · 🔥 Trunk-Fat Loss · 📝 Private Logs</p>
 
     <div class="hero-stats">
       <div class="hero-stat">
         <span>⚖️</span>
-        <strong id="headerWeight">78.10 kg</strong>
-        <small id="headerWeightLabel">Starting weight</small>
+        <strong id="headerWeight">78.00 kg</strong>
+        <small id="headerWeightLabel">Target: 76.8–77.2 kg</small>
       </div>
 
       <div class="hero-stat">
-        <span>🏋️</span>
-        <strong>4 Days</strong>
-        <small>Training weekly</small>
+        <span>💪</span>
+        <strong>14 Sets/Wk</strong>
+        <small>Biceps Priority Volume</small>
       </div>
 
       <div class="hero-stat">
         <span>🧱</span>
-        <strong>Unique</strong>
-        <small>Core exercises</small>
+        <strong>Abs 1st</strong>
+        <small>Fresh Core Every Session</small>
       </div>
     </div>
   </header>
@@ -896,15 +906,44 @@
   </footer>
 
   <script>
-    const STARTING_WEIGHT = 78.1;
-    const TARGET_LOSS_MIN = 0.4;
-    const TARGET_LOSS_MAX = 0.7;
+    const STARTING_WEIGHT = 78.0;
+    const TARGET_LOSS_MIN = 0.2;
+    const TARGET_LOSS_MAX = 0.5;
 
     let previousIndex = 0;
     let galleryOpened = false;
     let dailyLogOpened = false;
     let currentRoute = "home";
     let toastTimeout = null;
+
+    // Safe Storage Fallback for Sandboxed Environments
+    const memoryStorage = {};
+    const memoryPhotos = [];
+    let memoryPhotoId = 1;
+
+    function safeGetStorage(key) {
+      try {
+        return window.localStorage.getItem(key);
+      } catch (e) {
+        return memoryStorage[key] ?? null;
+      }
+    }
+
+    function safeSetStorage(key, value) {
+      try {
+        window.localStorage.setItem(key, String(value));
+      } catch (e) {
+        memoryStorage[key] = String(value);
+      }
+    }
+
+    function safeKeysStorage() {
+      try {
+        return Object.keys(window.localStorage);
+      } catch (e) {
+        return Object.keys(memoryStorage);
+      }
+    }
 
     const routes = [
       "home",
@@ -934,52 +973,74 @@
 
     const workouts = {
       upperA: [
-        ["Barbell Bench Press (or Chest Press)","3 × 6–10 · Target: 17.5–20 kg/side","Do 1–2 light warm-up sets first. Log 1-side plate weight."],
-        ["Chest-Supported Row","3 × 8–12 · Target: 15–17.5 kg/side","Pull your elbows toward your hips and avoid using momentum."],
-        ["Iso-Lateral Incline Press (or Incline DB Press)","3 × 8–10 · Target: 16–17.5 kg/side","Use a moderate incline and keep your shoulders stable."],
-        ["Dumbbell Lateral Raise","3 × 12–15 · Target: 7–8 kg","Use a light weight and avoid shrugging."],
-        ["Cable Bicep Curl","3 × 10–12 · Target: 12.5-15 kg","Keep elbows pinned to your sides and squeeze at the top."],
-        ["Dumbbell Hammer Curl","3 × 10–12 · Target: 10 kg DBs","Target the outer bicep and brachialis for thicker arms."],
-        ["Captain's Chair Knee/Leg Raise","3 × 10–15 · Target: Bodyweight","Curl your pelvis upward. Lower abs focus.","core"],
-        ["Cable Woodchopper (or Russian Twist)","3 × 12–15/side · Target: 10-15 kg","Rotate through your torso and crunch the obliques. Side abs focus.","core"]
+        ["1A. Total Core Crunch Machine (Straight + L/R Oblique Combo)","3 × 10 straight + 10 L/R oblique · Target: 20–22.5 kg","DO FIRST WHILE 100% FRESH! 10 straight crunches + 10 left/right oblique crunches as 1 compound waist-sculpting set.","core"],
+        ["1B. Abdominal Crunch Machine","3 × 10–12 · Target: 50–52.5 kg","Superset with 1A. Exhale completely at peak crunch. Hold a 20s stomach vacuum during your rest period.","core"],
+        ["2A. Biceps Curl Machine (Peak Contraction Priority)","3 × 10–12 · Target: 25–27.5 kg","DO SECOND FOR BICEPS VOLUME! Squeeze hard for 1s at the top and lower over 3 slow seconds.","bicep"],
+        ["2B. Single-Arm DB Curl (Left Arm First!)","2 × 10–12/arm · Target: 8–10 kg","Start with your 3.6 kg Left Arm first! Gives you 5 total fresh bicep sets before heavy compounds without tiring your triceps.","bicep"],
+        ["2C. Dumbbell Lateral Raise","3 × 12–15 · Target: 7–8 kg","Isolate the side deltoids to cap off the shoulders while arms are slightly pumped."],
+        ["3A. Seated Chest Press (or Barbell Bench Press)","3 × 8–10 · Target: 45–50 kg (or 17.5–20 kg/side)","Superset with 3B (60–75s rest). Your triceps are 100% fresh so your pressing power stays maxed out!"],
+        ["3B. Chest-Supported Row","3 × 8–12 · Target: 15–17.5 kg/side","Superset with 3A. Pull elbows toward your hips—pre-pumped biceps force your lats to work even harder."],
+        ["4A. Iso-Lateral Incline Press (or Incline DB Press)","3 × 8–10 · Target: 16–17.5 kg/side","Superset with 4B to keep heart rate elevated for trunk-fat burn."],
+        ["4B. Pec Dec Fly","3 × 10–12 · Target: 25–27.5 kg","Control the stretch and pause 1 second at peak chest contraction."]
       ],
 
       lowerA: [
-        ["Leg Press","1 Top Set × 6–8 (210 kg) + 2 Back-Off Sets × 8–10 (185 kg)","Use a comfortable range and control every repetition. Log Top Set weight."],
-        ["Seated Leg Curl","3 × 10–12 · Target: 37.5–40 kg","Control every repetition (straight sets)."],
-        ["Leg Extension Machine","3 × 10–15 · Target: 40–45 kg","Control both lifting and lowering phases without swinging."],
-        ["Standing Calf Raise","3 × 10–12 · Target: 20 kg","Pause in both the stretched and contracted positions (straight sets)."],
-        ["Ab Crunch Machine","3 × 10–12 · Target: 50 kg","Perform last after heavy leg compounds. Pause 1s at full crunch.","core"],
-        ["Captain's Chair Knee Raise","3 × 10–15 · Target: Bodyweight","Lift your knees and curl your pelvis upward without swinging.","core"]
+        ["1A. Abdominal Crunch Machine","3 × 10–12 · Target: 50–52.5 kg","DO FIRST WHILE 100% FRESH! Progressed from 48 kg (RPE 5/10 on Oct 20). Pause 1s at full contraction.","core"],
+        ["1B. Decline Bench Reverse Crunch (or Captain's Chair)","3 × 12–15 · Target: Bodyweight","Superset with 1A. Curl your pelvis upward off the pad and lower in 3 slow seconds. Hold a 20s vacuum during rest.","core"],
+        ["2. Leg Press (Trunk-Fat Calorie Furnace)","3 × 8 · Target: 195–200 kg working sets (210 kg Top Set PR)","Machine supports your back so training abs first is 100% safe. Put your 160 kg warm-up in Notes only!"],
+        ["3A. Seated Leg Curl","3 × 10–12 · Target: 37.5–40 kg","Superset with 3B (takes only 8 mins total—keeps your 21.9 kg leg muscle firing!)."],
+        ["3B. Standing Calf Raise","3 × 10–12 · Target: 20–25 kg","Superset with 3A. Pause 2 seconds at the bottom stretch and top squeeze."],
+        ["4. Leg Extension Machine","3 × 10–12 · Target: 40–45 kg","Control both lifting and lowering phases for quad definition and extra calorie burn."]
       ],
 
       upperB: [
-        ["M-Torture Vertical Pull Down","3 × 8–10 · Target: 22.5 kg/side","Log 1-side plate weight. Pull elbows down and in toward lats."],
-        ["Super Vertical Multi Press (or DB Overhead Press)","3 × 8–10 · Target: 22.5–25 kg total plates","Keep your core tight and avoid leaning backward. Log total plate weight."],
-        ["One-Arm Dumbbell Row","3 × 8–10 · Target: 16–18 kg DB","Push heavier while keeping your torso stable."],
-        ["Triceps Extension","3 × 10–12 · Target: 25-27.5 kg","Keep elbows stable."],
-        ["Incline DB Curl","3 × 8–12 · Target: 7.5-10 kg DBs","Full stretch at the bottom. Biceps focus."],
-        ["Decline Bench Reverse Crunch","3 × 12–15 · Target: Bodyweight","Curl your pelvis off the bench and lower over 3 full seconds. Lower abs focus.","core"],
-        ["Resistance-Band Pallof Press","3 × 10–12/side · Target: 15–20 kg","Press the band forward while preventing your torso from rotating. Oblique & side abs focus.","core"]
+        ["1A. Total Core Crunch Machine (Straight + L/R Oblique Combo)","3 × 10 straight + 10 L/R oblique · Target: 20–22.5 kg","DO FIRST WHILE 100% FRESH! High-intensity upper, lower, and oblique waist sculptor.","core"],
+        ["1B. Decline Bench Reverse Crunch","3 × 12–15 · Target: Bodyweight","Superset with 1A. Curl your tailbone off the bench and hold a 20s stomach vacuum during rest.","core"],
+        ["2A. Incline DB Curl (Left Arm First — Long-Head Stretch!)","3 × 8–10 · Target: 8–10 kg DBs","DO SECOND WHILE ARMS ARE FRESH! Start with your Left Arm first to fix the 0.2 kg asymmetry.","bicep"],
+        ["2B. Biceps Curl Machine (Constant-Tension Pump)","2 × 10–12 · Target: 25 kg","Completes 5 total bicep sets on Upper B while keeping your triceps 100% fresh for Multi Press!","bicep"],
+        ["3A. Super Vertical Multi Press","3 × 8–10 · Target: 22.5 kg/side (45 kg total)","Superset with 3B. Because you trained Biceps (not Triceps!) earlier, you will hit all 3 × 8 reps cleanly."],
+        ["3B. M-Torture Vertical Pull Down","3 × 8–10 · Target: 25–27.5 kg/side","Superset with 3A (60–75s rest). Drive elbows down toward your hips."],
+        ["4A. One-Arm Dumbbell Row","3 × 8–10 · Target: 18–20 kg DB","Start with your Left Arm first! Jumped to 16 kg at RPE 4/10 on Oct 24."],
+        ["4B. Triceps Extension (or Pec Dec Fly)","3 × 10–12 · Target: 25–27.5 kg","Done LAST after all heavy presses so your triceps never limit your compound lifts."]
       ],
 
       lowerB: [
-        ["Hack Squat Machine (or Single-Leg Press)","3 × 8–10 · Target: Controlled machine load","Use a comfortable depth and controlled tempo."],
-        ["Hip Thrust Machine","3 × 8–12 · Target: Moderate-heavy machine load","Squeeze your glutes without over-arching your back."],
-        ["Lying or Seated Leg Curl","3 × 10–15 · Target: 37.5–40 kg","Control the lowering phase."],
-        ["Seated or Standing Calf Raise","3 × 10–15 · Target: 20 kg","Use a full range and avoid bouncing."],
-        ["Ab Crunch Machine","3 × 10–12 · Target: 50+ kg","Progressive overload builds thicker abdominal muscle bellies.","core"],
-        ["Decline Bench Reverse Crunch + Side Plank (30s/side)","3 × 10–15 + 30s/side","Lower-ab pelvic curls followed by side planks.","core"]
+        ["1A. Total Core Crunch Machine (Straight + L/R Oblique Combo)","3 × 10 straight + 10 L/R oblique · Target: 20–22.5 kg","DO FIRST! Compound straight + oblique set for deep abdominal & waist definition.","core"],
+        ["1B. Bonus Biceps Feeder: Biceps Curl Machine (or 1-Arm DB Curl)","4 × 10–12 · Target: 25 kg (or 8–10 kg DB Left Arm First)","Superset with 1A! Adds 4 bonus bicep sets (bringing weekly biceps volume to 14 sets!) with zero leg fatigue.","bicep"],
+        ["2. Hack Squat Machine (or Leg Press)","3 × 8–10 · Target: Controlled machine load","High-calorie lower-body driver to mobilize stubborn trunk fat."],
+        ["3A. Hip Thrust Machine (or Romanian Deadlift)","3 × 10–12 · Target: Moderate-heavy load","Superset with 3B. Targets glutes and posterior chain."],
+        ["3B. Seated Leg Curl","3 × 10–12 · Target: 37.5–40 kg","Superset with 3A. Control the lowering phase."],
+        ["4. Standing Calf Raise","3 × 12 · Target: 20–25 kg","Full stretch at the bottom, 1s pause at the top."]
       ]
     };
 
+    const extraExerciseSuggestions = [
+      "Total Core Crunch Machine",
+      "Abdominal Crunch",
+      "Biceps Curl",
+      "Incline DB Curl",
+      "Single-Arm DB Curl",
+      "Dumbbell Lateral Raise",
+      "Seated Chest Press",
+      "Pec Dec Fly",
+      "M-Torture Vertical Pull Down",
+      "Super Vertical Multi Press",
+      "One-Arm Dumbbell Row",
+      "Triceps Extension",
+      "Leg Press",
+      "Seated Leg Curl",
+      "Standing Calf Raise",
+      "Decline Bench Reverse Crunch",
+      "Captain's Chair"
+    ];
+
     function escapeHTML(text) {
       return String(text ?? "")
-        .replaceAll("&","&amp;")
-        .replaceAll("<","&lt;")
-        .replaceAll(">","&gt;")
-        .replaceAll('"',"&quot;")
-        .replaceAll("'","&#039;");
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
     }
 
     function today() {
@@ -999,28 +1060,30 @@
 
     function safeJSON(key,fallback) {
       try {
-        const value = JSON.parse(localStorage.getItem(key));
+        const raw = safeGetStorage(key);
+        if (!raw) return fallback;
+        const value = JSON.parse(raw);
         return value ?? fallback;
-      } catch {
+      } catch (e) {
         return fallback;
       }
     }
 
     function getTheme() {
-      return localStorage.getItem("fitnessTheme") || "system";
+      return safeGetStorage("fitnessTheme") || "system";
     }
 
     function applyTheme(theme) {
-      const dark =
-        theme === "dark" ||
-        (theme === "system" && matchMedia("(prefers-color-scheme:dark)").matches);
+      const prefersDark = typeof window.matchMedia === "function" && window.matchMedia("(prefers-color-scheme:dark)").matches;
+      const dark = theme === "dark" || (theme === "system" && prefersDark);
 
       document.documentElement.dataset.theme = dark ? "dark" : "light";
-      document.getElementById("themeColor").content = dark ? "#111216" : "#f5f5f7";
+      const themeEl = document.getElementById("themeColor");
+      if (themeEl) themeEl.content = dark ? "#111216" : "#f5f5f7";
     }
 
     function setTheme(theme) {
-      localStorage.setItem("fitnessTheme",theme);
+      safeSetStorage("fitnessTheme",theme);
       applyTheme(theme);
       renderPage(currentRoute);
     }
@@ -1034,7 +1097,7 @@
     }
 
     function saveDailyLogs(logs) {
-      localStorage.setItem("fitnessDailyLogs",JSON.stringify(logs));
+      safeSetStorage("fitnessDailyLogs",JSON.stringify(logs));
     }
 
     function normalizeExercise(name) {
@@ -1064,22 +1127,22 @@
 
       if (!valid.length) {
         weight.textContent = STARTING_WEIGHT.toFixed(1) + " kg";
-        label.textContent = "Target: 77.5 kg for abs";
+        label.textContent = "Target: 76.8–77.2 kg";
         return;
       }
 
-      const current = Number(valid.at(-1).weight);
+      const current = Number(valid[valid.length - 1].weight);
       weight.textContent = current.toFixed(1) + " kg";
-      label.textContent = "Latest average weight";
+      label.textContent = "Target: 76.8–77.2 kg";
 
       if (valid.length < 2) return;
 
-      const previous = Number(valid.at(-2).weight);
+      const previous = Number(valid[valid.length - 2].weight);
       const weeklyLoss = previous - current;
 
       if (weeklyLoss >= TARGET_LOSS_MIN && weeklyLoss <= TARGET_LOSS_MAX) {
-        label.textContent = "✅ Ideal ab-reveal loss rate";
-      } else if (weeklyLoss > 0.4) {
+        label.textContent = "✅ Ideal trunk-fat loss rate";
+      } else if (weeklyLoss > 0.5) {
         label.textContent = "⚠️ Loss may be too fast";
       } else if (weeklyLoss < 0) {
         label.textContent = "Weight increased this week";
@@ -1144,11 +1207,13 @@
     function exerciseCard([name,sets,note,type]) {
       const search = encodeURIComponent("TylerPath " + name + " proper form tutorial");
       const isCore = type === "core";
+      const isBicep = type === "bicep";
 
       return `
-        <article class="exercise-card ${isCore ? "core-exercise" : ""}">
-          ${isCore ? `<span class="exercise-type">🧱 LOWER ABS / WAIST / CORE</span>` : ""}
-          <h4>${isCore ? "🧱" : "🏋️"} ${escapeHTML(name)}</h4>
+        <article class="exercise-card ${isCore ? "core-exercise" : ""} ${isBicep ? "bicep-exercise" : ""}">
+          ${isCore ? `<span class="exercise-type">🧱 BLOCK 1 PRIORITY: ABS & WAIST FIRST</span>` : ""}
+          ${isBicep ? `<span class="exercise-type bicep-badge">💪 BLOCK 2 PRIORITY: BICEPS VOLUME FIRST</span>` : ""}
+          <h4>${isCore ? "🧱" : isBicep ? "💪" : "🏋️"} ${escapeHTML(name)}</h4>
           <p><strong>Sets & reps:</strong> ${escapeHTML(sets)}</p>
           <p class="small">💡 ${escapeHTML(note)}</p>
           <a class="watch-link" target="_blank" rel="noopener noreferrer" href="https://www.youtube.com/results?search_query=${search}">
@@ -1159,8 +1224,9 @@
     }
 
     function workoutPage(routeKey, title, subtitle, exercises) {
-      const strengthExercises = exercises.filter(item => item[3] !== "core");
       const coreExercises = exercises.filter(item => item[3] === "core");
+      const bicepExercises = exercises.filter(item => item[3] === "bicep");
+      const strengthExercises = exercises.filter(item => item[3] !== "core" && item[3] !== "bicep");
 
       return `
         <div class="day-tabs">
@@ -1174,27 +1240,33 @@
         <p class="muted">${subtitle}</p>
 
         <div class="card highlight">
-          <h3>⚡ 40–45 Min Session & Ab Rules</h3>
-          <p><strong>1. Compounds First, 6-Min Ab Superset Last:</strong> Do Exercises 1 & 2 first while fresh, and finish every workout with the <strong>2-Exercise Ab Superset (6 minutes)</strong>.</p>
-          <p><strong>2. Progressive Overload on Abs:</strong> Treat <em>Ab Crunch Machine (50+ kg)</em> and <em>Decline Reverse Crunch</em> like main lifts—log them in Daily Log so your ab muscles grow thicker and pop earlier.</p>
-          <p><strong>3. Busy-Week 25-Min Option:</strong> On tight weeks, complete <strong>Exercises 1, 2, and the Ab Superset</strong> so you never miss a session.</p>
+          <h3>🔥 This Week's Priority Order: 1. Abs First → 2. Biceps Volume → 3. Heavy Compounds</h3>
+          <p><strong>1. Why Abs First Works Safely:</strong> Starting every workout with your <strong>Total Core Crunch (20–22.5 kg)</strong> & <strong>Abdominal Crunch (50–52.5 kg)</strong> recruits maximum ab & oblique fibers while your nervous system is 100% fresh. Because your heavy lifts are machine-supported, pre-fatiguing abs is completely safe!</p>
+          <p><strong>2. Why Biceps Second Protects Your Presses:</strong> Unlike Triceps (which caused Multi Press to drop to 3 reps on Oct 27), training <strong>Biceps 2nd (5 sets on Upper A & B + 4 sets on Lower B = 14 sets/week)</strong> leaves your Triceps 100% fresh for Seated Chest Press & Multi Press!</p>
+          <p><strong>3. 60–75s Superset Rest for Trunk-Fat Burn:</strong> Keep rest to 60–75s between paired exercises to finish in 40–42 mins and maximize calorie burn.</p>
         </div>
 
-        <h3 style="margin-top:24px">🏋️ Machine Strength Sequence</h3>
-        <div>${strengthExercises.map(exerciseCard).join("")}</div>
-
         ${coreExercises.length ? `
-          <h3 style="margin-top:28px">🧱 6-Minute Ab Hypertrophy Superset (Do Every Session)</h3>
-          <p class="muted">Perform these two movements back-to-back with 45–60s rest to thicken both the upper and lower rectus abdominis.</p>
+          <h3 style="margin-top:24px">🧱 Block 1 (Do 1st!): Fresh Ab & Waist Hypertrophy Superset (8 Mins)</h3>
+          <p class="muted">Perform these core exercises first while you have 100% energy. Rest 45–60s between sets.</p>
           <div>${coreExercises.map(exerciseCard).join("")}</div>
         ` : ""}
 
+        ${bicepExercises.length ? `
+          <h3 style="margin-top:28px">💪 Block 2 (Do 2nd!): High-Volume Biceps Priority Block (Left Arm First!)</h3>
+          <p class="muted">Train your biceps right after abs while your arms are fresh. Always start unilateral DB curls with your 3.6 kg Left Arm to close the 0.2 kg asymmetry gap.</p>
+          <div>${bicepExercises.map(exerciseCard).join("")}</div>
+        ` : ""}
+
+        <h3 style="margin-top:28px">🏋️ Block ${bicepExercises.length ? "3" : "2"}: Metabolic Machine Compound Supersets (60–75s Rest)</h3>
+        <div>${strengthExercises.map(exerciseCard).join("")}</div>
+
         <div class="card success" style="margin-top:22px">
-          <h3>📈 Logging & Progression Rules</h3>
+          <h3>📈 Trunk-Fat & Biceps Specialization Rules</h3>
           <ol>
-            <li><strong>1-Side Plate Weight:</strong> Barbell Bench Press (17.5-20 kg), M-Torture Vertical Pull Down (22.5 kg), Chest-Supported Row (15-17.5 kg).</li>
-            <li><strong>Total Plate Weight:</strong> Super Vertical Multi Press (22.5-25 kg) and Leg Press (log 210 kg Top Set weight).</li>
-            <li><strong>Ab Progression:</strong> Once you hit 3 × 12 on Ab Crunch Machine at 50 kg, move to 52.5 kg.</li>
+            <li><strong>Never Train Triceps Before Presses:</strong> Keep Triceps Extensions at the very end of Upper B so your Chest Press and Multi Press stay strong.</li>
+            <li><strong>14 Weekly Biceps Sets:</strong> 5 sets on Upper A + 5 sets on Upper B + 4 bonus sets on Lower B = 14 high-quality sets for rapid bicep growth.</li>
+            <li><strong>Hit 9,000+ Daily Steps & 7.0–7.5h Sleep:</strong> Restoring steps from Week 3's 6,790 back to 9,000+ burns ~1,000 extra kcal this week to strip trunk fat.</li>
           </ol>
         </div>
       `;
@@ -1202,52 +1274,63 @@
 
     const pages = {
       home: () => `
-        <h2>🎯 Ab Definition & Trunk-Fat Plan</h2>
-        <p class="muted">Calibrated for your 78.1 kg weight, 5.3 kg trunk fat reading, and machine hypertrophy progression.</p>
+        <h2>🔥 Upcoming Week: Abs 1st + Biceps Volume + Trunk-Fat Cut</h2>
+        <p class="muted">Customized for your upcoming week: Every session starts with heavy Abs & Obliques while fresh, followed immediately by high-volume Biceps (14 sets/week) and 60–75s metabolic machine supersets.</p>
+
+        <div class="grid" style="margin-top:20px">
+          <div class="card highlight">
+            <h3>🧱 1. Abs First (Every Session)</h3>
+            <p><strong>Total Core (20–22.5 kg) + Ab Crunch (50 kg)</strong></p>
+            <p class="small">Doing your 6–8 minute Ab & Oblique Superset <strong>first</strong> guarantees 100% core intensity and zero skipped ab sessions. Because your heavy lifts are machine-supported, training abs first is completely safe.</p>
+          </div>
+          <div class="card success">
+            <h3>💪 2. Biceps Volume First (14 Sets/Wk)</h3>
+            <p><strong>5 Sets Upper A · 5 Sets Upper B · 4 Sets Lower B</strong></p>
+            <p class="small">Training Biceps right after Abs (before heavy compounds) blows up your arm volume without pre-fatiguing your triceps—so your <strong>Seated Chest Press (45 kg)</strong> and <strong>Multi Press (22.5 kg/s)</strong> never lose reps!</p>
+          </div>
+          <div class="card warning">
+            <h3>🔥 3. Trunk-Fat Acceleration</h3>
+            <p><strong>78.0 kg → 76.8–77.2 kg Target</strong></p>
+            <p class="small">Combine <strong>60–75s superset rest periods</strong> (40-min workouts), <strong>9,000–10,000+ daily steps</strong> (up from 6,790 in Week 3), and <strong>7.0–7.5h sleep</strong> to strip ~0.3–0.4 kg of pure trunk fat this week.</p>
+          </div>
+        </div>
         
-        <div class="card highlight" style="margin-top:20px">
-          <h3>🧱 Why Trunk Fat Is 5.3 kg at 13.3% BF</h3>
-          <p>Because your arms and legs are already lean, roughly half of your remaining fat sits on your torso. Visceral fat is <strong>Level 4 (low)</strong>—so this is just surface belly fat.</p>
-        </div>
         <div class="card success" style="margin-top:16px">
-          <h3>🎯 The Ab-Reveal Target: 77.5 kg</h3>
-          <p>Losing just <strong>0.6–0.8 kg of fat</strong> (to <strong>77.5 kg</strong> over 3–4 weeks) drops body fat to <strong>~11.2%</strong> and cuts trunk fat to <strong>~3.6 kg</strong>—revealing full abs.</p>
-        </div>
-        <div class="card warning" style="margin-top:16px">
-          <h3>😴 Fix the 6h Sleep Cortisol Trap</h3>
-          <p><strong>6.0h → 7.0–7.5h/night</strong></p>
-          <p class="small">Sleeping 6h raises cortisol, which encourages the body to store fat on the trunk. Prioritize 7+ hours of sleep.</p>
+          <h3>🗓️ Recommended 4-Session Order for This Week</h3>
+          <p><strong>Session 1 — <a href="#/lower-a" style="text-decoration:underline">Lower A (Abs 1st + Leg Press 195 kg)</a>:</strong> Since you trained Upper on Oct 24 & Oct 27, start with Lower A to ignite full-body fat burn!</p>
+          <p><strong>Session 2 — <a href="#/upper-a" style="text-decoration:underline">Upper A (Abs 1st + 5-Set Biceps + Chest/Back)</a>:</strong> Total Core Combo → 5 sets of Biceps → Seated Chest Press & Rows.</p>
+          <p><strong>Session 3 — <a href="#/upper-b" style="text-decoration:underline">Upper B (Abs 1st + 5-Set Biceps + Multi Press/M-Torture)</a>:</strong> Total Core Combo → Incline DB Curl & Machine Curl → Multi Press & Pulldown.</p>
+          <p><strong>Session 4 — <a href="#/lower-b" style="text-decoration:underline">Lower B (Abs 1st + 4-Set Bonus Biceps + Express Legs)</a>:</strong> Hits abs and biceps one more time (14 weekly sets!) plus 25 mins of legs.</p>
         </div>
 
         ${strengthUpgrade()}
       `,
 
       workouts: () => `
-        <h2>🏋️ Machine + 6-Pack Hypertrophy Plan</h2>
-        <p class="muted">Every session ends with a 6-minute Weighted Upper Ab + Pelvic Lower Ab Superset to thicken your abdominal wall.</p>
+        <h2>🏋️ Abs 1st + Biceps Priority Workouts</h2>
+        <p class="muted">Select a workout below. Every session now puts your Core & Oblique Superset 1st and Biceps Volume 2nd!</p>
 
         <div class="card warning" style="margin-bottom:20px">
-          <h3>🔄 Rolling 4-Session Schedule & Busy-Week Rule</h3>
-          <p><strong>Standard Schedule (4 Sessions):</strong> Upper A → Lower A → Upper B → Lower B.</p>
-          <p><strong>Busy Schedule (3 Sessions):</strong> Run the next 3 sessions in order and start the following cycle with the 4th session so every workout gets trained equally.</p>
+          <h3>⚡ Why Biceps 2nd (Never Triceps 2nd) Is the Secret</h3>
+          <p>On Oct 27, doing Triceps first caused your Super Vertical Multi Press to drop to 3 reps on Set 3. By doing <strong>Abs 1st</strong> and <strong>Biceps 2nd</strong>, your arms get maximum blood flow and volume while your <strong>Triceps stay 100% fresh</strong> for heavy pressing!</p>
         </div>
 
         <div class="grid">
-          <a class="page-link" href="#/upper-a">
-            <h3>🏋️ Upper A + Abs</h3>
-            <p>Bench, Row, Incline, Lateral Raise, Biceps (2x) + <strong>Leg Raises & Woodchoppers (Lower & Side Abs)</strong></p>
-          </a>
           <a class="page-link" href="#/lower-a">
-            <h3>🦵 Lower A + Abs</h3>
-            <p>Leg Press PR (210 kg Top Set), Seated Leg Curl (37.5-40 kg), Leg Ext, Calves + <strong>Ab Crunch & Captain's Chair Pelvic Raise</strong></p>
+            <h3>🦵 1. Lower A (Do Next!)</h3>
+            <p><strong>Block 1:</strong> Ab Crunch (50 kg) + Reverse Crunch<br><strong>Block 2:</strong> Leg Press (195 kg × 3×8), Leg Curl + Calves</p>
+          </a>
+          <a class="page-link" href="#/upper-a">
+            <h3>🏋️ 2. Upper A (Abs + 5-Set Biceps 1st)</h3>
+            <p><strong>Block 1:</strong> Total Core + Ab Crunch<br><strong>Block 2:</strong> 5-Set Biceps Blitz<br><strong>Block 3:</strong> Chest Press (45 kg) + Rows</p>
           </a>
           <a class="page-link" href="#/upper-b">
-            <h3>💪 Upper B + Abs</h3>
-            <p>M-Torture, Multi Press, DB Row, Triceps, Incline Curls + <strong>Reverse Crunch & Pallof (Lower & Side Abs)</strong></p>
+            <h3>💪 3. Upper B (Abs + 5-Set Biceps 1st)</h3>
+            <p><strong>Block 1:</strong> Total Core + Reverse Crunch<br><strong>Block 2:</strong> Incline DB + Machine Curl<br><strong>Block 3:</strong> Multi Press + M-Torture</p>
           </a>
           <a class="page-link" href="#/lower-b">
-            <h3>🔥 Lower B + Abs</h3>
-            <p>Hack Squat, Hip Thrust Machine, Leg Curl, Calves + <strong>Heavy Ab Crunch & Reverse Crunch/Side Plank</strong></p>
+            <h3>🔥 4. Lower B (Abs + 4-Set Biceps + Legs)</h3>
+            <p><strong>Block 1:</strong> Total Core + 4-Set Bonus Biceps<br><strong>Block 2:</strong> Hack Squat, Hip Thrust + Leg Curl</p>
           </a>
         </div>
 
@@ -1269,7 +1352,7 @@
 
           <div class="form-grid">
             <label>📅 Workout Duration Date <input id="workoutMinutesDate" type="date" required></label>
-            <label>⏱️ Total Workout Minutes <input id="workoutMinutes" type="number" min="1" step="1" placeholder="Example: 60"></label>
+            <label>⏱️ Total Workout Minutes <input id="workoutMinutes" type="number" min="1" step="1" placeholder="Example: 42"></label>
           </div>
           <div class="button-row">
             <button class="button secondary" type="button" onclick="saveWorkoutMinutes()">⏱️ Save Workout Minutes</button>
@@ -1293,25 +1376,28 @@
                 </select>
               </label>
               <label>💪 Exercise Name
-                <input id="logExercise" required autocomplete="off" list="exerciseSuggestions" placeholder="Example: Barbell Bench Press">
+                <input id="logExercise" required autocomplete="off" list="exerciseSuggestions" placeholder="Example: Total Core Crunch Machine">
               </label>
               <datalist id="exerciseSuggestions">
-                ${Object.values(workouts).flat().map(item => `<option value="${escapeHTML(item[0])}"></option>`).join("")}
+                ${[...new Set([
+                  ...extraExerciseSuggestions,
+                  ...Object.values(workouts).reduce((acc, arr) => acc.concat(arr), []).map(item => item[0].replace(/^[0-9][A-C]?\.\s*/, ""))
+                ])].map(name => `<option value="${escapeHTML(name)}"></option>`).join("")}
               </datalist>
               <label>🔢 Sets Completed <input id="logSets" type="number" min="1" placeholder="Example: 3"></label>
-              <label>🔁 Reps Per Set <input id="logReps" placeholder="Example: 10, 10, 8"></label>
-              <label>⚖️ Weight Used <input id="logWeight" type="number" min="0" step="0.5" placeholder="Example: 50"></label>
+              <label>🔁 Reps Per Set <input id="logReps" placeholder="Example: 10, 10, 10"></label>
+              <label>⚖️ Weight Used <input id="logWeight" type="number" min="0" step="0.5" placeholder="Example: 25"></label>
               <label>📏 Unit
                 <select id="logWeightUnit"><option value="kg">kg</option><option value="lb">lb</option></select>
               </label>
-              <label>⏱️ Rest Time <input id="logRest" placeholder="Example: 90 seconds"></label>
+              <label>⏱️ Rest Time <input id="logRest" placeholder="Example: 60 seconds"></label>
               <label>⭐ Difficulty 1–10 <input id="logDifficulty" type="number" min="1" max="10" placeholder="Example: 8"></label>
              </div>
 
              <div id="previousExerciseResult"></div>
 
              <label style="margin-top:14px">📝 Notes
-               <textarea id="logNotes" placeholder="Example: Form felt good. Add weight or repetitions next time."></textarea>
+               <textarea id="logNotes" placeholder="Example: Did Abs 1st & Biceps 2nd. Started with Left Arm first."></textarea>
              </label>
 
              <button class="button" type="submit" style="margin-top:14px">💾 Save Exercise Progress</button>
@@ -1353,7 +1439,7 @@
           <form id="photoForm">
             <div class="form-grid">
               <label>📅 Date <input id="photoDate" type="date" required></label>
-              <label>🏷️ Title <input id="photoTitle" placeholder="Week 3 - Front"></label>
+              <label>🏷️ Title <input id="photoTitle" placeholder="Week 5 - Front & Biceps"></label>
             </div>
 
             <label style="margin-top:14px">📷 Photo File
@@ -1366,7 +1452,7 @@
             <label style="margin-top:14px">📝 Notes
               <textarea id="photoNote" placeholder="Morning weight, lighting, clothing, and observations..."></textarea>
             </label>
-            <button class="button" type="submit" style="margin-top:14px">💾 Save Progress Photo</button>
+            <button class="button" type="submit" type="submit" style="margin-top:14px">💾 Save Progress Photo</button>
           </form>
         </div>
 
@@ -1380,19 +1466,19 @@
       `,
 
       checklist: () => `
-        <h2>✅ Weekly Checklist</h2>
-        <p class="muted">Your checklist is saved only in this browser.</p>
+        <h2>✅ Upcoming Week Priority Checklist</h2>
+        <p class="muted">Synced to your Abs-First + 14-Set Biceps + Trunk-Fat Cut week.</p>
 
         <div class="card checklist">
           ${[
-            "🏋️ Complete 3–4 machine workouts (40–45 min each)",
-            "🧱 Complete 6-min Ab Superset (Crunch + Pelvic Curl) every workout",
-            "💨 Perform 3 × 20-second Stomach Vacuums after core sets",
-            "🦵 Push Leg Press Top Set (210+ kg) + Back-Off Sets",
-            "🥩 Hit 155–165 g protein/day and a mild -300 kcal deficit",
-            "🚶 Average 8,500–10,500 daily steps",
-            "😴 Sleep 7.0–7.5+ hours/night to lower trunk-fat cortisol",
-            "📏 Record weekly morning weight & relaxed navel waist"
+            "🧱 Do Block 1 (Total Core Crunch 20+ kg + Ab Crunch 50 kg / Reverse Crunch) FIRST in all 4 workouts",
+            "💪 Hit 14 total Biceps sets (5 on Upper A + 5 on Upper B + 4 on Lower B) right after Abs",
+            "⚖️ Always start unilateral DB Curls (8–10 kg) & DB Rows (18 kg) with Left Arm first",
+            "🦵 Complete Lower A (Leg Press 195 kg × 3×8 + Leg Curl + Calves) to boost fat burn",
+            "⏱️ Keep superset rest to 60–75s so workouts finish in 40–45 mins with high heart rate",
+            "🚶 Hit 9,000–10,000+ daily steps (up from 6,790 in Week 3) to burn ~1,000 extra kcal",
+            "🥩 Hit 155–165 g protein/day and a mild -300 kcal deficit for trunk-fat loss",
+            "😴 Sleep 7.0–7.5+ hours/night (up from 6.0h) to lower trunk-fat cortisol"
           ].map((text,index) => `
             <label>
               <input type="checkbox" data-check="check_${index}">
@@ -1409,7 +1495,7 @@
         <div class="card">
           <form id="checkinForm">
             <div class="form-grid">
-              <label>📅 Check-In Label <input id="week" required placeholder="Week 3"></label>
+              <label>📅 Check-In Label <input id="week" required placeholder="Week 4"></label>
               <label>⚖️ Average Weight (kg) <input id="weight" type="number" step=".1"></label>
               <label>📏 Waist (cm) <input id="waist" type="number" step=".1"></label>
               <label>🏋️ Strength Sessions <input id="strength" placeholder="4 / 4"></label>
@@ -1462,6 +1548,7 @@
       currentRoute = route;
 
       const app = document.getElementById("app");
+      if (!app) return;
       const index = routes.indexOf(route);
       const back = index !== -1 && index < previousIndex;
 
@@ -1471,13 +1558,13 @@
       let content = "";
 
       if (route === "upper-a") {
-        content = workoutPage("upper-a", "🏋️ Upper A + Lower Abs + Waist", "Upper-body strength with bench, row, incline, lateral raise, arms, and core options.", workouts.upperA);
+        content = workoutPage("upper-a", "🏋️ Upper A: Abs 1st + 5-Set Biceps + Chest/Back", "Starts with heavy Total Core & Ab Crunch while fresh, then 5 sets of Biceps before Chest & Back supersets.", workouts.upperA);
       } else if (route === "lower-a") {
-        content = workoutPage("lower-a", "🦵 Lower A + Lower Abs + Waist", "Lower-body strength with leg press, curls, extensions, calves, and core work.", workouts.lowerA);
+        content = workoutPage("lower-a", "🦵 Lower A: Abs 1st + Leg Press 195 kg", "Starts with heavy Ab Crunch & Reverse Crunch while fresh, then high-calorie Leg Press, Hamstrings & Calves.", workouts.lowerA);
       } else if (route === "upper-b") {
-        content = workoutPage("upper-b", "💪 Upper B + Lower Abs + Waist", "Upper-body strength with vertical pull, overhead press, row, rear delts, arms, and core options.", workouts.upperB);
+        content = workoutPage("upper-b", "💪 Upper B: Abs 1st + 5-Set Biceps + Multi Press/Back", "Starts with Total Core & Reverse Crunch, then 5 sets of Incline & Machine Biceps while keeping Triceps fresh for Multi Press.", workouts.upperB);
       } else if (route === "lower-b") {
-        content = workoutPage("lower-b", "🔥 Lower B + Lower Abs + Waist", "Lower-body strength with squat, hip thrust, curls, calves, and core options.", workouts.lowerB);
+        content = workoutPage("lower-b", "🔥 Lower B: Abs 1st + 4-Set Bonus Biceps + Express Legs", "Starts with Total Core + 4 bonus sets of Biceps (for 14 sets/week!) followed by a 25-min leg session.", workouts.lowerB);
       } else {
         content = pages[route] ? pages[route]() : pages.home();
       }
@@ -1726,7 +1813,7 @@
 
       const data = getWorkoutMinutesData();
       data[selectedDate] = minutes;
-      localStorage.setItem("fitnessWorkoutMinutes",JSON.stringify(data));
+      safeSetStorage("fitnessWorkoutMinutes",JSON.stringify(data));
       message.innerHTML = `<p class="small" style="margin-top:10px;color:var(--green)">✅ Saved ${minutes} minutes for ${escapeHTML(formatDate(selectedDate))}.</p>`;
       showToast("✅ Duration saved.");
     }
@@ -1830,7 +1917,7 @@ Give a realistic calorie range and likely estimate. Keep it brief and explain wh
     async function copyText(text) {
       try {
         await navigator.clipboard.writeText(text);
-      } catch {
+      } catch (e) {
         const textArea = document.createElement("textarea");
         textArea.value = text;
         textArea.style.position = "fixed";
@@ -1856,43 +1943,63 @@ Give a realistic calorie range and likely estimate. Keep it brief and explain wh
 
     function openPhotoDB() {
       return new Promise((resolve,reject) => {
-        const request = indexedDB.open(PHOTO_DB,1);
-        request.onupgradeneeded = event => {
-          const database = event.target.result;
-          if (!database.objectStoreNames.contains(PHOTO_STORE)) {
-            database.createObjectStore(PHOTO_STORE, { keyPath:"id", autoIncrement:true });
+        try {
+          if (!window.indexedDB) {
+            return reject(new Error("IndexedDB unavailable"));
           }
-        };
-        request.onsuccess = () => resolve(request.result);
-        request.onerror = () => reject(request.error);
+          const request = window.indexedDB.open(PHOTO_DB,1);
+          request.onupgradeneeded = event => {
+            const database = event.target.result;
+            if (!database.objectStoreNames.contains(PHOTO_STORE)) {
+              database.createObjectStore(PHOTO_STORE, { keyPath:"id", autoIncrement:true });
+            }
+          };
+          request.onsuccess = () => resolve(request.result);
+          request.onerror = () => reject(request.error);
+        } catch (err) {
+          reject(err);
+        }
       });
     }
 
     async function getPhotos() {
-      const database = await openPhotoDB();
-      return new Promise((resolve,reject) => {
-        const request = database.transaction(PHOTO_STORE,"readonly").objectStore(PHOTO_STORE).getAll();
-        request.onsuccess = () => resolve(request.result.sort((a,b) => new Date(b.date) - new Date(a.date)));
-        request.onerror = () => reject(request.error);
-      });
+      try {
+        const database = await openPhotoDB();
+        return await new Promise((resolve,reject) => {
+          const request = database.transaction(PHOTO_STORE,"readonly").objectStore(PHOTO_STORE).getAll();
+          request.onsuccess = () => resolve(request.result.sort((a,b) => new Date(b.date) - new Date(a.date)));
+          request.onerror = () => reject(request.error);
+        });
+      } catch (err) {
+        return memoryPhotos.slice().sort((a,b) => new Date(b.date) - new Date(a.date));
+      }
     }
 
     async function savePhoto(photo) {
-      const database = await openPhotoDB();
-      return new Promise((resolve,reject) => {
-        const request = database.transaction(PHOTO_STORE,"readwrite").objectStore(PHOTO_STORE).add(photo);
-        request.onsuccess = () => resolve();
-        request.onerror = () => reject(request.error);
-      });
+      try {
+        const database = await openPhotoDB();
+        return await new Promise((resolve,reject) => {
+          const request = database.transaction(PHOTO_STORE,"readwrite").objectStore(PHOTO_STORE).add(photo);
+          request.onsuccess = () => resolve();
+          request.onerror = () => reject(request.error);
+        });
+      } catch (err) {
+        memoryPhotos.push({ ...photo, id: memoryPhotoId++ });
+      }
     }
 
     async function deletePhoto(id) {
-      const database = await openPhotoDB();
-      return new Promise((resolve,reject) => {
-        const request = database.transaction(PHOTO_STORE,"readwrite").objectStore(PHOTO_STORE).delete(Number(id));
-        request.onsuccess = () => resolve();
-        request.onerror = () => reject(request.error);
-      });
+      try {
+        const database = await openPhotoDB();
+        return await new Promise((resolve,reject) => {
+          const request = database.transaction(PHOTO_STORE,"readwrite").objectStore(PHOTO_STORE).delete(Number(id));
+          request.onsuccess = () => resolve();
+          request.onerror = () => reject(request.error);
+        });
+      } catch (err) {
+        const idx = memoryPhotos.findIndex(p => p.id === Number(id));
+        if (idx !== -1) memoryPhotos.splice(idx, 1);
+      }
     }
 
     function fileToDataURL(file) {
@@ -1947,7 +2054,7 @@ Give a realistic calorie range and likely estimate. Keep it brief and explain wh
           preview.style.display = "none";
           if (fileName) fileName.textContent = "No photo file selected.";
           showToast("✅ Photo saved privately.");
-        } catch {
+        } catch (e) {
           showToast("⚠️ Photo could not be saved.");
         }
       };
@@ -2006,7 +2113,7 @@ Give a realistic calorie range and likely estimate. Keep it brief and explain wh
           </div>
         `;
         comparePhotos();
-      } catch {
+      } catch (e) {
         container.classList.remove("hidden");
         container.innerHTML = `<div class="card warning" style="margin-top:16px"><h3>⚠️ Gallery Unavailable</h3><p>This browser could not open private photo storage.</p></div>`;
       }
@@ -2077,15 +2184,15 @@ Give a realistic calorie range and likely estimate. Keep it brief and explain wh
     function loadChecklist() {
       document.querySelectorAll("[data-check]").forEach(box => {
         const key = "fitness_" + box.dataset.check;
-        box.checked = localStorage.getItem(key) === "true";
-        box.onchange = () => localStorage.setItem(key, String(box.checked));
+        box.checked = safeGetStorage(key) === "true";
+        box.onchange = () => safeSetStorage(key, String(box.checked));
       });
     }
 
     function resetChecklist() {
       document.querySelectorAll("[data-check]").forEach(box => {
         box.checked = false;
-        localStorage.setItem("fitness_" + box.dataset.check, "false");
+        safeSetStorage("fitness_" + box.dataset.check, "false");
       });
       showToast("🔄 Checklist reset.");
     }
@@ -2136,7 +2243,7 @@ Give a realistic calorie range and likely estimate. Keep it brief and explain wh
 
         const entries = getCheckins();
         entries.push(entry);
-        localStorage.setItem("fitnessCheckins",JSON.stringify(entries));
+        safeSetStorage("fitnessCheckins",JSON.stringify(entries));
         
         showToast("✅ Check-in saved.");
         updateHeaderWeight();
@@ -2150,33 +2257,19 @@ Give a realistic calorie range and likely estimate. Keep it brief and explain wh
       const entries = getCheckins();
       if (!entries[index]) return;
       entries.splice(index,1);
-      localStorage.setItem("fitnessCheckins",JSON.stringify(entries));
+      safeSetStorage("fitnessCheckins",JSON.stringify(entries));
       showToast("🗑️ Check-in deleted.");
       updateHeaderWeight();
       renderPage(currentRoute);
     }
 
-    const themeMedia = matchMedia("(prefers-color-scheme:dark)");
-    if (typeof themeMedia.addEventListener === "function") {
-      themeMedia.addEventListener("change",() => {
-        if (getTheme() === "system") applyTheme("system");
-      });
-    }
-
-    applyTheme(getTheme());
-    updateHeaderWeight();
-
-    // Initial render
-    renderPage();
-    window.addEventListener("hashchange", () => renderPage());
-    
     // Global export functions
     async function exportAllFitnessData() {
       let photos = [];
-      try { photos = await getPhotos(); } catch {}
+      try { photos = await getPhotos(); } catch (e) {}
 
       const checklist = {};
-      Object.keys(localStorage).filter(k => k.startsWith("fitness_")).forEach(k => { checklist[k] = localStorage.getItem(k); });
+      safeKeysStorage().filter(k => k.startsWith("fitness_")).forEach(k => { checklist[k] = safeGetStorage(k); });
 
       const backup = {
         exportedAt: new Date().toISOString(),
@@ -2222,10 +2315,10 @@ Give a realistic calorie range and likely estimate. Keep it brief and explain wh
 
       try {
         const data = JSON.parse(await file.text());
-        if (Array.isArray(data.fitnessDailyLogs)) localStorage.setItem("fitnessDailyLogs", JSON.stringify(data.fitnessDailyLogs));
-        if (Array.isArray(data.fitnessCheckins)) localStorage.setItem("fitnessCheckins", JSON.stringify(data.fitnessCheckins));
-        if (data.fitnessWorkoutMinutes) localStorage.setItem("fitnessWorkoutMinutes", JSON.stringify(data.fitnessWorkoutMinutes));
-        if (data.checklist) Object.entries(data.checklist).forEach(([k, v]) => localStorage.setItem(k, v));
+        if (Array.isArray(data.fitnessDailyLogs)) safeSetStorage("fitnessDailyLogs", JSON.stringify(data.fitnessDailyLogs));
+        if (Array.isArray(data.fitnessCheckins)) safeSetStorage("fitnessCheckins", JSON.stringify(data.fitnessCheckins));
+        if (data.fitnessWorkoutMinutes) safeSetStorage("fitnessWorkoutMinutes", JSON.stringify(data.fitnessWorkoutMinutes));
+        if (data.checklist) Object.entries(data.checklist).forEach(([k, v]) => safeSetStorage(k, v));
         if (Array.isArray(data.photos)) {
           for (const p of data.photos) {
             const { id, ...cleanPhoto } = p;
@@ -2235,16 +2328,47 @@ Give a realistic calorie range and likely estimate. Keep it brief and explain wh
         showToast("✅ Backup restored successfully.");
         updateHeaderWeight();
         renderPage(currentRoute);
-      } catch {
+      } catch (e) {
         showToast("⚠️ Could not read backup file.");
       }
     }
-    
-    // Assign to window for inline onclick attributes
-    window.exportAllFitnessData = exportAllFitnessData;
-    window.copyAllLogsText = copyAllLogsText;
-    window.importAllFitnessData = importAllFitnessData;
 
+    // Bind all inline handlers to window
+    Object.assign(window, {
+      setTheme,
+      saveWorkoutMinutes,
+      generateTodayExerciseReport,
+      copyTodayExerciseReport,
+      generateCaloriePrompt,
+      copyCaloriePrompt,
+      openDailyLogHistory,
+      closeDailyLogHistory,
+      deleteDailyLog,
+      openGallery,
+      closeGallery,
+      comparePhotos,
+      generateSummary,
+      removePhoto,
+      resetChecklist,
+      deleteCheckin,
+      exportAllFitnessData,
+      copyAllLogsText,
+      importAllFitnessData
+    });
+
+    if (typeof window.matchMedia === "function") {
+      const themeMedia = window.matchMedia("(prefers-color-scheme:dark)");
+      if (typeof themeMedia.addEventListener === "function") {
+        themeMedia.addEventListener("change",() => {
+          if (getTheme() === "system") applyTheme("system");
+        });
+      }
+    }
+
+    applyTheme(getTheme());
+    updateHeaderWeight();
+    renderPage();
+    window.addEventListener("hashchange", () => renderPage());
   </script>
 </body>
 </html>
