@@ -496,6 +496,50 @@
       border-color: rgba(47,111,237,.28);
     }
 
+    .exercise-type.intensity-badge {
+      color: #fff;
+      background: linear-gradient(135deg, #e11d48, #8b5cf6);
+      border-color: transparent;
+      box-shadow: 0 4px 12px rgba(225,29,72,.28);
+    }
+
+    .intensity-callout {
+      margin-top: 10px;
+      padding: 10px 14px;
+      border-radius: 12px;
+      background: rgba(225,29,72,.10);
+      border: 1px solid rgba(225,29,72,.28);
+      font-size: .86rem;
+      font-weight: 700;
+    }
+
+    .intensity-bar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      padding: 18px 22px;
+      margin-bottom: 20px;
+      border-radius: 22px;
+      background: rgba(255,255,255,.18);
+      border: 1px solid rgba(139,92,246,.45);
+      box-shadow: var(--shadow);
+    }
+
+    .intensity-bar.active-mode {
+      border-color: var(--red);
+      background: linear-gradient(135deg, rgba(225,29,72,.14), rgba(139,92,246,.14));
+    }
+
+    .match-item {
+      padding: 12px 14px;
+      margin-top: 10px;
+      border-radius: 14px;
+      background: rgba(120,135,180,.08);
+      border: 1px solid var(--border);
+    }
+
     .watch-link {
       display: inline-flex;
       margin-top: 12px;
@@ -871,8 +915,8 @@
     <div class="hero-stats">
       <div class="hero-stat">
         <span>⚖️</span>
-        <strong id="headerWeight">78.00 kg</strong>
-        <small id="headerWeightLabel">Target: 76.8–77.2 kg</small>
+        <strong id="headerWeight">78.80 kg</strong>
+        <small id="headerWeightLabel">Target: 77.6 kg</small>
       </div>
 
       <div class="hero-stat">
@@ -906,13 +950,14 @@
   </footer>
 
   <script>
-    const STARTING_WEIGHT = 78.0;
+    const STARTING_WEIGHT = 78.8;
     const TARGET_LOSS_MIN = 0.2;
     const TARGET_LOSS_MAX = 0.5;
 
     let previousIndex = 0;
     let galleryOpened = false;
     let dailyLogOpened = false;
+    let editingLogIndex = null;
     let currentRoute = "home";
     let toastTimeout = null;
 
@@ -976,7 +1021,7 @@
         ["1A. Total Core Crunch Machine (Straight + L/R Oblique Combo)","3 × 10 straight + 10 L/R oblique · Target: 20–22.5 kg","DO FIRST WHILE 100% FRESH! 10 straight crunches + 10 left/right oblique crunches as 1 compound waist-sculpting set.","core"],
         ["1B. Abdominal Crunch Machine","3 × 10–12 · Target: 50–52.5 kg","Superset with 1A. Exhale completely at peak crunch. Hold a 20s stomach vacuum during your rest period.","core"],
         ["2A. Biceps Curl Machine (Peak Contraction Priority)","3 × 10–12 · Target: 25–27.5 kg","DO SECOND FOR BICEPS VOLUME! Squeeze hard for 1s at the top and lower over 3 slow seconds.","bicep"],
-        ["2B. Single-Arm DB Curl (Left Arm First!)","2 × 10–12/arm · Target: 8–10 kg","Start with your 3.6 kg Left Arm first! Gives you 5 total fresh bicep sets before heavy compounds without tiring your triceps.","bicep"],
+        ["2B. Single-Arm DB Curl","2 × 10–12/arm · Target: 8–10 kg","Start with your Left Arm first! Gives you 5 total fresh bicep sets before heavy compounds.","bicep"],
         ["2C. Dumbbell Lateral Raise","3 × 12–15 · Target: 7–8 kg","Isolate the side deltoids to cap off the shoulders while arms are slightly pumped."],
         ["3A. Seated Chest Press (or Barbell Bench Press)","3 × 8–10 · Target: 45–50 kg (or 17.5–20 kg/side)","Superset with 3B (60–75s rest). Your triceps are 100% fresh so your pressing power stays maxed out!"],
         ["3B. Chest-Supported Row","3 × 8–12 · Target: 15–17.5 kg/side","Superset with 3A. Pull elbows toward your hips—pre-pumped biceps force your lats to work even harder."],
@@ -988,7 +1033,7 @@
         ["1A. Abdominal Crunch Machine","3 × 10–12 · Target: 50–52.5 kg","DO FIRST WHILE 100% FRESH! Progressed from 48 kg (RPE 5/10 on Oct 20). Pause 1s at full contraction.","core"],
         ["1B. Decline Bench Reverse Crunch (or Captain's Chair)","3 × 12–15 · Target: Bodyweight","Superset with 1A. Curl your pelvis upward off the pad and lower in 3 slow seconds. Hold a 20s vacuum during rest.","core"],
         ["2. Leg Press (Trunk-Fat Calorie Furnace)","3 × 8 · Target: 195–200 kg working sets (210 kg Top Set PR)","Machine supports your back so training abs first is 100% safe. Put your 160 kg warm-up in Notes only!"],
-        ["3A. Seated Leg Curl","3 × 10–12 · Target: 37.5–40 kg","Superset with 3B (takes only 8 mins total—keeps your 21.9 kg leg muscle firing!)."],
+        ["3A. Seated Leg Curl","3 × 10–12 · Target: 37.5–40 kg","Superset with 3B (takes only 8 mins total—keeps your 22.7 kg leg muscle firing!)."],
         ["3B. Standing Calf Raise","3 × 10–12 · Target: 20–25 kg","Superset with 3A. Pause 2 seconds at the bottom stretch and top squeeze."],
         ["4. Leg Extension Machine","3 × 10–12 · Target: 40–45 kg","Control both lifting and lowering phases for quad definition and extra calorie burn."]
       ],
@@ -996,7 +1041,7 @@
       upperB: [
         ["1A. Total Core Crunch Machine (Straight + L/R Oblique Combo)","3 × 10 straight + 10 L/R oblique · Target: 20–22.5 kg","DO FIRST WHILE 100% FRESH! High-intensity upper, lower, and oblique waist sculptor.","core"],
         ["1B. Decline Bench Reverse Crunch","3 × 12–15 · Target: Bodyweight","Superset with 1A. Curl your tailbone off the bench and hold a 20s stomach vacuum during rest.","core"],
-        ["2A. Incline DB Curl (Left Arm First — Long-Head Stretch!)","3 × 8–10 · Target: 8–10 kg DBs","DO SECOND WHILE ARMS ARE FRESH! Start with your Left Arm first to fix the 0.2 kg asymmetry.","bicep"],
+        ["2A. Incline DB Curl (Left Arm First — Long-Head Stretch!)","3 × 8–10 · Target: 8–10 kg DBs","DO SECOND WHILE ARMS ARE FRESH! Start with your Left Arm first to close the 0.1 kg asymmetry gap.","bicep"],
         ["2B. Biceps Curl Machine (Constant-Tension Pump)","2 × 10–12 · Target: 25 kg","Completes 5 total bicep sets on Upper B while keeping your triceps 100% fresh for Multi Press!","bicep"],
         ["3A. Super Vertical Multi Press","3 × 8–10 · Target: 22.5 kg/side (45 kg total)","Superset with 3B. Because you trained Biceps (not Triceps!) earlier, you will hit all 3 × 8 reps cleanly."],
         ["3B. M-Torture Vertical Pull Down","3 × 8–10 · Target: 25–27.5 kg/side","Superset with 3A (60–75s rest). Drive elbows down toward your hips."],
@@ -1016,8 +1061,8 @@
 
     const extraExerciseSuggestions = [
       "Total Core Crunch Machine",
-      "Abdominal Crunch",
-      "Biceps Curl",
+      "Abdominal Crunch Machine",
+      "Biceps Curl Machine",
       "Incline DB Curl",
       "Single-Arm DB Curl",
       "Dumbbell Lateral Raise",
@@ -1127,13 +1172,13 @@
 
       if (!valid.length) {
         weight.textContent = STARTING_WEIGHT.toFixed(1) + " kg";
-        label.textContent = "Target: 76.8–77.2 kg";
+        label.textContent = "Target: 77.6 kg";
         return;
       }
 
       const current = Number(valid[valid.length - 1].weight);
       weight.textContent = current.toFixed(1) + " kg";
-      label.textContent = "Target: 76.8–77.2 kg";
+      label.textContent = "Target: 77.6 kg";
 
       if (valid.length < 2) return;
 
@@ -1149,17 +1194,64 @@
       }
     }
 
-    function previousExerciseLog(exercise,date) {
-      const name = normalizeExercise(exercise);
+    function isIntensityUnlocked() {
+      return getCheckins().length >= 4;
+    }
 
-      return getDailyLogs()
-        .filter(log => normalizeExercise(log.exercise) === name)
+    function isIntensityModeActive() {
+      return isIntensityUnlocked() && safeGetStorage("fitnessIntensityMode") === "true";
+    }
+
+    function toggleIntensityMode() {
+      if (!isIntensityUnlocked()) {
+        showToast("🔒 Complete 4 weekly check-ins to unlock Intensity Specialization Mode.");
+        return;
+      }
+      const nextState = !isIntensityModeActive();
+      safeSetStorage("fitnessIntensityMode", String(nextState));
+      showToast(nextState ? "⚡ Intensity Specialization Mode ON!" : "🏋️ Switched to Standard Mode.");
+      renderPage(currentRoute);
+    }
+
+    function matchingExerciseGroups(exerciseQuery, date) {
+      const cleanQuery = normalizeExercise(exerciseQuery);
+      if (!cleanQuery) return [];
+      const tokens = cleanQuery.split(" ").filter(Boolean);
+
+      const matches = getDailyLogs()
+        .filter(log => {
+          const loggedName = normalizeExercise(log.exercise);
+          return tokens.every(token => loggedName.includes(token));
+        })
         .filter(log => !date || log.date <= date)
         .sort((a,b) => {
           const dateDifference = new Date(b.date) - new Date(a.date);
           if (dateDifference !== 0) return dateDifference;
           return (b.id || 0) - (a.id || 0);
-        })[0] || null;
+        });
+
+      const grouped = new Map();
+      matches.forEach(log => {
+        const key = normalizeExercise(log.exercise);
+        if (!grouped.has(key)) grouped.set(key, log);
+      });
+
+      return Array.from(grouped.values()).sort((a,b) => {
+        const aName = normalizeExercise(a.exercise);
+        const bName = normalizeExercise(b.exercise);
+        const aExact = aName === cleanQuery ? 1 : 0;
+        const bExact = bName === cleanQuery ? 1 : 0;
+        if (aExact !== bExact) return bExact - aExact;
+        const aStarts = aName.startsWith(cleanQuery) ? 1 : 0;
+        const bStarts = bName.startsWith(cleanQuery) ? 1 : 0;
+        if (aStarts !== bStarts) return bStarts - aStarts;
+        return new Date(b.date) - new Date(a.date);
+      });
+    }
+
+    function previousExerciseLog(exercise,date) {
+      const matches = matchingExerciseGroups(exercise, date);
+      return matches[0] || null;
     }
 
     function strengthUpgrade() {
@@ -1169,53 +1261,87 @@
         const remaining = 4 - count;
         return `
           <div class="card" style="margin-top:24px">
-            <h3>🔒 Strength Upgrade</h3>
+            <h3>🔒 Strength Upgrade: Intensity Specialization Mode</h3>
             <p class="muted">
-              Save ${remaining} more weekly check-in${remaining === 1 ? "" : "s"}
-              to unlock the next workout phase.
+              Save ${remaining} more weekly check-in${remaining === 1 ? "" : "s"} (${count}/4 completed)
+              to unlock the <strong>⚡ Intensity Specialization Mode Toggle</strong> (Top-Set Strength + Biceps Mechanical Drop-Sets + Weighted Ab Peak Holds).
             </p>
             <div class="progress-track" style="margin-top:14px">
-              <div class="progress-fill" style="width:${count * 25}%"></div>
+              <div class="progress-fill" style="width:${Math.min(100, count * 25)}%"></div>
             </div>
           </div>
         `;
       }
 
-      return `
-        <div class="card success" style="margin-top:20px">
-          <h3>💪 Strength Upgrade Unlocked</h3>
-          <p>After four consistent weekly check-ins, use a slightly heavier strength phase.</p>
+      const active = isIntensityModeActive();
 
-          <div class="grid">
+      return `
+        <div class="card ${active ? "warning" : "success"}" style="margin-top:20px">
+          <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px">
             <div>
-              <h4>🏋️ Upper Body</h4>
-              <p class="small">Bench Press: 4 × 5–8<br>Rows: 4 × 6–10<br>Overhead Press: 3 × 5–8</p>
+              <h3>⚡ Intensity Specialization Mode Unlocked (${count}/4 Weeks)</h3>
+              <p class="small" style="margin:4px 0 0">Toggle between Standard Hypertrophy Mode and Upgraded Intensity Mode across all 4 workouts.</p>
+            </div>
+            <button class="button ${active ? "red" : ""}" type="button" onclick="toggleIntensityMode()">
+              ${active ? "🔥 Intensity Mode: ON (Switch to Standard)" : "⚡ Turn ON Intensity Specialization Mode"}
+            </button>
+          </div>
+
+          <div class="grid" style="margin-top:16px">
+            <div>
+              <h4>🧱 Abs: Peak-Hold + Burnout</h4>
+              <p class="small">Adds a 4th set, a 2-second isometric squeeze at peak crunch, and a 25–30s stomach vacuum.</p>
             </div>
             <div>
-              <h4>🦵 Lower Body</h4>
-              <p class="small">Leg Press: 4 × 6–10<br>Romanian Deadlift: 4 × 6–10<br>Hip Thrust: 3 × 6–10</p>
+              <h4>💪 Biceps: 30% Mechanical Drop-Set</h4>
+              <p class="small">On the final set of every bicep exercise, immediately drop the weight by ~30% and rep to failure.</p>
             </div>
             <div>
-              <h4>🧱 Core Progression</h4>
-              <p class="small">Reach the top of the repetition range with control before adding resistance.</p>
+              <h4>🏋️ Compounds: 4 × 6–8 Top-Set Phase</h4>
+              <p class="small">Shifts primary presses, rows, and leg presses to heavier 4 × 6–8 top sets plus a back-off set.</p>
             </div>
           </div>
         </div>
       `;
     }
 
+    function getIntensityUpgradeDetails(name, sets, type) {
+      if (type === "core") {
+        return {
+          upgradedSets: sets.replace(/^3\s*×/, "4 ×") + " (+ Final Set Drop/Burnout)",
+          callout: "⚡ INTENSITY MODE: Hold every peak crunch for 2 full seconds. On Set 4, reduce weight by 25% (or extend ROM) for 10 bonus burnout reps + 30s Stomach Vacuum."
+        };
+      }
+      if (type === "bicep") {
+        return {
+          upgradedSets: sets.replace(/^[234]\s*×/, "4 ×") + " (+ Final Set 30% Drop-Set)",
+          callout: "⚡ INTENSITY MODE: Perform a 4-second negative on every rep. On your final set, immediately drop the weight by ~30% and perform 8–10 extra reps to failure!"
+        };
+      }
+      return {
+        upgradedSets: "4 × 6–8 Heavy Top Sets (+2.5–5 kg) + 1 × 10–12 Back-Off Set",
+        callout: "⚡ INTENSITY MODE: Increase working load by 2.5–5 kg for 4 heavy sets of 6–8 reps, then drop load by 20% for 1 high-rep metabolic back-off set."
+      };
+    }
+
     function exerciseCard([name,sets,note,type]) {
       const search = encodeURIComponent("TylerPath " + name + " proper form tutorial");
       const isCore = type === "core";
       const isBicep = type === "bicep";
+      const intensityOn = isIntensityModeActive();
+      const upgrade = intensityOn ? getIntensityUpgradeDetails(name, sets, type) : null;
 
       return `
         <article class="exercise-card ${isCore ? "core-exercise" : ""} ${isBicep ? "bicep-exercise" : ""}">
-          ${isCore ? `<span class="exercise-type">🧱 BLOCK 1 PRIORITY: ABS & WAIST FIRST</span>` : ""}
-          ${isBicep ? `<span class="exercise-type bicep-badge">💪 BLOCK 2 PRIORITY: BICEPS VOLUME FIRST</span>` : ""}
+          <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center">
+            ${isCore ? `<span class="exercise-type">🧱 BLOCK 1 PRIORITY: ABS & WAIST FIRST</span>` : ""}
+            ${isBicep ? `<span class="exercise-type bicep-badge">💪 BLOCK 2 PRIORITY: BICEPS VOLUME FIRST</span>` : ""}
+            ${intensityOn ? `<span class="exercise-type intensity-badge">⚡ INTENSITY SPECIALIZATION ACTIVE</span>` : ""}
+          </div>
           <h4>${isCore ? "🧱" : isBicep ? "💪" : "🏋️"} ${escapeHTML(name)}</h4>
-          <p><strong>Sets & reps:</strong> ${escapeHTML(sets)}</p>
+          <p><strong>Sets & reps:</strong> ${escapeHTML(intensityOn ? upgrade.upgradedSets : sets)}</p>
           <p class="small">💡 ${escapeHTML(note)}</p>
+          ${intensityOn ? `<div class="intensity-callout">${escapeHTML(upgrade.callout)}</div>` : ""}
           <a class="watch-link" target="_blank" rel="noopener noreferrer" href="https://www.youtube.com/results?search_query=${search}">
             ▶ Search Tutorial Video
           </a>
@@ -1227,6 +1353,8 @@
       const coreExercises = exercises.filter(item => item[3] === "core");
       const bicepExercises = exercises.filter(item => item[3] === "bicep");
       const strengthExercises = exercises.filter(item => item[3] !== "core" && item[3] !== "bicep");
+      const unlocked = isIntensityUnlocked();
+      const intensityOn = isIntensityModeActive();
 
       return `
         <div class="day-tabs">
@@ -1239,11 +1367,23 @@
         <h2>${title}</h2>
         <p class="muted">${subtitle}</p>
 
+        ${unlocked ? `
+          <div class="intensity-bar ${intensityOn ? "active-mode" : ""}">
+            <div>
+              <strong>${intensityOn ? "🔥 Intensity Specialization Mode: ACTIVE" : "⚡ Intensity Specialization Mode Available"}</strong>
+              <p class="small" style="margin:2px 0 0">${intensityOn ? "Showing upgraded Top-Sets (4×6–8), 30% Bicep Drop-Sets, and Weighted Ab Peak Holds." : "Switch on to upgrade sets/reps with Top-Sets & Mechanical Drop-Sets."}</p>
+            </div>
+            <button class="button ${intensityOn ? "red" : ""}" type="button" onclick="toggleIntensityMode()">
+              ${intensityOn ? "Switch to Standard Mode" : "⚡ Enable Intensity Mode"}
+            </button>
+          </div>
+        ` : ""}
+
         <div class="card highlight">
           <h3>🔥 This Week's Priority Order: 1. Abs First → 2. Biceps Volume → 3. Heavy Compounds</h3>
           <p><strong>1. Why Abs First Works Safely:</strong> Starting every workout with your <strong>Total Core Crunch (20–22.5 kg)</strong> & <strong>Abdominal Crunch (50–52.5 kg)</strong> recruits maximum ab & oblique fibers while your nervous system is 100% fresh. Because your heavy lifts are machine-supported, pre-fatiguing abs is completely safe!</p>
           <p><strong>2. Why Biceps Second Protects Your Presses:</strong> Unlike Triceps (which caused Multi Press to drop to 3 reps on Oct 27), training <strong>Biceps 2nd (5 sets on Upper A & B + 4 sets on Lower B = 14 sets/week)</strong> leaves your Triceps 100% fresh for Seated Chest Press & Multi Press!</p>
-          <p><strong>3. 60–75s Superset Rest for Trunk-Fat Burn:</strong> Keep rest to 60–75s between paired exercises to finish in 40–42 mins and maximize calorie burn.</p>
+          <p><strong>3. 60–75s Superset Rest for Trunk-Fat Burn:</strong> Keep rest to 60–75s between paired exercises to finish in 40–42 mins and maximize calorie burn to target the 6.3 kg trunk fat.</p>
         </div>
 
         ${coreExercises.length ? `
@@ -1254,7 +1394,7 @@
 
         ${bicepExercises.length ? `
           <h3 style="margin-top:28px">💪 Block 2 (Do 2nd!): High-Volume Biceps Priority Block (Left Arm First!)</h3>
-          <p class="muted">Train your biceps right after abs while your arms are fresh. Always start unilateral DB curls with your 3.6 kg Left Arm to close the 0.2 kg asymmetry gap.</p>
+          <p class="muted">Train your biceps right after abs while your arms are fresh. Always start unilateral DB curls with your 3.4 kg Left Arm to close the 0.1 kg asymmetry gap.</p>
           <div>${bicepExercises.map(exerciseCard).join("")}</div>
         ` : ""}
 
@@ -1266,7 +1406,7 @@
           <ol>
             <li><strong>Never Train Triceps Before Presses:</strong> Keep Triceps Extensions at the very end of Upper B so your Chest Press and Multi Press stay strong.</li>
             <li><strong>14 Weekly Biceps Sets:</strong> 5 sets on Upper A + 5 sets on Upper B + 4 bonus sets on Lower B = 14 high-quality sets for rapid bicep growth.</li>
-            <li><strong>Hit 9,000+ Daily Steps & 7.0–7.5h Sleep:</strong> Restoring steps from Week 3's 6,790 back to 9,000+ burns ~1,000 extra kcal this week to strip trunk fat.</li>
+            <li><strong>Hit 9,000+ Daily Steps & 7.0–7.5h Sleep:</strong> Restoring steps from Week 3's 6,790 back to 9,000+ is crucial to counteract the trunk fat rise (6.3 kg) from Oct 28.</li>
           </ol>
         </div>
       `;
@@ -1290,17 +1430,9 @@
           </div>
           <div class="card warning">
             <h3>🔥 3. Trunk-Fat Acceleration</h3>
-            <p><strong>78.0 kg → 76.8–77.2 kg Target</strong></p>
-            <p class="small">Combine <strong>60–75s superset rest periods</strong> (40-min workouts), <strong>9,000–10,000+ daily steps</strong> (up from 6,790 in Week 3), and <strong>7.0–7.5h sleep</strong> to strip ~0.3–0.4 kg of pure trunk fat this week.</p>
+            <p><strong>78.8 kg → 77.6 kg Target (Ideal Weight)</strong></p>
+            <p class="small">Your Oct 28 scan showed trunk fat at 6.3 kg. Combine <strong>60–75s superset rest periods</strong> (40-min workouts), <strong>9,000–10,000+ daily steps</strong>, and <strong>7.0–7.5h sleep</strong> to strip pure trunk fat this week.</p>
           </div>
-        </div>
-        
-        <div class="card success" style="margin-top:16px">
-          <h3>🗓️ Recommended 4-Session Order for This Week</h3>
-          <p><strong>Session 1 — <a href="#/lower-a" style="text-decoration:underline">Lower A (Abs 1st + Leg Press 195 kg)</a>:</strong> Since you trained Upper on Oct 24 & Oct 27, start with Lower A to ignite full-body fat burn!</p>
-          <p><strong>Session 2 — <a href="#/upper-a" style="text-decoration:underline">Upper A (Abs 1st + 5-Set Biceps + Chest/Back)</a>:</strong> Total Core Combo → 5 sets of Biceps → Seated Chest Press & Rows.</p>
-          <p><strong>Session 3 — <a href="#/upper-b" style="text-decoration:underline">Upper B (Abs 1st + 5-Set Biceps + Multi Press/M-Torture)</a>:</strong> Total Core Combo → Incline DB Curl & Machine Curl → Multi Press & Pulldown.</p>
-          <p><strong>Session 4 — <a href="#/lower-b" style="text-decoration:underline">Lower B (Abs 1st + 4-Set Bonus Biceps + Express Legs)</a>:</strong> Hits abs and biceps one more time (14 weekly sets!) plus 25 mins of legs.</p>
         </div>
 
         ${strengthUpgrade()}
@@ -1308,7 +1440,7 @@
 
       workouts: () => `
         <h2>🏋️ Abs 1st + Biceps Priority Workouts</h2>
-        <p class="muted">Select a workout below. Every session now puts your Core & Oblique Superset 1st and Biceps Volume 2nd!</p>
+        <p class="muted">Select a workout below. Every session puts your Core & Oblique Superset 1st and Biceps Volume 2nd!</p>
 
         <div class="card warning" style="margin-bottom:20px">
           <h3>⚡ Why Biceps 2nd (Never Triceps 2nd) Is the Secret</h3>
@@ -1316,20 +1448,20 @@
         </div>
 
         <div class="grid">
-          <a class="page-link" href="#/lower-a">
-            <h3>🦵 1. Lower A (Do Next!)</h3>
-            <p><strong>Block 1:</strong> Ab Crunch (50 kg) + Reverse Crunch<br><strong>Block 2:</strong> Leg Press (195 kg × 3×8), Leg Curl + Calves</p>
-          </a>
           <a class="page-link" href="#/upper-a">
-            <h3>🏋️ 2. Upper A (Abs + 5-Set Biceps 1st)</h3>
+            <h3>🏋️ Upper A (Abs + 5-Set Biceps 1st)</h3>
             <p><strong>Block 1:</strong> Total Core + Ab Crunch<br><strong>Block 2:</strong> 5-Set Biceps Blitz<br><strong>Block 3:</strong> Chest Press (45 kg) + Rows</p>
           </a>
+          <a class="page-link" href="#/lower-a">
+            <h3>🦵 Lower A (Abs 1st + Leg Press)</h3>
+            <p><strong>Block 1:</strong> Ab Crunch (50 kg) + Reverse Crunch<br><strong>Block 2:</strong> Leg Press (195 kg × 3×8), Leg Curl + Calves</p>
+          </a>
           <a class="page-link" href="#/upper-b">
-            <h3>💪 3. Upper B (Abs + 5-Set Biceps 1st)</h3>
+            <h3>💪 Upper B (Abs + 5-Set Biceps 1st)</h3>
             <p><strong>Block 1:</strong> Total Core + Reverse Crunch<br><strong>Block 2:</strong> Incline DB + Machine Curl<br><strong>Block 3:</strong> Multi Press + M-Torture</p>
           </a>
           <a class="page-link" href="#/lower-b">
-            <h3>🔥 4. Lower B (Abs + 4-Set Biceps + Legs)</h3>
+            <h3>🔥 Lower B (Abs + 4-Set Biceps + Legs)</h3>
             <p><strong>Block 1:</strong> Total Core + 4-Set Bonus Biceps<br><strong>Block 2:</strong> Hack Squat, Hip Thrust + Leg Curl</p>
           </a>
         </div>
@@ -1361,7 +1493,11 @@
         </div>
 
         <div class="card" style="margin-top:16px">
-          <h3>➕ Add Exercise Progress</h3>
+          <h3 id="dailyLogFormTitle">➕ Add Exercise Progress</h3>
+          <div id="editModeBanner" class="card highlight hidden" style="margin-bottom:14px;padding:14px 18px">
+            <strong>✏️ Editing Saved Exercise Log</strong>
+            <p class="small" style="margin:4px 0 0">Update any fields below and click <strong>Update Exercise Progress</strong>, or cancel to return to normal logging.</p>
+          </div>
 
           <form id="dailyLogForm">
             <div class="form-grid">
@@ -1386,7 +1522,7 @@
               </datalist>
               <label>🔢 Sets Completed <input id="logSets" type="number" min="1" placeholder="Example: 3"></label>
               <label>🔁 Reps Per Set <input id="logReps" placeholder="Example: 10, 10, 10"></label>
-              <label>⚖️ Weight Used <input id="logWeight" type="number" min="0" step="0.5" placeholder="Example: 25"></label>
+              <label>⚖️ Weight Used <input id="logWeight" type="number" min="0" step="any" inputmode="decimal" placeholder="Example: 22.5"></label>
               <label>📏 Unit
                 <select id="logWeightUnit"><option value="kg">kg</option><option value="lb">lb</option></select>
               </label>
@@ -1400,7 +1536,10 @@
                <textarea id="logNotes" placeholder="Example: Did Abs 1st & Biceps 2nd. Started with Left Arm first."></textarea>
              </label>
 
-             <button class="button" type="submit" style="margin-top:14px">💾 Save Exercise Progress</button>
+             <div class="button-row" style="margin-top:14px">
+               <button id="saveLogSubmitBtn" class="button" type="submit">💾 Save Exercise Progress</button>
+               <button id="cancelEditLogBtn" class="button secondary hidden" type="button" onclick="cancelEditDailyLog()">✖️ Cancel Edit</button>
+             </div>
            </form>
         </div>
 
@@ -1476,7 +1615,7 @@
             "⚖️ Always start unilateral DB Curls (8–10 kg) & DB Rows (18 kg) with Left Arm first",
             "🦵 Complete Lower A (Leg Press 195 kg × 3×8 + Leg Curl + Calves) to boost fat burn",
             "⏱️ Keep superset rest to 60–75s so workouts finish in 40–45 mins with high heart rate",
-            "🚶 Hit 9,000–10,000+ daily steps (up from 6,790 in Week 3) to burn ~1,000 extra kcal",
+            "🚶 Hit 9,000–10,000+ daily steps to reverse the trunk fat gain from 5.3 to 6.3 kg",
             "🥩 Hit 155–165 g protein/day and a mild -300 kcal deficit for trunk-fat loss",
             "😴 Sleep 7.0–7.5+ hours/night (up from 6.0h) to lower trunk-fat cortisol"
           ].map((text,index) => `
@@ -1496,11 +1635,11 @@
           <form id="checkinForm">
             <div class="form-grid">
               <label>📅 Check-In Label <input id="week" required placeholder="Week 4"></label>
-              <label>⚖️ Average Weight (kg) <input id="weight" type="number" step=".1"></label>
-              <label>📏 Waist (cm) <input id="waist" type="number" step=".1"></label>
+              <label>⚖️ Average Weight (kg) <input id="weight" type="number" step="any" inputmode="decimal"></label>
+              <label>📏 Waist (cm) <input id="waist" type="number" step="any" inputmode="decimal"></label>
               <label>🏋️ Strength Sessions <input id="strength" placeholder="4 / 4"></label>
               <label>🚶 Daily Steps <input id="steps" type="number"></label>
-              <label>😴 Sleep Hours <input id="sleep" type="number" step=".1"></label>
+              <label>😴 Sleep Hours <input id="sleep" type="number" step="any" inputmode="decimal"></label>
               <label>⚡ Energy 1–10 <input id="energy" type="number" min="1" max="10"></label>
             </div>
             <label style="margin-top:14px">🏋️ Gym Performance Notes <textarea id="performance"></textarea></label>
@@ -1554,6 +1693,7 @@
 
       galleryOpened = false;
       dailyLogOpened = false;
+      editingLogIndex = null;
 
       let content = "";
 
@@ -1605,27 +1745,45 @@
 
     /* ---------------- DAILY LOG ---------------- */
 
+    function selectMatchedExercise(name) {
+      const exerciseInput = document.getElementById("logExercise");
+      if (!exerciseInput) return;
+      exerciseInput.value = name;
+      showPreviousExercise();
+    }
+
     function showPreviousExercise() {
       const exercise = document.getElementById("logExercise");
       const date = document.getElementById("logDate");
       const box = document.getElementById("previousExerciseResult");
       if (!exercise || !date || !box) return;
       const name = exercise.value.trim();
-      if (name.length < 3) { box.innerHTML = ""; return; }
+      if (!name.length) { box.innerHTML = ""; return; }
 
-      const previous = previousExerciseLog(name,date.value);
-      if (!previous) {
-        box.innerHTML = `<div class="card" style="margin-top:14px"><h3>🆕 New Exercise Baseline</h3><p class="small">No previous result was found for <strong>${escapeHTML(name)}</strong>.</p></div>`;
+      const matches = matchingExerciseGroups(name, date.value);
+      if (!matches.length) {
+        box.innerHTML = `<div class="card" style="margin-top:14px"><h3>🆕 New Exercise Baseline</h3><p class="small">No saved exercise containing <strong>"${escapeHTML(name)}"</strong> was found yet.</p></div>`;
         return;
       }
-      const volume = trainingVolume(previous);
+
       box.innerHTML = `
         <div class="card success" style="margin-top:14px">
-          <h3>📊 Previous Performance</h3>
-          <p><strong>📅 Date:</strong> ${escapeHTML(formatDate(previous.date))}</p>
-          <p><strong>🔢 Sets:</strong> ${escapeHTML(previous.sets || "—")} · <strong>🔁 Reps:</strong> ${escapeHTML(previous.reps || "—")}</p>
-          <p><strong>⚖️ Weight:</strong> ${escapeHTML(previous.weight || "—")} ${escapeHTML(previous.weightUnit || "kg")}</p>
-          <p><strong>📦 Total Volume:</strong> ${volume ? `${volume.toLocaleString()} ${escapeHTML(previous.weightUnit || "kg")}·reps` : "—"}</p>
+          <h3>📊 Matching Exercise Performance (${matches.length} match${matches.length === 1 ? "" : "es"})</h3>
+          ${matches.slice(0, 4).map(match => {
+            const volume = trainingVolume(match);
+            const isExact = normalizeExercise(match.exercise) === normalizeExercise(name);
+            return `
+              <div class="match-item">
+                <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:8px">
+                  <strong>🏋️ ${escapeHTML(match.exercise)}</strong>
+                  ${!isExact ? `<button class="button secondary" type="button" style="min-height:34px;padding:6px 12px;font-size:.8rem" onclick="selectMatchedExercise('${escapeHTML(match.exercise).replace(/'/g, "\\'")}')">↗️ Use Full Name</button>` : `<span class="small">✅ Exact Match</span>`}
+                </div>
+                <p class="small" style="margin:6px 0 2px"><strong>📅 Date:</strong> ${escapeHTML(formatDate(match.date))} (${escapeHTML(match.workoutDay || "Workout")})</p>
+                <p style="margin:2px 0"><strong>🔢 Sets:</strong> ${escapeHTML(match.sets || "—")} · <strong>🔁 Reps:</strong> ${escapeHTML(match.reps || "—")} · <strong>⚖️ Weight:</strong> ${escapeHTML(match.weight || "Bodyweight")} ${escapeHTML(match.weight ? (match.weightUnit || "kg") : "")}</p>
+                <p class="small" style="margin:2px 0"><strong>📦 Volume:</strong> ${volume ? `${volume.toLocaleString()} ${escapeHTML(match.weightUnit || "kg")}·reps` : "—"} ${match.notes ? `· <strong>📝 Notes:</strong> ${escapeHTML(match.notes)}` : ""}</p>
+              </div>
+            `;
+          }).join("")}
         </div>
       `;
     }
@@ -1719,6 +1877,7 @@
                   ${log.rest ? `<p><strong>⏱️ Rest:</strong> ${escapeHTML(log.rest)}</p>` : ""}
                   ${log.notes ? `<p><strong>📝 Notes:</strong> ${escapeHTML(log.notes)}</p>` : ""}
                   <div class="button-row">
+                    <button class="button secondary" type="button" onclick="editDailyLog(${log.originalIndex})">✏️ Edit Exercise Log</button>
                     <button class="button red" type="button" onclick="deleteDailyLog(${log.originalIndex})">🗑️ Delete This Exercise Log</button>
                   </div>
                 </article>
@@ -1730,8 +1889,11 @@
 
       form.onsubmit = event => {
         event.preventDefault();
+        const logs = getDailyLogs();
+        const isEditing = editingLogIndex !== null && logs[editingLogIndex];
+
         const newLog = {
-          id:Date.now(),
+          id: isEditing ? (logs[editingLogIndex].id || Date.now()) : Date.now(),
           date:date.value,
           workoutDay:document.getElementById("logWorkoutDay").value,
           exercise:exercise.value.trim(),
@@ -1749,8 +1911,23 @@
           return;
         }
 
+        if (isEditing) {
+          logs[editingLogIndex] = newLog;
+          saveDailyLogs(logs);
+          cancelEditDailyLog();
+          document.getElementById("previousExerciseResult").innerHTML = `
+            <div class="card success" style="margin-top:14px">
+              <h3>✏️ Exercise Log Updated</h3>
+              <p>Updated <strong>${escapeHTML(newLog.exercise)}</strong> for ${escapeHTML(formatDate(newLog.date))}.</p>
+            </div>
+          `;
+          clearWorkoutTools();
+          if (dailyLogOpened) showLogs();
+          showToast("✅ Exercise log updated.");
+          return;
+        }
+
         const previous = previousExerciseLog(newLog.exercise,newLog.date);
-        const logs = getDailyLogs();
         logs.push(newLog);
         saveDailyLogs(logs);
 
@@ -1775,6 +1952,69 @@
       showLogs();
     }
 
+    function editDailyLog(index) {
+      const logs = getDailyLogs();
+      const log = logs[index];
+      if (!log) return;
+
+      editingLogIndex = index;
+
+      const dateEl = document.getElementById("logDate");
+      const dayEl = document.getElementById("logWorkoutDay");
+      const exEl = document.getElementById("logExercise");
+      const setsEl = document.getElementById("logSets");
+      const repsEl = document.getElementById("logReps");
+      const weightEl = document.getElementById("logWeight");
+      const unitEl = document.getElementById("logWeightUnit");
+      const restEl = document.getElementById("logRest");
+      const diffEl = document.getElementById("logDifficulty");
+      const notesEl = document.getElementById("logNotes");
+
+      if (dateEl) dateEl.value = log.date || today();
+      if (dayEl) dayEl.value = log.workoutDay || "Upper A";
+      if (exEl) exEl.value = log.exercise || "";
+      if (setsEl) setsEl.value = log.sets || "";
+      if (repsEl) repsEl.value = log.reps || "";
+      if (weightEl) weightEl.value = log.weight || "";
+      if (unitEl) unitEl.value = log.weightUnit || "kg";
+      if (restEl) restEl.value = log.rest || "";
+      if (diffEl) diffEl.value = log.difficulty || "";
+      if (notesEl) notesEl.value = log.notes || "";
+
+      const titleEl = document.getElementById("dailyLogFormTitle");
+      const bannerEl = document.getElementById("editModeBanner");
+      const submitBtn = document.getElementById("saveLogSubmitBtn");
+      const cancelBtn = document.getElementById("cancelEditLogBtn");
+
+      if (titleEl) titleEl.textContent = "✏️ Edit Saved Exercise Log";
+      if (bannerEl) bannerEl.classList.remove("hidden");
+      if (submitBtn) submitBtn.textContent = "💾 Update Exercise Progress";
+      if (cancelBtn) cancelBtn.classList.remove("hidden");
+
+      const formCard = document.getElementById("dailyLogForm");
+      if (formCard) formCard.scrollIntoView({ behavior: "smooth", block: "center" });
+      showToast("✏️ Editing exercise log.");
+    }
+
+    function cancelEditDailyLog() {
+      editingLogIndex = null;
+      const form = document.getElementById("dailyLogForm");
+      const dateEl = document.getElementById("logDate");
+      const titleEl = document.getElementById("dailyLogFormTitle");
+      const bannerEl = document.getElementById("editModeBanner");
+      const submitBtn = document.getElementById("saveLogSubmitBtn");
+      const cancelBtn = document.getElementById("cancelEditLogBtn");
+      const prevBox = document.getElementById("previousExerciseResult");
+
+      if (form) form.reset();
+      if (dateEl) dateEl.value = today();
+      if (titleEl) titleEl.textContent = "➕ Add Exercise Progress";
+      if (bannerEl) bannerEl.classList.add("hidden");
+      if (submitBtn) submitBtn.textContent = "💾 Save Exercise Progress";
+      if (cancelBtn) cancelBtn.classList.add("hidden");
+      if (prevBox) prevBox.innerHTML = "";
+    }
+
     function openDailyLogHistory() {
       dailyLogOpened = true;
       if (typeof window.refreshDailyLogHistory === "function") window.refreshDailyLogHistory();
@@ -1787,6 +2027,8 @@
     function deleteDailyLog(index) {
       const logs = getDailyLogs();
       if (!logs[index]) return;
+      if (editingLogIndex === index) cancelEditDailyLog();
+      else if (editingLogIndex !== null && index < editingLogIndex) editingLogIndex--;
       logs.splice(index,1);
       saveDailyLogs(logs);
       showToast("🗑️ Deleted log.");
@@ -2336,6 +2578,8 @@ Give a realistic calorie range and likely estimate. Keep it brief and explain wh
     // Bind all inline handlers to window
     Object.assign(window, {
       setTheme,
+      toggleIntensityMode,
+      selectMatchedExercise,
       saveWorkoutMinutes,
       generateTodayExerciseReport,
       copyTodayExerciseReport,
@@ -2343,6 +2587,8 @@ Give a realistic calorie range and likely estimate. Keep it brief and explain wh
       copyCaloriePrompt,
       openDailyLogHistory,
       closeDailyLogHistory,
+      editDailyLog,
+      cancelEditDailyLog,
       deleteDailyLog,
       openGallery,
       closeGallery,
