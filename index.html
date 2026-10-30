@@ -540,6 +540,66 @@
       border: 1px solid var(--border);
     }
 
+    .trophy-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 16px;
+      margin-top: 18px;
+    }
+
+    .trophy-card {
+      padding: 18px;
+      border-radius: 20px;
+      background: rgba(255,255,255,.18);
+      border: 1px solid rgba(255,255,255,.35);
+      box-shadow: var(--shadow-sm);
+      transition: transform .22s ease, border-color .22s ease;
+    }
+
+    .trophy-card:hover {
+      transform: translateY(-3px);
+      border-color: var(--purple);
+    }
+
+    .rank-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 4px 11px;
+      border-radius: 999px;
+      font-size: .75rem;
+      font-weight: 800;
+      letter-spacing: .03em;
+    }
+
+    .rank-diamond {
+      color: #fff;
+      background: linear-gradient(135deg, #38bdf8, #8b5cf6, #ec4899);
+      box-shadow: 0 4px 14px rgba(139,92,246,.35);
+    }
+
+    .rank-gold {
+      color: #422006;
+      background: linear-gradient(135deg, #fde047, #f59e0b);
+      box-shadow: 0 4px 12px rgba(245,158,11,.30);
+    }
+
+    .rank-silver {
+      color: #1e293b;
+      background: linear-gradient(135deg, #f1f5f9, #94a3b8);
+    }
+
+    .rank-bronze {
+      color: #fff;
+      background: linear-gradient(135deg, #d97706, #92400e);
+    }
+
+    .rank-starter {
+      color: var(--muted);
+      background: var(--soft);
+      border: 1px solid var(--border);
+    }
+
     .watch-link {
       display: inline-flex;
       margin-top: 12px;
@@ -958,6 +1018,7 @@
     let galleryOpened = false;
     let dailyLogOpened = false;
     let checkinsOpened = false;
+    let trophyPreviewOpened = false;
     let editingLogIndex = null;
     let currentRoute = "home";
     let toastTimeout = null;
@@ -1199,6 +1260,15 @@
       return getCheckins().length >= 4;
     }
 
+    function isTrophyRoomUnlocked() {
+      return getCheckins().length >= 8;
+    }
+
+    function toggleTrophyPreview() {
+      trophyPreviewOpened = !trophyPreviewOpened;
+      renderPage(currentRoute);
+    }
+
     function isIntensityModeActive() {
       return isIntensityUnlocked() && safeGetStorage("fitnessIntensityMode") === "true";
     }
@@ -1255,6 +1325,149 @@
       return matches[0] || null;
     }
 
+    const trophyLiftConfigs = [
+      { label: "Total Core Crunch Machine", keywords: ["total core"], unit: "kg", tiers: [15, 20, 25, 30] },
+      { label: "Abdominal Crunch Machine", keywords: ["abdominal crunch"], unit: "kg", tiers: [40, 48, 55, 62.5] },
+      { label: "Biceps Curl Machine", keywords: ["biceps curl"], unit: "kg", tiers: [20, 25, 30, 35] },
+      { label: "Seated Chest Press", keywords: ["seated chest press", "bench press"], unit: "kg", tiers: [35, 45, 55, 65] },
+      { label: "Super Vertical Multi Press", keywords: ["multi press"], unit: "kg/side", tiers: [15, 22.5, 27.5, 32.5] },
+      { label: "M-Torture Vertical Pull Down", keywords: ["m-torture"], unit: "kg/side", tiers: [20, 25, 30, 35] },
+      { label: "One-Arm Dumbbell Row", keywords: ["one-arm dumbbell row", "dumbbell row"], unit: "kg", tiers: [12, 16, 20, 24] },
+      { label: "Leg Press", keywords: ["leg press"], unit: "kg", tiers: [140, 185, 210, 240] }
+    ];
+
+    function maxRepsInSet(repsStr) {
+      const nums = String(repsStr || "")
+        .split(/[,/ ]+/)
+        .map(v => Number(v.replace(/[^0-9.]/g, "")))
+        .filter(v => !Number.isNaN(v) && v > 0);
+      return nums.length ? Math.max(...nums) : 0;
+    }
+
+    function estimate1RM(weight, repsStr) {
+      const w = Number(weight) || 0;
+      if (w <= 0) return 0;
+      const r = Math.min(15, maxRepsInSet(repsStr) || 1);
+      if (r <= 1) return w;
+      return w * (1 + r / 30);
+    }
+
+    function getRankDetails(weight, tiers) {
+      const [bronze, silver, gold, diamond] = tiers;
+      const w = Number(weight) || 0;
+
+      if (w >= diamond) {
+        return {
+          name: "💎 Diamond",
+          cls: "rank-diamond",
+          progress: 100,
+          nextLabel: "MAX RANK ACHIEVED (Diamond Tier!)"
+        };
+      }
+      if (w >= gold) {
+        const pct = Math.min(100, Math.max(0, ((w - gold) / (diamond - gold)) * 100));
+        return {
+          name: "🥇 Gold",
+          cls: "rank-gold",
+          progress: pct,
+          nextLabel: `${(diamond - w).toFixed(1)} kg to 💎 Diamond (${diamond} kg)`
+        };
+      }
+      if (w >= silver) {
+        const pct = Math.min(100, Math.max(0, ((w - silver) / (gold - silver)) * 100));
+        return {
+          name: "🥈 Silver",
+          cls: "rank-silver",
+          progress: pct,
+          nextLabel: `${(gold - w).toFixed(1)} kg to 🥇 Gold (${gold} kg)`
+        };
+      }
+      if (w >= bronze) {
+        const pct = Math.min(100, Math.max(0, ((w - bronze) / (silver - bronze)) * 100));
+        return {
+          name: "🥉 Bronze",
+          cls: "rank-bronze",
+          progress: pct,
+          nextLabel: `${(silver - w).toFixed(1)} kg to 🥈 Silver (${silver} kg)`
+        };
+      }
+      const pct = bronze > 0 ? Math.min(100, Math.max(0, (w / bronze) * 100)) : 0;
+      return {
+        name: "🎯 Starter",
+        cls: "rank-starter",
+        progress: pct,
+        nextLabel: w > 0 ? `${(bronze - w).toFixed(1)} kg to 🥉 Bronze (${bronze} kg)` : `Log lift to unlock 🥉 Bronze (${bronze} kg)`
+      };
+    }
+
+    function buildTrophyRoomContent() {
+      const logs = getDailyLogs();
+
+      const cardsHTML = trophyLiftConfigs.map(cfg => {
+        const matchingLogs = logs.filter(log => {
+          const name = normalizeExercise(log.exercise);
+          return cfg.keywords.some(kw => name.includes(kw));
+        });
+
+        let bestWeightLog = null;
+        let bestVolumeLog = null;
+        let best1RM = 0;
+
+        matchingLogs.forEach(log => {
+          const w = Number(log.weight) || 0;
+          const vol = trainingVolume(log);
+          const e1rm = estimate1RM(w, log.reps);
+
+          if (!bestWeightLog || w > (Number(bestWeightLog.weight) || 0)) {
+            bestWeightLog = log;
+          }
+          if (!bestVolumeLog || vol > trainingVolume(bestVolumeLog)) {
+            bestVolumeLog = log;
+          }
+          if (e1rm > best1RM) {
+            best1RM = e1rm;
+          }
+        });
+
+        const maxWeight = bestWeightLog ? (Number(bestWeightLog.weight) || 0) : 0;
+        const maxVolume = bestVolumeLog ? trainingVolume(bestVolumeLog) : 0;
+        const rank = getRankDetails(maxWeight, cfg.tiers);
+
+        return `
+          <div class="trophy-card">
+            <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px">
+              <h4 style="margin:0;font-size:1rem">${escapeHTML(cfg.label)}</h4>
+              <span class="rank-badge ${rank.cls}">${rank.name}</span>
+            </div>
+
+            ${maxWeight > 0 ? `
+              <p style="margin:10px 0 4px">
+                <strong>🏆 PR Weight:</strong> ${maxWeight} ${escapeHTML(cfg.unit)}
+                <span class="small">(${escapeHTML(bestWeightLog.reps || "—")} reps · ${escapeHTML(formatDate(bestWeightLog.date))})</span>
+              </p>
+              <p class="small" style="margin:2px 0">
+                <strong>⚡ Est. 1RM:</strong> ${best1RM.toFixed(1)} ${escapeHTML(cfg.unit)} ·
+                <strong>📦 Best Vol:</strong> ${maxVolume.toLocaleString()} ${escapeHTML(cfg.unit)}·reps
+              </p>
+            ` : `
+              <p class="small" style="margin:10px 0 4px">No weighted sets logged yet. Save in Daily Log to rank up!</p>
+            `}
+
+            <div class="progress-track" style="margin-top:10px;height:8px">
+              <div class="progress-fill" style="width:${rank.progress}%"></div>
+            </div>
+            <p class="small" style="margin:6px 0 0;font-size:.78rem">${escapeHTML(rank.nextLabel)}</p>
+          </div>
+        `;
+      }).join("");
+
+      return `
+        <div class="trophy-grid">
+          ${cardsHTML}
+        </div>
+      `;
+    }
+
     function strengthUpgrade() {
       const count = getCheckins().length;
 
@@ -1262,7 +1475,7 @@
         const remaining = 4 - count;
         return `
           <div class="card" style="margin-top:24px">
-            <h3>🔒 Strength Upgrade: Intensity Specialization Mode</h3>
+            <h3>🔒 Phase 1 Strength Upgrade: Intensity Specialization Mode</h3>
             <p class="muted">
               Save ${remaining} more weekly check-in${remaining === 1 ? "" : "s"} (${count}/4 completed)
               to unlock the <strong>⚡ Intensity Specialization Mode Toggle</strong> (Top-Set Strength + Biceps Mechanical Drop-Sets + Weighted Ab Peak Holds).
@@ -1275,12 +1488,16 @@
       }
 
       const active = isIntensityModeActive();
+      const phase2Unlocked = isTrophyRoomUnlocked();
+      const phase2Count = Math.min(4, Math.max(0, count - 4));
+      const phase2Remaining = Math.max(0, 8 - count);
+      const phase2Percent = Math.min(100, (phase2Count / 4) * 100);
 
       return `
         <div class="card ${active ? "warning" : "success"}" style="margin-top:20px">
           <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px">
             <div>
-              <h3>⚡ Intensity Specialization Mode Unlocked (${count}/4 Weeks)</h3>
+              <h3>⚡ Phase 1 Unlocked (4/4 Weeks): Intensity Specialization Mode</h3>
               <p class="small" style="margin:4px 0 0">Toggle between Standard Hypertrophy Mode and Upgraded Intensity Mode across all 4 workouts.</p>
             </div>
             <button class="button ${active ? "red" : ""}" type="button" onclick="toggleIntensityMode()">
@@ -1303,6 +1520,42 @@
             </div>
           </div>
         </div>
+
+        ${!phase2Unlocked ? `
+          <div class="card highlight" style="margin-top:18px">
+            <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px">
+              <div>
+                <h3>🔒 Phase 2 Upgrade (${count}/8 Weeks): 🏆 PR Trophy Room & 1RM Strength Ranks</h3>
+                <p class="muted" style="margin:4px 0 0">
+                  Complete ${phase2Remaining} more weekly check-in${phase2Remaining === 1 ? "" : "s"} (2nd 4-Week Block: ${phase2Count}/4 completed) to permanently unlock your live <strong>PR Trophy Room, Estimated 1-Rep Max Calculator & Bronze → Diamond Strength Ranks</strong>!
+                </p>
+              </div>
+              <button class="button secondary" type="button" onclick="toggleTrophyPreview()">
+                ${trophyPreviewOpened ? "🙈 Hide Trophy Room Preview" : "👀 Preview PR Trophy Room"}
+              </button>
+            </div>
+            <div class="progress-track" style="margin-top:14px">
+              <div class="progress-fill" style="width:${phase2Percent}%"></div>
+            </div>
+            ${trophyPreviewOpened ? `
+              <div style="margin-top:18px">
+                <p class="small">✨ <strong>Live Preview (Reads from your Daily Log History):</strong></p>
+                ${buildTrophyRoomContent()}
+              </div>
+            ` : ""}
+          </div>
+        ` : `
+          <div class="card success" style="margin-top:18px">
+            <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px">
+              <div>
+                <h3>🏆 Phase 2 Unlocked (${count}/8 Weeks): Personal Record Trophy Room & 1RM Ranks</h3>
+                <p class="small" style="margin:4px 0 0">Automatically tracks your all-time heaviest lifts, estimated 1-Rep Max (1RM), best volume, and next rank targets from your Daily Logs.</p>
+              </div>
+              <span class="rank-badge rank-diamond">🔓 8/8 UNLOCKED</span>
+            </div>
+            ${buildTrophyRoomContent()}
+          </div>
+        `}
       `;
     }
 
@@ -2623,6 +2876,7 @@ Give a realistic calorie range and likely estimate. Keep it brief and explain wh
     Object.assign(window, {
       setTheme,
       toggleIntensityMode,
+      toggleTrophyPreview,
       selectMatchedExercise,
       saveWorkoutMinutes,
       generateTodayExerciseReport,
