@@ -281,8 +281,8 @@
       z-index: 50;
       display: flex;
       align-items: center;
-      gap: 6px;
-      width: min(96vw, 760px);
+      gap: 4px;
+      width: min(94vw, 840px);
       padding: 6px;
       border-radius: 9999px;
       background: rgba(255,255,255,.10);
@@ -300,16 +300,16 @@
     }
 
     nav a {
-      flex: 0 0 auto;
-      min-height: 46px;
+      flex: 1 0 auto;
+      min-height: 44px;
       display: inline-flex;
       align-items: center;
       justify-content: center;
       text-align: center;
-      padding: 10px 16px;
+      padding: 10px 14px;
       color: var(--muted);
       border-radius: 999px;
-      font-size: .9rem;
+      font-size: .87rem;
       font-weight: 800;
       transition: .22s ease;
       white-space: nowrap;
@@ -875,9 +875,9 @@
       }
 
       nav a {
-        min-height: 52px;
-        padding: 12px 18px;
-        font-size: .95rem;
+        min-height: 46px;
+        padding: 10px 14px;
+        font-size: .84rem;
       }
 
       .day-tabs a {
@@ -957,6 +957,7 @@
     let previousIndex = 0;
     let galleryOpened = false;
     let dailyLogOpened = false;
+    let checkinsOpened = false;
     let editingLogIndex = null;
     let currentRoute = "home";
     let toastTimeout = null;
@@ -1527,7 +1528,7 @@
                 <select id="logWeightUnit"><option value="kg">kg</option><option value="lb">lb</option></select>
               </label>
               <label>⏱️ Rest Time <input id="logRest" placeholder="Example: 60 seconds"></label>
-              <label>⭐ Difficulty 1–10 <input id="logDifficulty" type="number" min="1" max="10" placeholder="Example: 8"></label>
+              <label>⭐ Difficulty 1–10 <input id="logDifficulty" type="number" min="1" max="10" step="any" inputmode="decimal" placeholder="Example: 8.5"></label>
              </div>
 
              <div id="previousExerciseResult"></div>
@@ -1630,6 +1631,7 @@
 
       tracking: () => `
         <h2>📈 Weekly Progress Check-In</h2>
+        <p class="muted">Record weekly measurements privately. Saved check-ins remain hidden unless you open them.</p>
 
         <div class="card">
           <form id="checkinForm">
@@ -1640,14 +1642,21 @@
               <label>🏋️ Strength Sessions <input id="strength" placeholder="4 / 4"></label>
               <label>🚶 Daily Steps <input id="steps" type="number"></label>
               <label>😴 Sleep Hours <input id="sleep" type="number" step="any" inputmode="decimal"></label>
-              <label>⚡ Energy 1–10 <input id="energy" type="number" min="1" max="10"></label>
+              <label>⚡ Energy 1–10 <input id="energy" type="number" min="1" max="10" step="any" inputmode="decimal" placeholder="Example: 7.5"></label>
             </div>
             <label style="margin-top:14px">🏋️ Gym Performance Notes <textarea id="performance"></textarea></label>
             <label style="margin-top:14px">📝 Weekly Notes <textarea id="notes"></textarea></label>
             <button class="button" type="submit" style="margin-top:14px">💾 Save Check-In</button>
           </form>
         </div>
-        <div id="savedCheckins"></div>
+
+        <div class="card warning" style="margin-top:16px">
+          <h3>🔐 Private Progress History</h3>
+          <p>Weekly check-ins are stored only in this browser and hidden by default.</p>
+          <button class="button secondary" type="button" onclick="openCheckinHistory()">🔐 Open Private Progress History</button>
+        </div>
+
+        <div id="savedCheckins" class="hidden"></div>
         ${strengthUpgrade()}
       `,
 
@@ -1693,6 +1702,7 @@
 
       galleryOpened = false;
       dailyLogOpened = false;
+      checkinsOpened = false;
       editingLogIndex = null;
 
       let content = "";
@@ -2450,12 +2460,30 @@ Give a realistic calorie range and likely estimate. Keep it brief and explain wh
         const container = document.getElementById("savedCheckins");
         if (!container) return;
 
+        if (!checkinsOpened) {
+          container.innerHTML = "";
+          container.classList.add("hidden");
+          return;
+        }
+
+        container.classList.remove("hidden");
+
         if (!entries.length) {
-          container.innerHTML = `<p class="small" style="margin-top:20px">📭 No weekly check-ins saved yet.</p>`;
+          container.innerHTML = `
+            <div class="card" style="margin-top:16px">
+              <h3>📭 No Weekly Check-Ins Saved Yet</h3>
+              <p class="muted">Save your first weekly check-in above.</p>
+              <button class="button secondary" type="button" onclick="closeCheckinHistory()">🙈 Hide Progress History</button>
+            </div>
+          `;
           return;
         }
 
         container.innerHTML = `
+          <div class="card success" style="margin-top:16px">
+            <h3>🔐 Private Progress History Open</h3>
+            <button class="button secondary" type="button" onclick="closeCheckinHistory()">🙈 Hide Progress History</button>
+          </div>
           <h3 style="margin-top:25px">📚 Saved Check-Ins</h3>
           ${entries.slice().reverse().map((entry,reverseIndex) => {
             const index = entries.length - 1 - reverseIndex;
@@ -2487,12 +2515,28 @@ Give a realistic calorie range and likely estimate. Keep it brief and explain wh
         entries.push(entry);
         safeSetStorage("fitnessCheckins",JSON.stringify(entries));
         
+        form.reset();
         showToast("✅ Check-in saved.");
         updateHeaderWeight();
-        renderPage(currentRoute);
+        if (checkinsOpened) showEntries();
       };
 
+      window.refreshCheckinHistory = showEntries;
       showEntries();
+    }
+
+    function openCheckinHistory() {
+      checkinsOpened = true;
+      if (typeof window.refreshCheckinHistory === "function") window.refreshCheckinHistory();
+    }
+
+    function closeCheckinHistory() {
+      checkinsOpened = false;
+      const container = document.getElementById("savedCheckins");
+      if (container) {
+        container.innerHTML = "";
+        container.classList.add("hidden");
+      }
     }
 
     function deleteCheckin(index) {
@@ -2502,7 +2546,7 @@ Give a realistic calorie range and likely estimate. Keep it brief and explain wh
       safeSetStorage("fitnessCheckins",JSON.stringify(entries));
       showToast("🗑️ Check-in deleted.");
       updateHeaderWeight();
-      renderPage(currentRoute);
+      if (typeof window.refreshCheckinHistory === "function") window.refreshCheckinHistory();
     }
 
     // Global export functions
@@ -2596,6 +2640,8 @@ Give a realistic calorie range and likely estimate. Keep it brief and explain wh
       generateSummary,
       removePhoto,
       resetChecklist,
+      openCheckinHistory,
+      closeCheckinHistory,
       deleteCheckin,
       exportAllFitnessData,
       copyAllLogsText,
