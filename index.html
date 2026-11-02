@@ -21,14 +21,14 @@
       --border: rgba(28,30,40,.12);
       --soft: rgba(28,30,40,.07);
       --blue: #2f6fed;
-      --purple: #8b5cf6;
+      --purple: #16a36a;
       --green: #16a36a;
       --yellow: #d97706;
       --red: #e11d48;
       --shadow: 0 18px 50px rgba(28,32,48,.13), 0 2px 6px rgba(28,32,48,.05);
       --shadow-sm: 0 6px 18px rgba(28,32,48,.08);
-      --grad: linear-gradient(135deg,#8b5cf6 0%,#2f6fed 55%,#16a36a 120%);
-      --ring: rgba(139,92,246,.45);
+      --grad: linear-gradient(135deg,#16a36a 0%,#0d9488 55%,#2f6fed 120%);
+      --ring: rgba(22,163,106,.45);
     }
 
     html[data-theme="dark"] {
@@ -41,14 +41,14 @@
       --border: rgba(255,255,255,.14);
       --soft: rgba(255,255,255,.08);
       --blue: #7eb3ff;
-      --purple: #b8a4ff;
+      --purple: #5fd9a0;
       --green: #5fd9a0;
       --yellow: #ffc96b;
       --red: #ff8198;
       --shadow: 0 20px 60px rgba(0,0,0,.45), 0 2px 8px rgba(0,0,0,.3);
       --shadow-sm: 0 8px 24px rgba(0,0,0,.32);
-      --grad: linear-gradient(135deg,#b8a4ff 0%,#7eb3ff 55%,#5fd9a0 120%);
-      --ring: rgba(184,164,255,.55);
+      --grad: linear-gradient(135deg,#5fd9a0 0%,#2dd4bf 55%,#7eb3ff 120%);
+      --ring: rgba(95,217,160,.55);
     }
 
     * {
@@ -70,10 +70,10 @@
       font-family: "DM Sans", Arial, sans-serif;
       line-height: 1.6;
       background:
-        radial-gradient(circle at 8% 4%, rgba(139,92,246,.22), transparent 30%),
+        radial-gradient(circle at 8% 4%, rgba(22,163,106,.22), transparent 30%),
         radial-gradient(circle at 92% 12%, rgba(47,111,237,.20), transparent 32%),
         radial-gradient(circle at 50% 98%, rgba(225,29,72,.14), transparent 36%),
-        radial-gradient(circle at 80% 60%, rgba(22,163,106,.12), transparent 34%),
+        radial-gradient(circle at 80% 60%, rgba(22,163,106,.14), transparent 34%),
         var(--bg);
     }
 
@@ -324,7 +324,7 @@
     nav a.active {
       color: #fff;
       background: var(--grad);
-      box-shadow: 0 10px 24px rgba(139,92,246,.35);
+      box-shadow: 0 10px 24px rgba(22,163,106,.35);
     }
 
     main {
@@ -375,6 +375,7 @@
     .highlight { border-left: 4px solid var(--blue); }
     .success { border-left: 4px solid var(--green); }
     .warning { border-left: 4px solid var(--yellow); }
+    .danger { border-left: 4px solid var(--red); }
 
     .page-link {
       min-height: 150px;
@@ -396,14 +397,14 @@
       border-radius: 14px;
       font-weight: 800;
       background: var(--grad);
-      box-shadow: 0 8px 20px rgba(139,92,246,.30);
+      box-shadow: 0 8px 20px rgba(22,163,106,.30);
       transition: transform .18s ease, box-shadow .18s ease, filter .18s ease;
     }
 
     .button:hover {
       transform: translateY(-2px);
       filter: brightness(1.05);
-      box-shadow: 0 12px 26px rgba(139,92,246,.40);
+      box-shadow: 0 12px 26px rgba(22,163,106,.40);
     }
 
     .button:active {
@@ -482,8 +483,8 @@
       margin-bottom: 12px;
       padding: 5px 11px;
       color: var(--purple);
-      background: rgba(139,92,246,.12);
-      border: 1px solid rgba(139,92,246,.24);
+      background: rgba(22,163,106,.12);
+      border: 1px solid rgba(22,163,106,.24);
       border-radius: 999px;
       font-size: .74rem;
       font-weight: 800;
@@ -498,7 +499,7 @@
 
     .exercise-type.intensity-badge {
       color: #fff;
-      background: linear-gradient(135deg, #e11d48, #8b5cf6);
+      background: linear-gradient(135deg, #e11d48, #16a36a);
       border-color: transparent;
       box-shadow: 0 4px 12px rgba(225,29,72,.28);
     }
@@ -523,13 +524,13 @@
       margin-bottom: 20px;
       border-radius: 22px;
       background: rgba(255,255,255,.18);
-      border: 1px solid rgba(139,92,246,.45);
+      border: 1px solid rgba(22,163,106,.45);
       box-shadow: var(--shadow);
     }
 
     .intensity-bar.active-mode {
       border-color: var(--red);
-      background: linear-gradient(135deg, rgba(225,29,72,.14), rgba(139,92,246,.14));
+      background: linear-gradient(135deg, rgba(225,29,72,.14), rgba(22,163,106,.14));
     }
 
     .match-item {
@@ -538,6 +539,125 @@
       border-radius: 14px;
       background: rgba(120,135,180,.08);
       border: 1px solid var(--border);
+    }
+
+    .branch-suggestions {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 10px;
+      margin-top: 12px;
+      padding: 12px;
+      border-radius: 16px;
+      background: rgba(120,135,180,.07);
+      border: 1px solid var(--border);
+    }
+
+    .branch-box {
+      padding: 10px 12px;
+      border-radius: 12px;
+      background: rgba(255,255,255,.22);
+      border: 1px solid rgba(255,255,255,.28);
+      font-size: .84rem;
+    }
+
+    html[data-theme="dark"] .branch-box {
+      background: rgba(0,0,0,.22);
+    }
+
+    .branch-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 3px 9px;
+      border-radius: 999px;
+      font-size: .72rem;
+      font-weight: 800;
+      letter-spacing: .03em;
+      margin-right: 6px;
+    }
+
+    .branch-tsw {
+      color: #0f766e;
+      background: rgba(20,184,166,.16);
+      border: 1px solid rgba(20,184,166,.35);
+    }
+
+    html[data-theme="dark"] .branch-tsw {
+      color: #5eead4;
+    }
+
+    .branch-tm5 {
+      color: #15803d;
+      background: rgba(22,163,106,.16);
+      border: 1px solid rgba(22,163,106,.35);
+    }
+
+    html[data-theme="dark"] .branch-tm5 {
+      color: #86efac;
+    }
+
+    .branch-both {
+      color: #b45309;
+      background: rgba(245,158,11,.18);
+      border: 1px solid rgba(245,158,11,.38);
+    }
+
+    html[data-theme="dark"] .branch-both {
+      color: #fcd34d;
+    }
+
+    .machine-chip-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .machine-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 11px;
+      border-radius: 12px;
+      font-size: .82rem;
+      font-weight: 700;
+      background: rgba(255,255,255,.25);
+      border: 1px solid var(--border);
+      transition: transform .18s ease, border-color .18s ease;
+    }
+
+    html[data-theme="dark"] .machine-chip {
+      background: rgba(0,0,0,.25);
+    }
+
+    .machine-chip:hover {
+      transform: translateY(-2px);
+      border-color: var(--purple);
+    }
+
+    .filter-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 14px 0;
+    }
+
+    .filter-pill {
+      padding: 8px 14px;
+      border-radius: 999px;
+      font-size: .83rem;
+      font-weight: 800;
+      color: var(--text);
+      background: rgba(255,255,255,.18);
+      border: 1px solid var(--border);
+      transition: .18s ease;
+    }
+
+    .filter-pill.active {
+      color: #fff;
+      background: var(--grad);
+      border-color: transparent;
+      box-shadow: 0 6px 16px rgba(22,163,106,.30);
     }
 
     .trophy-grid {
@@ -574,8 +694,8 @@
 
     .rank-diamond {
       color: #fff;
-      background: linear-gradient(135deg, #38bdf8, #8b5cf6, #ec4899);
-      box-shadow: 0 4px 14px rgba(139,92,246,.35);
+      background: linear-gradient(135deg, #38bdf8, #16a36a, #ec4899);
+      box-shadow: 0 4px 14px rgba(22,163,106,.35);
     }
 
     .rank-gold {
@@ -666,6 +786,39 @@
       resize: vertical;
     }
 
+    .intensity-check-label {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-height: 48px;
+      margin-top: 8px;
+      padding: 12px 14px;
+      background: rgba(255,255,255,.42);
+      border: 1px solid rgba(255,255,255,.35);
+      border-radius: 14px;
+      cursor: pointer;
+      transition: background .2s ease, border-color .2s ease;
+    }
+
+    html[data-theme="dark"] .intensity-check-label {
+      background: rgba(0,0,0,.26);
+    }
+
+    .intensity-check-label:hover {
+      border-color: var(--purple);
+    }
+
+    .intensity-check-label input[type="checkbox"] {
+      width: 22px;
+      height: 22px;
+      min-height: 22px;
+      margin: 0;
+      padding: 0;
+      accent-color: var(--purple);
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
     .checklist label,
     .analysis-checks label {
       min-height: 56px;
@@ -683,7 +836,7 @@
 
     .checklist label:hover,
     .analysis-checks label:hover {
-      background: rgba(139,92,246,.08);
+      background: rgba(22,163,106,.08);
       border-color: var(--border);
       transform: translateX(2px);
     }
@@ -924,7 +1077,8 @@
 
       input,
       select,
-      textarea {
+      textarea,
+      .intensity-check-label {
         min-height: 52px;
         padding: 14px 16px;
         font-size: 16px;
@@ -975,20 +1129,20 @@
     <div class="hero-stats">
       <div class="hero-stat">
         <span>⚖️</span>
-        <strong id="headerWeight">78.80 kg</strong>
-        <small id="headerWeightLabel">Target: 77.6 kg</small>
+        <strong id="headerWeight">78.70 kg</strong>
+        <small id="headerWeightLabel">Oct 31 Scan · Ideal: 78.1 kg</small>
       </div>
 
       <div class="hero-stat">
         <span>💪</span>
-        <strong>14 Sets/Wk</strong>
-        <small>Biceps Priority Volume</small>
+        <strong>37.8 kg SMM</strong>
+        <small>Score: 84 · 15.8% Body Fat</small>
       </div>
 
       <div class="hero-stat">
-        <span>🧱</span>
-        <strong>Abs 1st</strong>
-        <small>Fresh Core Every Session</small>
+        <span>🔓</span>
+        <strong>4/4 Weeks</strong>
+        <small>Intensity Mode Unlocked!</small>
       </div>
     </div>
   </header>
@@ -1006,11 +1160,11 @@
   <main id="app"></main>
 
   <footer>
-    💜 Train consistently · 📈 Progress gradually · 😴 Recover well · 📸 Track weekly
+    💚 Train consistently · 📈 Progress gradually · 😴 Recover well · 📸 Track weekly
   </footer>
 
   <script>
-    const STARTING_WEIGHT = 78.8;
+    const STARTING_WEIGHT = 78.7;
     const TARGET_LOSS_MIN = 0.2;
     const TARGET_LOSS_MAX = 0.5;
 
@@ -1019,6 +1173,9 @@
     let dailyLogOpened = false;
     let checkinsOpened = false;
     let trophyPreviewOpened = false;
+    let selectedBranchFilter = "all";
+    let selectedMuscleFilter = "all";
+    let machineSearchQuery = "";
     let editingLogIndex = null;
     let currentRoute = "home";
     let toastTimeout = null;
@@ -1080,51 +1237,564 @@
 
     const workouts = {
       upperA: [
-        ["1A. Total Core Crunch Machine (Straight + L/R Oblique Combo)","3 × 10 straight + 10 L/R oblique · Target: 20–22.5 kg","DO FIRST WHILE 100% FRESH! 10 straight crunches + 10 left/right oblique crunches as 1 compound waist-sculpting set.","core"],
-        ["1B. Abdominal Crunch Machine","3 × 10–12 · Target: 50–52.5 kg","Superset with 1A. Exhale completely at peak crunch. Hold a 20s stomach vacuum during your rest period.","core"],
-        ["2A. Biceps Curl Machine (Peak Contraction Priority)","3 × 10–12 · Target: 25–27.5 kg","DO SECOND FOR BICEPS VOLUME! Squeeze hard for 1s at the top and lower over 3 slow seconds.","bicep"],
-        ["2B. Single-Arm DB Curl","2 × 10–12/arm · Target: 8–10 kg","Start with your Left Arm first! Gives you 5 total fresh bicep sets before heavy compounds.","bicep"],
-        ["2C. Dumbbell Lateral Raise","3 × 12–15 · Target: 7–8 kg","Isolate the side deltoids to cap off the shoulders while arms are slightly pumped."],
-        ["3A. Seated Chest Press (or Barbell Bench Press)","3 × 8–10 · Target: 45–50 kg (or 17.5–20 kg/side)","Superset with 3B (60–75s rest). Your triceps are 100% fresh so your pressing power stays maxed out!"],
-        ["3B. Chest-Supported Row","3 × 8–12 · Target: 15–17.5 kg/side","Superset with 3A. Pull elbows toward your hips—pre-pumped biceps force your lats to work even harder."],
-        ["4A. Iso-Lateral Incline Press (or Incline DB Press)","3 × 8–10 · Target: 16–17.5 kg/side","Superset with 4B to keep heart rate elevated for trunk-fat burn."],
-        ["4B. Pec Dec Fly","3 × 10–12 · Target: 25–27.5 kg","Control the stretch and pause 1 second at peak chest contraction."]
+        [
+          "1A. Total Core Crunch Machine (Straight + L/R Oblique Combo)",
+          "3 × 10 straight + 10 L/R oblique · Target: 20–22.5 kg",
+          "DO FIRST WHILE 100% FRESH! Hit 3×10 @ 20 kg (RPE 8/10) on Oct 28. Ready to push to 22.5 kg!",
+          "core",
+          {
+            muscleGroup: "🧱 Abs & Obliques (Full Core)",
+            tm5: "Panatta TOTAL CORE CRUNCH MACHINE (or OnHim Rotary Torso + Panatta Upper abdominal)",
+            tsw: "Multi Gym Pro (8Station) Cable Crunch + High-to-Low Cable Woodchopper"
+          }
+        ],
+        [
+          "1B. Decline Bench Reverse Crunch (or Abdominal Crunch Machine)",
+          "3 × 12–15 Bodyweight (or 3 × 10–12 @ 52.5–55 kg)",
+          "Superset with 1A. Hit 3×10 Reverse Crunch (Oct 28) & 55 kg Ab Crunch PR (Oct 29). Hold a 20s stomach vacuum during rest.",
+          "core",
+          {
+            muscleGroup: "🧱 Lower & Upper Abs",
+            tm5: "Nautilus Adjustable Abdominal / Decline Bench, Nautilus Impact Abdominal Machine, or Panatta Upper abdominal",
+            tsw: "Hammer Strength Multi-Adjustable Bench (Decline Reverse Crunch) or Multi Gym Pro Cable Crunch"
+          }
+        ],
+        [
+          "2A. Three Angles Biceps Machine (or Biceps Curl Machine)",
+          "3 × 8–10/angle · Target: 10–12.5 kg/side (or 30–32.5 kg Machine)",
+          "DO SECOND FOR BICEPS VOLUME! Hit 10 kg/side across all 3 positions on Oct 28 & 30 kg × 10 on Oct 30.",
+          "bicep",
+          {
+            muscleGroup: "💪 Biceps (All 3 Angles Peak & Stretch)",
+            tm5: "Panatta THREE ANGLES BICEPS MACHINE, Hammer Strength MTS Biceps Curl, or Nautilus Impact Biceps Curl",
+            tsw: "Multi Gym Pro (8Station) Low-Pulley EZ-Bar / Unilateral Cable Curl"
+          }
+        ],
+        [
+          "2B. M-Torture Arm Curl (or Single-Arm DB Curl)",
+          "3 × 8–10 · Target: 10–12.5 kg/side (or 8–10 kg DB Left Arm First)",
+          "Hit 3×8 @ 10 kg/side at an easy RPE 5/10 on Oct 28! Both arms grew +0.1 kg on your Oct 31 scan (3.5 kg L / 3.6 kg R).",
+          "bicep",
+          {
+            muscleGroup: "💪 Biceps (Preacher & Unilateral Symmetry)",
+            tm5: "Newtech M-Torture Arm Curl / Preacher Curl, Panatta ALTERNATE ARM CURL 120, or Dumbbells",
+            tsw: "Dumbbells + Hammer Strength Utility Bench -75 / Multi-Adjustable Bench"
+          }
+        ],
+        [
+          "2C. Dumbbell Lateral Raise",
+          "3 × 12–15 · Target: 7–8 kg",
+          "Isolate the side deltoids to cap off the shoulders while arms are pumped.",
+          "",
+          {
+            muscleGroup: "🪽 Shoulders — Side Delts",
+            tm5: "Newtech Standing Lateral Raise, Torture Lateral Raise, Multi Lateral Raise, or Nautilus Impact Deltoid Raise",
+            tsw: "Newtech Standing Lateral Raise or Dumbbells"
+          }
+        ],
+        [
+          "3A. Seated Chest Press (or Barbell Bench Press)",
+          "3 × 8–10 · Target: 45–50 kg (or 17.5–20 kg/side)",
+          "Superset with 3B (60–75s rest). Your triceps are 100% fresh so your pressing power stays maxed out!",
+          "",
+          {
+            muscleGroup: "🏋️ Chest — Mid / Horizontal Press",
+            tm5: "Nautilus Impact Chest Press, Panatta SUPER HORIZONTAL BENCH PRESS, Hammer Strength MTS Chest Press, or Torture Wide Chest Press",
+            tsw: "Life Fitness Chest Press or Hammer Strength Decline Chest Press"
+          }
+        ],
+        [
+          "3B. Chest-Supported Row",
+          "3 × 8–12 · Target: 15–17.5 kg/side",
+          "Superset with 3A. Pull elbows toward your hips—pre-pumped biceps force your lats to work even harder.",
+          "",
+          {
+            muscleGroup: "🚣 Back — Mid/Upper Back Rows",
+            tm5: "Newtech Torture Two Way Row, Panatta SUPER ROWING, Nautilus Incline Lever Row, or R Torture Seated Row",
+            tsw: "Hammer Strength Iso-Lateral Low Row or Newtech Torture Standing & Seated Row Combo"
+          }
+        ],
+        [
+          "4A. Iso-Lateral Incline Press (or Incline DB Press)",
+          "3 × 8–10 · Target: 16–17.5 kg/side",
+          "Superset with 4B to keep heart rate elevated for trunk-fat burn.",
+          "",
+          {
+            muscleGroup: "📐 Chest — Upper / Incline Chest",
+            tm5: "Panatta SUPER INCLINED CHEST PRESS, Newtech Torture Incline Chest Press, or Seated Incline Chest Press",
+            tsw: "Hammer Strength Iso-Lateral Incline Press (Horizontal)"
+          }
+        ],
+        [
+          "4B. Pec Dec Fly",
+          "3 × 10–12 · Target: 25–27.5 kg",
+          "Control the stretch and pause 1 second at peak chest contraction.",
+          "",
+          {
+            muscleGroup: "🦋 Chest — Pec Fly & Inner Chest",
+            tm5: "Newtech Torture Peck Deck fly with reverse, Nautilus Impact Deltoid Fly, or Panatta SUPER LOWER CHEST FLIGHT",
+            tsw: "Life Fitness Pectoral Fly/Rear Deltoid"
+          }
+        ]
       ],
 
       lowerA: [
-        ["1A. Abdominal Crunch Machine","3 × 10–12 · Target: 50–52.5 kg","DO FIRST WHILE 100% FRESH! Progressed from 48 kg (RPE 5/10 on Oct 20). Pause 1s at full contraction.","core"],
-        ["1B. Decline Bench Reverse Crunch (or Captain's Chair)","3 × 12–15 · Target: Bodyweight","Superset with 1A. Curl your pelvis upward off the pad and lower in 3 slow seconds. Hold a 20s vacuum during rest.","core"],
-        ["2. Leg Press (Trunk-Fat Calorie Furnace)","3 × 8 · Target: 195–200 kg working sets (210 kg Top Set PR)","Machine supports your back so training abs first is 100% safe. Put your 160 kg warm-up in Notes only!"],
-        ["3A. Seated Leg Curl","3 × 10–12 · Target: 37.5–40 kg","Superset with 3B (takes only 8 mins total—keeps your 22.7 kg leg muscle firing!)."],
-        ["3B. Standing Calf Raise","3 × 10–12 · Target: 20–25 kg","Superset with 3A. Pause 2 seconds at the bottom stretch and top squeeze."],
-        ["4. Leg Extension Machine","3 × 10–12 · Target: 40–45 kg","Control both lifting and lowering phases for quad definition and extra calorie burn."]
+        [
+          "1A. Abdominal Crunch Machine",
+          "4 × 10–12 · Target: 52.5–55 kg",
+          "DO FIRST WHILE 100% FRESH! Hit 4×10 up to 55 kg (RPE 6/10) on Oct 29! Pause 1s at full contraction.",
+          "core",
+          {
+            muscleGroup: "🧱 Upper & Mid Abs",
+            tm5: "Nautilus Impact Abdominal Machine or Panatta Upper abdominal",
+            tsw: "Multi Gym Pro (8Station) Cable Crunch"
+          }
+        ],
+        [
+          "1B. Decline Bench Reverse Crunch (or Captain's Chair)",
+          "3 × 12–15 · Target: Bodyweight",
+          "Superset with 1A. Curl your pelvis upward off the pad and lower in 3 slow seconds. Hold a 20s vacuum during rest.",
+          "core",
+          {
+            muscleGroup: "🧱 Lower Abs & Pelvis Flexion",
+            tm5: "Nautilus Adjustable Abdominal / Decline Bench, Newtech Sit Up, Signature Series Leg Raise, or Moving Leg Raise",
+            tsw: "Hammer Strength Multi-Adjustable Bench (set to decline)"
+          }
+        ],
+        [
+          "2. Leg Press (23.1 kg Leg Muscle Calorie Furnace!)",
+          "3 × 8–10 · Target: 210–225 kg working sets",
+          "MASSIVE PR on Oct 29: Hit 190, 220, 220 kg × 8 at RPE 6/10. Leg muscle sits at 10.9/11.0 kg after this heavy effort!",
+          "",
+          {
+            muscleGroup: "🦵 Quads & Glutes — Compound Leg Press",
+            tm5: "Newtech Torture Power Leg Press Premium (THOMSON), Nautilus Impact Seated Leg Press, or Panatta Horizontal Adjustable leg press",
+            tsw: "Life Fitness Seated Leg Press or Newtech Torture Power Leg Press Premium (THOMSON)"
+          }
+        ],
+        [
+          "3A. Seated Leg Curl",
+          "3 × 10–12 · Target: 37.5–40 kg",
+          "Superset with 3B (takes only 8 mins total—keeps your leg muscle firing!).",
+          "",
+          {
+            muscleGroup: "🍑 Hamstrings — Leg Curl",
+            tm5: "Newtech Leg Curl, Nautilus Impact Seated Leg Curl, Hammer Strength Iso-Lateral Leg Curl, or Torture Kneeling Leg Curl",
+            tsw: "Multi Gym Pro (8Station) Ankle-Cuff Leg Curl or Hammer Strength BW Back Extension"
+          }
+        ],
+        [
+          "3B. Standing Calf Raise",
+          "3 × 10–12 · Target: 20–25 kg",
+          "Superset with 3A. Pause 2 seconds at the bottom stretch and top squeeze.",
+          "",
+          {
+            muscleGroup: "🦶 Calves (Gastrocnemius & Soleus)",
+            tm5: "Nautilus Impact Standing Calf, Hammer Strength Seated Calf Raise, Panatta VIKING PRESS AND CALF, or Torture Squat & Calf Raise",
+            tsw: "Calf Press on Life Fitness Seated Leg Press / Newtech Torture Power Leg Press"
+          }
+        ],
+        [
+          "4. Leg Extension Machine",
+          "3 × 10–12 · Target: 40–45 kg",
+          "Control both lifting and lowering phases for quad definition and extra calorie burn.",
+          "",
+          {
+            muscleGroup: "🦵 Quads — Isolation Extension",
+            tm5: "Newtech Leg Extension, Hammer Strength Leg Extension, Nautilus Impact Leg Extension, or Panatta Alternate Leg Extension",
+            tsw: "Hammer Strength V-Squat or Life Fitness Seated Leg Press (narrow quad stance)"
+          }
+        ]
       ],
 
       upperB: [
-        ["1A. Total Core Crunch Machine (Straight + L/R Oblique Combo)","3 × 10 straight + 10 L/R oblique · Target: 20–22.5 kg","DO FIRST WHILE 100% FRESH! High-intensity upper, lower, and oblique waist sculptor.","core"],
-        ["1B. Decline Bench Reverse Crunch","3 × 12–15 · Target: Bodyweight","Superset with 1A. Curl your tailbone off the bench and hold a 20s stomach vacuum during rest.","core"],
-        ["2A. Incline DB Curl (Left Arm First — Long-Head Stretch!)","3 × 8–10 · Target: 8–10 kg DBs","DO SECOND WHILE ARMS ARE FRESH! Start with your Left Arm first to close the 0.1 kg asymmetry gap.","bicep"],
-        ["2B. Biceps Curl Machine (Constant-Tension Pump)","2 × 10–12 · Target: 25 kg","Completes 5 total bicep sets on Upper B while keeping your triceps 100% fresh for Multi Press!","bicep"],
-        ["3A. Super Vertical Multi Press","3 × 8–10 · Target: 22.5 kg/side (45 kg total)","Superset with 3B. Because you trained Biceps (not Triceps!) earlier, you will hit all 3 × 8 reps cleanly."],
-        ["3B. M-Torture Vertical Pull Down","3 × 8–10 · Target: 25–27.5 kg/side","Superset with 3A (60–75s rest). Drive elbows down toward your hips."],
-        ["4A. One-Arm Dumbbell Row","3 × 8–10 · Target: 18–20 kg DB","Start with your Left Arm first! Jumped to 16 kg at RPE 4/10 on Oct 24."],
-        ["4B. Triceps Extension (or Pec Dec Fly)","3 × 10–12 · Target: 25–27.5 kg","Done LAST after all heavy presses so your triceps never limit your compound lifts."]
+        [
+          "1A. Total Core Crunch Machine (Straight + L/R Oblique Combo)",
+          "3 × 10 straight + 10 L/R oblique · Target: 20–22.5 kg",
+          "DO FIRST WHILE 100% FRESH! High-intensity upper, lower, and oblique waist sculptor.",
+          "core",
+          {
+            muscleGroup: "🧱 Abs & Obliques (Full Core)",
+            tm5: "Panatta TOTAL CORE CRUNCH MACHINE (or OnHim Rotary Torso)",
+            tsw: "Multi Gym Pro (8Station) Cable Crunch + Cable Oblique Twist"
+          }
+        ],
+        [
+          "1B. Decline Bench Reverse Crunch",
+          "3 × 12–15 · Target: Bodyweight",
+          "Superset with 1A. Curl your tailbone off the bench and hold a 20s stomach vacuum during rest.",
+          "core",
+          {
+            muscleGroup: "🧱 Lower Abs",
+            tm5: "Nautilus Adjustable Abdominal / Decline Bench, Newtech Sit Up, or Dip & Leg Raise",
+            tsw: "Hammer Strength Multi-Adjustable Bench"
+          }
+        ],
+        [
+          "2A. Biceps Curl Machine (Constant-Tension PR Builder)",
+          "3 × 10–12 · Target: 30–32.5 kg",
+          "DO SECOND WHILE ARMS ARE FRESH! Crushed 3×10 @ 20, 30, 30 kg at an easy RPE 4/10 on Oct 30!",
+          "bicep",
+          {
+            muscleGroup: "💪 Biceps (Constant-Tension Peak)",
+            tm5: "Nautilus Impact Biceps Curl, Hammer Strength MTS Biceps Curl, or Panatta THREE ANGLES BICEPS MACHINE",
+            tsw: "Multi Gym Pro (8Station) Cable Biceps Curl"
+          }
+        ],
+        [
+          "2B. Incline DB Curl (or M-Torture Arm Curl — Left Arm First!)",
+          "3 × 8–10 · Target: 8–10 kg DBs (or 10–12.5 kg/side)",
+          "Start with your Left Arm first! Keeps weekly biceps volume at 12–14 sets while keeping triceps 100% fresh for Multi Press.",
+          "bicep",
+          {
+            muscleGroup: "💪 Biceps (Long-Head Stretch)",
+            tm5: "Dumbbells + Newtech Utility Bench (45–60° incline) or Newtech M-Torture Arm Curl",
+            tsw: "Dumbbells + Hammer Strength Multi-Adjustable Bench (45–60° incline)"
+          }
+        ],
+        [
+          "3A. Super Vertical Multi Press",
+          "3 × 8–10 · Target: 22.5 kg/side (45 kg total)",
+          "Superset with 3B. Because you trained Biceps (not Triceps!) earlier, you will hit all 3 × 8 reps cleanly.",
+          "",
+          {
+            muscleGroup: "🥥 Shoulders & Upper Chest — Vertical/Incline Press",
+            tm5: "Panatta SUPER VERTICAL MULTI PRESS, Panatta SUPER DELTOID PRESS, Newtech Torture Shoulder Press, or Nautilus Impact Shoulder Press",
+            tsw: "Life Fitness Shoulder Press or Hammer Strength Iso-Lateral Incline Press"
+          }
+        ],
+        [
+          "3B. M-Torture Vertical Pull Down",
+          "3 × 8–10 · Target: 25–27.5 kg/side",
+          "Superset with 3A (60–75s rest). Drive elbows down toward your hips.",
+          "",
+          {
+            muscleGroup: "🦅 Back — Lats & Width (Vertical Pull)",
+            tm5: "Newtech Vertical Pulldown, Torture Wide Pulldown Rear2, Panatta SUPER HIGH ROW, or Lat pulldown convergent",
+            tsw: "Hammer Strength Iso-Lateral High Row or Multi Gym Pro (8Station) Lat Pulldown"
+          }
+        ],
+        [
+          "4A. One-Arm Dumbbell Row",
+          "3 × 8–10 · Target: 18–20 kg DB",
+          "Start with your Left Arm first! Jumped to 16 kg at RPE 4/10 on Oct 24.",
+          "",
+          {
+            muscleGroup: "🚣 Back — Unilateral Lat & Mid-Back Row",
+            tm5: "Dumbbells + Utility Bench, Newtech M-Torture Low Row Gen2, or Panatta SUPER POWER ROW",
+            tsw: "Dumbbells + Multi-Adjustable Bench or Hammer Strength Iso-Lateral Low Row (1 arm at a time)"
+          }
+        ],
+        [
+          "4B. Triceps Extension (or Pec Dec Fly)",
+          "3 × 10–12 · Target: 25–27.5 kg",
+          "Done LAST after all heavy presses so your triceps never limit your compound lifts.",
+          "",
+          {
+            muscleGroup: "🦾 Triceps Isolation",
+            tm5: "Nautilus Impact Triceps Extension, Panatta Alternate Triceps Machine, Newtech Torture Overhead Extension, or Nautilus Impact Dip Machine",
+            tsw: "Multi Gym Pro (8Station) Triceps Rope Pushdown"
+          }
+        ]
       ],
 
       lowerB: [
-        ["1A. Total Core Crunch Machine (Straight + L/R Oblique Combo)","3 × 10 straight + 10 L/R oblique · Target: 20–22.5 kg","DO FIRST! Compound straight + oblique set for deep abdominal & waist definition.","core"],
-        ["1B. Bonus Biceps Feeder: Biceps Curl Machine (or 1-Arm DB Curl)","4 × 10–12 · Target: 25 kg (or 8–10 kg DB Left Arm First)","Superset with 1A! Adds 4 bonus bicep sets (bringing weekly biceps volume to 14 sets!) with zero leg fatigue.","bicep"],
-        ["2. Hack Squat Machine (or Leg Press)","3 × 8–10 · Target: Controlled machine load","High-calorie lower-body driver to mobilize stubborn trunk fat."],
-        ["3A. Hip Thrust Machine (or Romanian Deadlift)","3 × 10–12 · Target: Moderate-heavy load","Superset with 3B. Targets glutes and posterior chain."],
-        ["3B. Seated Leg Curl","3 × 10–12 · Target: 37.5–40 kg","Superset with 3A. Control the lowering phase."],
-        ["4. Standing Calf Raise","3 × 12 · Target: 20–25 kg","Full stretch at the bottom, 1s pause at the top."]
+        [
+          "1A. Total Core Crunch Machine (Straight + L/R Oblique Combo)",
+          "3 × 10 straight + 10 L/R oblique · Target: 20–22.5 kg",
+          "DO FIRST! Compound straight + oblique set for deep abdominal & waist definition.",
+          "core",
+          {
+            muscleGroup: "🧱 Abs & Obliques (Full Core)",
+            tm5: "Panatta TOTAL CORE CRUNCH MACHINE (or OnHim Rotary Torso)",
+            tsw: "Multi Gym Pro (8Station) Cable Crunch + Cable Woodchopper"
+          }
+        ],
+        [
+          "1B. Bonus Biceps Feeder: Biceps Curl Machine (or Three Angles Biceps)",
+          "4 × 10–12 · Target: 30 kg (or 10–12.5 kg/side)",
+          "Superset with 1A! Adds 4 bonus bicep sets (bringing weekly biceps volume to 14–16 sets!) with zero leg fatigue.",
+          "bicep",
+          {
+            muscleGroup: "💪 Biceps (Feeder Volume)",
+            tm5: "Hammer Strength MTS Biceps Curl, Panatta THREE ANGLES BICEPS MACHINE, or Nautilus Impact Biceps Curl",
+            tsw: "Multi Gym Pro (8Station) Cable Biceps Curl or Dumbbells"
+          }
+        ],
+        [
+          "2. Hack Squat Machine (or Leg Press)",
+          "3 × 8–10 · Target: Controlled machine load (or 210–220 kg Leg Press)",
+          "High-calorie lower-body driver to mobilize stubborn trunk fat.",
+          "",
+          {
+            muscleGroup: "🦵 Quads & Glutes — Squat / Hack Press",
+            tm5: "Booty Builder Hack Squat, Newtech Torture Hack Squat (Rotary), Hammer Strength Linear Hack Press, Plate Loaded Pendulum-X Squat, or Newtech M-Torture V Squat",
+            tsw: "Hammer Strength V-Squat or Newtech Torture Power Leg Press Premium (THOMSON)"
+          }
+        ],
+        [
+          "3A. Hip Thrust Machine (or Romanian Deadlift)",
+          "3 × 10–12 · Target: Moderate-heavy load",
+          "Superset with 3B. Targets glutes and posterior chain.",
+          "",
+          {
+            muscleGroup: "🍑 Glutes & Posterior Chain",
+            tm5: "Booty Builder Platinum V4 Hip Thrust, Newtech Torture Hip Thrust (Rotary), Panatta Hip thrust, or Glute Builder Multi-Function Deadlift Trainer",
+            tsw: "Hammer Strength Glute Drive or Hammer Strength BW Back Extension"
+          }
+        ],
+        [
+          "3B. Seated Leg Curl",
+          "3 × 10–12 · Target: 37.5–40 kg",
+          "Superset with 3A. Control the lowering phase.",
+          "",
+          {
+            muscleGroup: "🍑 Hamstrings",
+            tm5: "Newtech Leg Curl, Nautilus Impact Seated Leg Curl, or Nautilus Impact Leg Curl (Lying)",
+            tsw: "Multi Gym Pro (8Station) Cable Hamstring Curl"
+          }
+        ],
+        [
+          "4. Standing Calf Raise",
+          "3 × 12 · Target: 20–25 kg",
+          "Full stretch at the bottom, 1s pause at the top.",
+          "",
+          {
+            muscleGroup: "🦶 Calves & Tibialis",
+            tm5: "Nautilus Impact Standing Calf, Hammer Strength Seated Calf Raise, or Hammer Strength Tibia Dorsi Flexion",
+            tsw: "Calf Press on Life Fitness Seated Leg Press"
+          }
+        ]
       ]
     };
+
+    const muscleGroupedEquipment = [
+      {
+        id: "abs",
+        title: "🧱 Abs, Lower Abs & Obliques",
+        subtitle: "Target: Rectus Abdominis (Upper/Lower) & External/Internal Obliques",
+        machines: [
+          { name: "Panatta TOTAL CORE CRUNCH MACHINE", branch: "TM5", note: "Straight + L/R Oblique Combo (Your 20 kg 10/10 favorite)" },
+          { name: "Nautilus Impact Abdominal Machine", branch: "TM5", note: "Heavy selectorized upper/mid ab crunch" },
+          { name: "Panatta Upper abdominal", branch: "TM5", note: "Isolated upper-ab flexion" },
+          { name: "Newtech OnHim Rotary Torso", branch: "TM5", note: "Weighted rotational oblique sculptor" },
+          { name: "Life Fitness Signature Series Leg Raise", branch: "TM5", note: "Captain's chair lower-ab knee/leg raise" },
+          { name: "Newtech Moving Leg Raise", branch: "TM5", note: "Dynamic lower-ab pelvic curl" },
+          { name: "Newtech Dip & Leg Raise", branch: "TM5", note: "Vertical knee raise + dip station" },
+          { name: "Hammer Strength Chin/Dip/Leg Raise", branch: "TM5", note: "Hanging or supported leg raise" },
+          { name: "Nautilus Adjustable Abdominal / Decline Bench", branch: "TM5", note: "Decline bench reverse crunch / sit-up" },
+          { name: "Newtech Sit Up", branch: "TM5", note: "Decline ab bench" },
+          { name: "ABS ABSOLO®", branch: "TM5", note: "Interactive medicine-ball core trainer" },
+          { name: "Newtech Multi Gym Pro (8Station)", branch: "TSW", note: "Use high pulley for kneeling cable crunches & woodchoppers" },
+          { name: "Hammer Strength Multi-Adjustable Bench", branch: "TSW", note: "Use for decline reverse crunches & bench leg raises" }
+        ]
+      },
+      {
+        id: "biceps",
+        title: "💪 Biceps & Forearms",
+        subtitle: "Target: Biceps Brachii (Long & Short Head), Brachialis & Forearm Grip",
+        machines: [
+          { name: "Hammer Strength MTS Biceps Curl", branch: "TM5", note: "Independent left/right arms — ideal for fixing L/R asymmetry" },
+          { name: "Panatta THREE ANGLES BICEPS MACHINE", branch: "TM5", note: "3 adjustable arm angles for peak & stretch" },
+          { name: "Panatta ALTERNATE ARM CURL 120", branch: "TM5", note: "Plate-loaded alternating preacher curl" },
+          { name: "Nautilus Impact Biceps Curl", branch: "TM5", note: "Constant-tension selectorized preacher curl" },
+          { name: "Newtech Preacher Curl Bench (stand type)", branch: "TM5", note: "Free-weight EZ-bar or single-arm DB preacher curl" },
+          { name: "Hammer Strength Grip Strength Trainer", branch: "TM5", note: "Plate-loaded forearm & crushing grip builder" },
+          { name: "Newtech Multi Gym Pro (8Station) Cable Curl", branch: "TSW", note: "Low-pulley constant-tension cable bicep curl" },
+          { name: "Hammer Strength Utility Bench -75 / Multi-Adjustable Bench", branch: "BOTH", note: "Use with dumbbells for Incline DB Curls & 1-Arm Curls" }
+        ]
+      },
+      {
+        id: "triceps",
+        title: "🦾 Triceps",
+        subtitle: "Target: Lateral, Long & Medial Heads of the Triceps",
+        machines: [
+          { name: "Nautilus Impact Triceps Extension", branch: "TM5", note: "Selectorized seated triceps extension" },
+          { name: "Panatta Alternate Triceps Machine", branch: "TM5", note: "Plate-loaded independent triceps pressdown" },
+          { name: "Panatta Alternate arm extension", branch: "TM5", note: "Selectorized triceps isolation extension" },
+          { name: "Newtech Torture Overhead Extension", branch: "TM5", note: "Long-head overhead triceps stretch machine" },
+          { name: "Nautilus Impact Dip Machine", branch: "TM5", note: "Selectorized seated triceps & lower-chest dip" },
+          { name: "Panatta DIPS PRESS DUAL SYSTEM", branch: "TM5", note: "Plate-loaded converging dip press" },
+          { name: "Nautilus Impact Chin Dip Assist", branch: "TM5", note: "Assisted bodyweight triceps dips" },
+          { name: "Newtech Multi Gym Pro (8Station) Triceps Station", branch: "TSW", note: "Cable rope pushdowns & overhead extensions" }
+        ]
+      },
+      {
+        id: "chest",
+        title: "🏋️ Chest (Mid, Incline, Lower & Fly)",
+        subtitle: "Target: Pectoralis Major (Sternal, Clavicular/Upper & Costal/Lower Fibers)",
+        machines: [
+          { name: "Life Fitness Chest Press", branch: "TSW", note: "Seated selectorized horizontal chest press" },
+          { name: "Hammer Strength Iso-Lateral Incline Press (Horizontal)", branch: "TSW", note: "Plate-loaded upper chest press" },
+          { name: "Hammer Strength Decline Chest Press", branch: "TSW", note: "Plate-loaded lower chest press" },
+          { name: "Life Fitness Pectoral Fly/Rear Deltoid", branch: "TSW", note: "Pec dec fly + rear delt combo" },
+          { name: "Panatta SUPER VERTICAL MULTI PRESS", branch: "TM5", note: "Multi-angle flat, incline & shoulder press (22.5 kg/side)" },
+          { name: "Panatta SUPER HORIZONTAL BENCH PRESS", branch: "TM5", note: "Plate-loaded lying horizontal chest press" },
+          { name: "Panatta SUPER INCLINED CHEST PRESS", branch: "TM5", note: "Plate-loaded converging upper chest press" },
+          { name: "Panatta VERTICAL CHEST PRESS CIRCULAR", branch: "TM5", note: "Selectorized mid-chest press" },
+          { name: "Panatta INCLINED CHEST PRESS CIRCULAR", branch: "TM5", note: "Selectorized incline chest press" },
+          { name: "Panatta SUPER LOWER CHEST FLIGHT MACHINE", branch: "TM5", note: "Plate-loaded lower-chest fly" },
+          { name: "Panatta POWER SMITH MACHINE DUAL SYSTEM", branch: "TM5", note: "Guided dual-axis bench press" },
+          { name: "Panatta POWER SMITH DUAL SYSTEM UPPER", branch: "TM5", note: "Guided dual-axis incline press" },
+          { name: "Newtech Torture Peck Deck fly with reverse(new)", branch: "TM5", note: "Pec dec fly + rear delt fly" },
+          { name: "Newtech Seated Incline Chest Press", branch: "TM5", note: "Plate-loaded seated incline press" },
+          { name: "Newtech Torture Incline Chest Press", branch: "TM5", note: "Plate-loaded incline chest press" },
+          { name: "Newtech Torture Wide Chest Press", branch: "TM5", note: "Plate-loaded wide chest press" },
+          { name: "Nautilus Impact Chest Press", branch: "TM5", note: "Selectorized seated chest press" },
+          { name: "Nautilus Leverage Chest Press", branch: "TM5", note: "Plate-loaded leverage chest press" },
+          { name: "Hammer Strength MTS Chest Press", branch: "TM5", note: "Independent-arm selectorized chest press" },
+          { name: "Hammer Strength Iso-Lateral Horizontal Bench Press", branch: "TM5", note: "Plate-loaded flat bench press" },
+          { name: "Bolt Fitness CLASSIC SERIES ATTILA PLATE LOADED CHEST PRESS", branch: "TM5", note: "Heavy plate-loaded chest press" },
+          { name: "Xmaster Multi-Angle Bench Press Rack", branch: "TM5", note: "Barbell bench press station" }
+        ]
+      },
+      {
+        id: "back",
+        title: "🦅 Back (Lat Pulldowns, Rows, Pullovers & Traps)",
+        subtitle: "Target: Latissimus Dorsi (Width), Rhomboids/Traps (Thickness) & Erector Spinae",
+        machines: [
+          { name: "Hammer Strength Iso-Lateral High Row", branch: "TSW", note: "Plate-loaded vertical pull for lat width" },
+          { name: "Hammer Strength Iso-Lateral Low Row", branch: "TSW", note: "Plate-loaded unilateral low row for lower lats" },
+          { name: "Newtech Torture Standing & Seated Row Combo (New)", branch: "BOTH", note: "Available at both TSW & TM5 — chest-supported row" },
+          { name: "Newtech Vertical Pulldown", branch: "TM5", note: "M-Torture plate-loaded vertical pulldown (25 kg/side)" },
+          { name: "Newtech Torture Wide Pulldown Rear2", branch: "TM5", note: "Wide-grip plate-loaded lat pulldown" },
+          { name: "Newtech High Row", branch: "TM5", note: "Plate-loaded high row" },
+          { name: "Newtech M-Torture Low Row Gen2", branch: "TM5", note: "Plate-loaded low lat row" },
+          { name: "Newtech Torture Two Way Row (new)", branch: "TM5", note: "Chest-supported dual-grip row" },
+          { name: "Newtech Torture Front Row", branch: "TM5", note: "Plate-loaded front lat/mid-back row" },
+          { name: "Newtech R Torture Seated Row (Rotary)", branch: "TM5", note: "Rotary chest-supported seated row" },
+          { name: "Newtech T-Bar Row T-", branch: "TM5", note: "Chest-supported T-bar row" },
+          { name: "Newtech Seated Row - Internal", branch: "TM5", note: "Selectorized seated row" },
+          { name: "Newtech Adjustable Low Pulley", branch: "TM5", note: "Seated cable row station" },
+          { name: "Panatta SUPER HIGH ROW", branch: "TM5", note: "Plate-loaded converging high row" },
+          { name: "Panatta SUPER ROWING", branch: "TM5", note: "Plate-loaded chest-supported mid-back row" },
+          { name: "Panatta SUPER ROWING CIRCULAR", branch: "TM5", note: "Circular-path chest-supported row" },
+          { name: "Panatta SUPER POWER ROW", branch: "TM5", note: "Heavy upper/mid-back row" },
+          { name: "Panatta SUPER PULLOVER MACHINE", branch: "TM5", note: "Isolated lat pullover machine (no biceps needed!)" },
+          { name: "Panatta Lat pulldown convergent", branch: "TM5", note: "Selectorized converging lat pulldown" },
+          { name: "Panatta Lat pulldown circular", branch: "TM5", note: "Selectorized circular lat pulldown" },
+          { name: "Panatta High row convergent", branch: "TM5", note: "Selectorized high row" },
+          { name: "Panatta Rowing machine circular", branch: "TM5", note: "Selectorized seated row" },
+          { name: "Panatta FRONT DORSY BAR", branch: "TM5", note: "Plate-loaded T-bar row" },
+          { name: "Hammer Strength MTS Row", branch: "TM5", note: "Independent-arm selectorized row" },
+          { name: "Hammer Strength Pullover", branch: "TM5", note: "Plate-loaded lat pullover" },
+          { name: "Hammer Strength Seated/Standing Shrug", branch: "TM5", note: "Plate-loaded upper trap shrug" },
+          { name: "Nautilus Plate Loaded Incline Lever Row", branch: "TM5", note: "Chest-supported incline lever row" },
+          { name: "Nautilus Impact Vertical Row", branch: "TM5", note: "Selectorized chest-supported row" },
+          { name: "Nautilus Leverage Row", branch: "TM5", note: "Plate-loaded row" },
+          { name: "Nautilus Inspiration Strength Pullover Gen3", branch: "TM5", note: "Selectorized lat pullover" },
+          { name: "Bolt Fitness ADJUSTABLE BILATERAL PLATE LOADED LAT PULLDOWN", branch: "TM5", note: "Independent bilateral plate-loaded pulldown" },
+          { name: "Skelcore Pro Plus Series Back Row", branch: "TM5", note: "Chest-supported T-bar lever row" }
+        ]
+      },
+      {
+        id: "shoulders",
+        title: "🥥 Shoulders (Overhead Press, Side & Rear Delts)",
+        subtitle: "Target: Anterior (Front), Lateral (Side) & Posterior (Rear) Deltoids",
+        machines: [
+          { name: "Life Fitness Shoulder Press", branch: "TSW", note: "Selectorized seated overhead press" },
+          { name: "Newtech Standing Lateral Raise", branch: "BOTH", note: "Available at both TSW & TM5 — standing side delt raise" },
+          { name: "Panatta SUPER DELTOID PRESS", branch: "TM5", note: "Plate-loaded independent overhead shoulder press" },
+          { name: "Panatta Deltoid press circular", branch: "TM5", note: "Selectorized circular overhead press" },
+          { name: "Panatta Multipurpose press", branch: "TM5", note: "Adjustable incline / shoulder press" },
+          { name: "Panatta Military bench", branch: "TM5", note: "Seated barbell military press station" },
+          { name: "Panatta Standing multi flight", branch: "TM5", note: "Standing side lateral raise & fly machine" },
+          { name: "Panatta BACK DELTOIDS", branch: "TM5", note: "Dedicated plate-loaded rear delt machine" },
+          { name: "Newtech Torture Shoulder Press", branch: "TM5", note: "Plate-loaded overhead shoulder press" },
+          { name: "Newtech Shoulder Press", branch: "TM5", note: "Selectorized overhead press" },
+          { name: "Newtech P Plate Shoulder Press", branch: "TM5", note: "Plate-loaded shoulder press" },
+          { name: "Newtech Torture Lateral Raise", branch: "TM5", note: "Seated plate-loaded lateral raise" },
+          { name: "Newtech Multi Lateral Raise", branch: "TM5", note: "Angled plate-loaded side delt raise" },
+          { name: "Nautilus Impact Shoulder Press", branch: "TM5", note: "Selectorized overhead press" },
+          { name: "Nautilus Impact Deltoid Raise", branch: "TM5", note: "Selectorized seated lateral raise" },
+          { name: "Nautilus Impact Deltoid Fly", branch: "TM5", note: "Rear delt fly & chest fly" }
+        ]
+      },
+      {
+        id: "quads",
+        title: "🦵 Legs — Quads & Compound Presses/Squats",
+        subtitle: "Target: Quadriceps, Glutes & Adductors (High-Calorie Trunk-Fat Burners)",
+        machines: [
+          { name: "Life Fitness Seated Leg Press", branch: "TSW", note: "Selectorized seated leg press" },
+          { name: "Hammer Strength V-Squat", branch: "TSW", note: "Plate-loaded V-squat compound leg builder" },
+          { name: "Newtech Torture Power Leg Press Premium (THOMSON)", branch: "BOTH", note: "Available at both TSW & TM5 — heavy 45° plate-loaded leg press" },
+          { name: "Nautilus Impact Seated Leg Press", branch: "TM5", note: "Selectorized seated leg press" },
+          { name: "Panatta Horizontal Adjustable leg press", branch: "TM5", note: "Horizontal seated leg press" },
+          { name: "Panatta SUPER VERTICAL LEG PRESS", branch: "TM5", note: "Vertical plate-loaded leg press" },
+          { name: "Booty Builder Hack Squat", branch: "TM5", note: "Smooth linear hack squat" },
+          { name: "Newtech Torture Hack Squat (thomson) (Rotary)", branch: "TM5", note: "Plate-loaded rotary hack squat" },
+          { name: "Hammer Strength Linear Hack Press", branch: "TM5", note: "Plate-loaded hack squat" },
+          { name: "Hammer Strength Plate Loaded Pendulum-X Squat", branch: "TM5", note: "Pendulum arc squat for deep quad activation" },
+          { name: "Newtech Newtech M-Torture V Squat", branch: "TM5", note: "Plate-loaded V-squat" },
+          { name: "Booty Builder Belt Squat", branch: "TM5", note: "Zero spinal load belt squat" },
+          { name: "Booty Builder Hip Press", branch: "TM5", note: "Horizontal glute/quad leg press" },
+          { name: "Booty Builder Reverse Lunge", branch: "TM5", note: "Guided plate-loaded reverse lunge" },
+          { name: "Ironwod Bulgarian Split Squat Stand", branch: "TM5", note: "Single-leg split squat roller stand" },
+          { name: "Newtech Leg Extension", branch: "TM5", note: "Selectorized quad extension" },
+          { name: "Newtech Torture Leg Extension", branch: "TM5", note: "Plate-loaded unilateral/bilateral quad extension" },
+          { name: "Hammer Strength Leg Extension", branch: "TM5", note: "Selectorized quad extension" },
+          { name: "Nautilus Impact Leg Extension", branch: "TM5", note: "Selectorized quad extension" },
+          { name: "Panatta Alternate Leg Extension", branch: "TM5", note: "Plate-loaded independent leg extension" },
+          { name: "Panatta Sissy squat", branch: "TM5", note: "Bodyweight/weighted quad stretch sissy squat" }
+        ]
+      },
+      {
+        id: "hamstrings_glutes",
+        title: "🍑 Hamstrings, Glutes, Hips & Lower Back",
+        subtitle: "Target: Biceps Femoris/Semitendinosus, Gluteus Maximus/Medius & Lower Back",
+        machines: [
+          { name: "Hammer Strength Glute Drive", branch: "TSW", note: "Plate-loaded hip thrust machine" },
+          { name: "Life Fitness Hip Adduction", branch: "TSW", note: "Inner thigh adductor machine" },
+          { name: "Hammer Strength BW Back Extension", branch: "TSW", note: "45° lower back, glute & hamstring extension" },
+          { name: "Newtech Leg Curl", branch: "TM5", note: "Selectorized seated hamstring curl (40 kg target)" },
+          { name: "Nautilus Impact Seated Leg Curl W/O ROM", branch: "TM5", note: "Selectorized seated leg curl" },
+          { name: "Nautilus Impact Leg Curl", branch: "TM5", note: "Selectorized lying leg curl" },
+          { name: "Newtech Torture Kneeling Leg Curl", branch: "TM5", note: "Unilateral kneeling hamstring curl" },
+          { name: "Hammer Strength Iso-Lateral Leg Curl", branch: "TM5", note: "Plate-loaded prone leg curl" },
+          { name: "Hammer Strength PLATE LOADED ASSISTED NORDIC HAM", branch: "TM5", note: "Assisted eccentric Nordic hamstring curl" },
+          { name: "Booty Builder Platinum V4 Hip Thrust", branch: "TM5", note: "Flagship plate-loaded hip thrust" },
+          { name: "Newtech Torture Hip Thrust (Rotary)", branch: "TM5", note: "Plate-loaded rotary hip thrust" },
+          { name: "Panatta Hip thrust", branch: "TM5", note: "Selectorized hip thrust" },
+          { name: "Glute Builder Kneeling Glute Thrust", branch: "TM5", note: "Kneeling hip extension" },
+          { name: "Glute Builder 3D Smith Hip Thrust", branch: "TM5", note: "Guided Smith hip thrust" },
+          { name: "Glute Builder Multi-Function Deadlift Trainer", branch: "TM5", note: "Romanian deadlift & sumo deadlift machine" },
+          { name: "Booty Builder 3D Multi-Abductor", branch: "TM5", note: "Standing/seated 3D hip abductor" },
+          { name: "Newtech Hip Abduction (Single Move)", branch: "TM5", note: "Selectorized glute medius abductor" },
+          { name: "Newtech Hip Add/Abd Combo", branch: "TM5", note: "Inner & outer thigh combo machine" },
+          { name: "Nautilus Inspiration Strength Abduction / Adduction", branch: "TM5", note: "Selectorized hip abduction/adduction" },
+          { name: "Booty Builder KickBack", branch: "TM5", note: "Standing glute kickback" },
+          { name: "Newtech OnHim Glute Kick-Back", branch: "TM5", note: "Selectorized glute kickback" },
+          { name: "Glute Builder Pendulum Kickback (Plate Loaded)", branch: "TM5", note: "Plate-loaded glute kickback" },
+          { name: "Panatta Gluteus machine", branch: "TM5", note: "Selectorized glute kickback" },
+          { name: "Newtech Roman Chair (45~90° Adjustable)", branch: "TM5", note: "Adjustable back & glute extension" },
+          { name: "Glute Builder 45-Degree Hip Extension", branch: "TM5", note: "Glute-biased 45° hyperextension" },
+          { name: "Xmaster GHD / Skelcore SK-GHDM001", branch: "TM5", note: "Glute-Ham Developer" },
+          { name: "Hammer Strength Glute Ham / Reverse Hyper Combo", branch: "TM5", note: "GHD + reverse hyperextension" },
+          { name: "Panatta REVERSE HYPEREXTENSION", branch: "TM5", note: "Plate-loaded reverse hyperextension" },
+          { name: "Nautilus Impact Low Back", branch: "TM5", note: "Selectorized lower-back extension" }
+        ]
+      },
+      {
+        id: "calves",
+        title: "🦶 Calves & Tibialis",
+        subtitle: "Target: Gastrocnemius, Soleus & Tibialis Anterior",
+        machines: [
+          { name: "Nautilus Impact Standing Calf", branch: "TM5", note: "Selectorized standing calf raise" },
+          { name: "Hammer Strength Seated Calf Raise", branch: "TM5", note: "Plate-loaded soleus seated calf raise" },
+          { name: "Newtech Torture Squat & Calf Raise(new)", branch: "TM5", note: "Plate-loaded standing calf raise & squat" },
+          { name: "Panatta VIKING PRESS AND CALF", branch: "TM5", note: "Plate-loaded standing calf raise + Viking press" },
+          { name: "Hammer Strength Tibia Dorsi Flexion", branch: "TM5", note: "Anterior shin/tibialis strengthener (great for football!)" },
+          { name: "Life Fitness Seated Leg Press (Calf Press)", branch: "TSW", note: "Use toe-press position on platform for calves at TSW" }
+        ]
+      }
+    ];
 
     const extraExerciseSuggestions = [
       "Total Core Crunch Machine",
       "Abdominal Crunch Machine",
       "Biceps Curl Machine",
+      "Three Angles Biceps Machine",
+      "M-Toture Arm Curl",
       "Incline DB Curl",
       "Single-Arm DB Curl",
       "Dumbbell Lateral Raise",
@@ -1138,8 +1808,99 @@
       "Seated Leg Curl",
       "Standing Calf Raise",
       "Decline Bench Reverse Crunch",
-      "Captain's Chair"
+      "Captain's Chair",
+      ...muscleGroupedEquipment.reduce((acc, grp) => acc.concat(grp.machines.map(m => m.name)), [])
     ];
+
+    const DEFAULT_DAILY_LOGS = [
+      { id: 1790860007656, date: "2026-10-01", workoutDay: "Upper A", exercise: "Single-Arm Dumbbell Curl", sets: "3", reps: "10, 10, 10", weight: "7.5", weightUnit: "kg", rest: "", difficulty: "", notes: "" },
+      { id: 1790860443156, date: "2026-10-01", workoutDay: "Upper A", exercise: "Incline Dumbbell Press", sets: "3", reps: "8,8,10", weight: "10", weightUnit: "kg", rest: "", difficulty: "", notes: "" },
+      { id: 1790860867400, date: "2026-10-01", workoutDay: "Upper A", exercise: "Chest-Supported Row", sets: "2", reps: "12,12", weight: "10", weightUnit: "kg", rest: "", difficulty: "", notes: "" },
+      { id: 1790861436873, date: "2026-10-01", workoutDay: "Upper A", exercise: "Barbell Bench Press", sets: "3", reps: "10, 10, 8", weight: "10", weightUnit: "kg", rest: "", difficulty: "", notes: "" },
+      { id: 1790861784883, date: "2026-10-01", workoutDay: "Upper A", exercise: "Ab Crunch Machine", sets: "2", reps: "10, 10", weight: "45", weightUnit: "kg", rest: "", difficulty: "", notes: "40, 45" },
+      { id: 1790861905491, date: "2026-10-01", workoutDay: "Upper A", exercise: "Assisted Pull Up", sets: "1", reps: "4", weight: "20", weightUnit: "kg", rest: "", difficulty: "", notes: "" },
+      { id: 1791002970244, date: "2026-10-03", workoutDay: "Lower A", exercise: "Abdominal Crunch", sets: "3", reps: "10, 10, 10", weight: "32", weightUnit: "kg", rest: "", difficulty: "", notes: "" },
+      { id: 1791003713487, date: "2026-10-03", workoutDay: "Lower A", exercise: "Leg Curl", sets: "3", reps: "10, 10, 10", weight: "20", weightUnit: "kg", rest: "", difficulty: "", notes: "15, 20, 25" },
+      { id: 1791004078568, date: "2026-10-03", workoutDay: "Lower A", exercise: "Leg Press", sets: "3", reps: "8, 8, 8", weight: "170", weightUnit: "kg", rest: "", difficulty: "", notes: "150, 170, 190" },
+      { id: 1791109546416, date: "2026-10-04", workoutDay: "Upper B", exercise: "Super Vertical Multi Press", sets: "3", reps: "8, 8, 8", weight: "20", weightUnit: "kg", rest: "", difficulty: "", notes: "" },
+      { id: 1791110171807, date: "2026-10-04", workoutDay: "Upper B", exercise: "M-Torture Vertical Pull Down", sets: "3", reps: "8, 8, 8", weight: "20", weightUnit: "kg", rest: "", difficulty: "", notes: "" },
+      { id: 1791111241601, date: "2026-10-04", workoutDay: "Lower A", exercise: "Decline Bench Reverse Crunch", sets: "3", reps: "10, 10, 10", weight: "", weightUnit: "kg", rest: "", difficulty: "", notes: "" },
+      { id: 1791111730425, date: "2026-10-04", workoutDay: "Upper B", exercise: "Triceps Extension", sets: "3", reps: "10, 8, 8", weight: "25", weightUnit: "kg", rest: "", difficulty: "", notes: "" },
+      { id: 1791288803847, date: "2026-10-06", workoutDay: "Lower A", exercise: "Seated Leg Curl", sets: "3", reps: "10, 10, 10", weight: "32", weightUnit: "kg", rest: "", difficulty: "", notes: "25, 30, 40" },
+      { id: 1791289227790, date: "2026-10-06", workoutDay: "Lower A", exercise: "Standing Calf Raise", sets: "3", reps: "8, 8, 6", weight: "12", weightUnit: "kg", rest: "", difficulty: "", notes: "5, 10, 20" },
+      { id: 1791290205923, date: "2026-10-06", workoutDay: "Lower A", exercise: "Leg Press", sets: "4", reps: "8, 8, 8, 3", weight: "177.5", weightUnit: "kg", rest: "", difficulty: "", notes: "140, 160, 200, 210" },
+      { id: 1791610863770, date: "2026-10-10", workoutDay: "Upper B", exercise: "Dumbbell Overhead Press", sets: "3", reps: "8, 8, 8", weight: "10", weightUnit: "kg", rest: "", difficulty: "", notes: "" },
+      { id: 1791611108833, date: "2026-10-10", workoutDay: "Upper B", exercise: "One-Arm Dumbbell Row", sets: "3", reps: "8, 8, 8", weight: "10", weightUnit: "kg", rest: "", difficulty: "", notes: "" },
+      { id: 1791611763852, date: "2026-10-10", workoutDay: "Upper B", exercise: "Incline Dumbbell Curl", sets: "3", reps: "5, 5, 3", weight: "10", weightUnit: "kg", rest: "", difficulty: "", notes: "" },
+      { id: 1792214067092, date: "2026-10-17", workoutDay: "Upper A", exercise: "Chest Press", sets: "3", reps: "8, 8, 8", weight: "14", weightUnit: "kg", rest: "", difficulty: "4", notes: "22.5, 30, 30 total in both sides" },
+      { id: 1792214796960, date: "2026-10-17", workoutDay: "Upper A", exercise: "Iso-Lateral Incline Press", sets: "3", reps: "10, 10, 10", weight: "12.5", weightUnit: "kg", rest: "", difficulty: "3", notes: "" },
+      { id: 1792215331560, date: "2026-10-17", workoutDay: "Upper A", exercise: "Abdominal Crunch", sets: "3", reps: "10, 10, 10", weight: "47", weightUnit: "kg", rest: "", difficulty: "6", notes: "" },
+      { id: 1792495707739, date: "2026-10-20", workoutDay: "Lower A", exercise: "Leg Press", sets: "4", reps: "8, 8, 8, 8", weight: "183", weightUnit: "kg", rest: "", difficulty: "7", notes: "160, 190, 190, 190" },
+      { id: 1792496238062, date: "2026-10-20", workoutDay: "Lower A", exercise: "Abdominal Crunch", sets: "3", reps: "10, 10, 10", weight: "48", weightUnit: "kg", rest: "", difficulty: "5", notes: "" },
+      { id: 1792818837524, date: "2026-10-24", workoutDay: "Upper B", exercise: "M-Torture Vertical Pull Down", sets: "3", reps: "10, 10, 10", weight: "25", weightUnit: "kg", rest: "", difficulty: "3", notes: "" },
+      { id: 1792819957022, date: "2026-10-24", workoutDay: "Upper B", exercise: "Seated Chest Press", sets: "3", reps: "8, 8, 8", weight: "45", weightUnit: "kg", rest: "", difficulty: "6", notes: "warm up 22.5 x10, 30 x6" },
+      { id: 1792820421428, date: "2026-10-24", workoutDay: "Upper B", exercise: "One-Arm Dumbbell Row", sets: "3", reps: "8, 8, 8", weight: "16", weightUnit: "kg", rest: "", difficulty: "4", notes: "" },
+      { id: 1792821581986, date: "2026-10-24", workoutDay: "Upper B", exercise: "Pec Dec Fly", sets: "3", reps: "12, 12, 12", weight: "25", weightUnit: "kg", rest: "", difficulty: "9", notes: "" },
+      { id: 1792822607161, date: "2026-10-24", workoutDay: "Upper B", exercise: "Incline Db Curl", sets: "2", reps: "8, 8", weight: "8", weightUnit: "kg", rest: "", difficulty: "4", notes: "" },
+      { id: 1793088169995, date: "2026-10-27", workoutDay: "Upper A", exercise: "Triceps Extension", sets: "3", reps: "10, 10, 10", weight: "25", weightUnit: "kg", rest: "", difficulty: "6", notes: "" },
+      { id: 1793088566067, date: "2026-10-27", workoutDay: "Upper A", exercise: "Biceps Curl", sets: "3", reps: "10, 10, 10", weight: "25", weightUnit: "kg", rest: "", difficulty: "5", notes: "" },
+      { id: 1793089252961, date: "2026-10-27", workoutDay: "Upper A", exercise: "Super Vertical Multi Press", sets: "3", reps: "8, 8, 3", weight: "22.5", weightUnit: "kg", rest: "", difficulty: "8", notes: "22.5 kg per side" },
+      { id: 1793090265725, date: "2026-10-27", workoutDay: "Upper A", exercise: "Total Core Crunch Machine", sets: "2", reps: "10, 10", weight: "20", weightUnit: "kg", rest: "", difficulty: "10", notes: "total crunch + left right oblique crunch as a set" },
+      { id: 1793183797577, date: "2026-10-28", workoutDay: "Upper A", exercise: "Total Core Crunch Machine", sets: "3", reps: "10, 10, 10", weight: "20", weightUnit: "kg", rest: "", difficulty: "8", notes: "" },
+      { id: 1793184712571, date: "2026-10-28", workoutDay: "Upper A", exercise: "Decline Bench Reverse Crunch", sets: "3", reps: "10, 10, 10", weight: "", weightUnit: "kg", rest: "", difficulty: "7", notes: "bodyweight" },
+      { id: 1793185648022, date: "2026-10-28", workoutDay: "Upper A", exercise: "Three Angles Biceps Machine", sets: "3", reps: "8, 8, 8", weight: "10", weightUnit: "kg", rest: "", difficulty: "7", notes: "10kg per side, 1 position per 8 reps, did all three positions once each" },
+      { id: 1793186049630, date: "2026-10-28", workoutDay: "Upper A", exercise: "M-Toture Arm Curl", sets: "3", reps: "8, 8, 8", weight: "10", weightUnit: "kg", rest: "", difficulty: "5", notes: "10 per side" },
+      { id: 1793274616338, date: "2026-10-29", workoutDay: "Lower A", exercise: "Abdominal Crunch", sets: "4", reps: "10, 10, 10", weight: "50", weightUnit: "kg", rest: "", difficulty: "6", notes: "45, 50, 55kg" },
+      { id: 1793275191655, date: "2026-10-29", workoutDay: "Lower A", exercise: "Leg Press", sets: "3", reps: "8, 8, 8", weight: "210", weightUnit: "kg", rest: "", difficulty: "6", notes: "190, 220, 220" },
+      { id: 1793334760927, date: "2026-10-30", workoutDay: "Upper B", exercise: "Biceps Curl Machine", sets: "3", reps: "10, 10, 10", weight: "30", weightUnit: "kg", rest: "", difficulty: "4", notes: "20, 30, 30" }
+    ];
+
+    const DEFAULT_CHECKINS = [
+      { week: "Week 1 - Oct 8", weight: "79.4", waist: "", strength: "4", cardio: "0", steps: "8431", sleep: "6", energy: "5", performance: "", notes: "" },
+      { week: "Week 2 - Oct 15", weight: "78.1", waist: "", strength: "1", steps: "10571", sleep: "6", energy: "", performance: "", notes: "" },
+      { week: "Week 3 - Oct 22", weight: "78.0", waist: "", strength: "2", steps: "6790", sleep: "6", energy: "5", performance: "", notes: "" },
+      { week: "Week 4", weight: "78.7", waist: "", strength: "4", steps: "6235", sleep: "5", energy: "6", performance: "Oct 31 Scan: 78.7 kg, 15.8% Body Fat, 37.8 kg Skeletal Muscle, 6.2 kg Trunk Fat, Score 84.", notes: "Hit 220 kg Leg Press, 55 kg Ab Crunch, and 30 kg Biceps Curl Machine!" }
+    ];
+
+    const DEFAULT_WORKOUT_MINUTES = {
+      "2026-10-01": 90,
+      "2026-10-03": 40,
+      "2026-10-04": 60,
+      "2026-10-06": 40,
+      "2026-10-10": 30,
+      "2026-10-17": 30,
+      "2026-10-20": 20,
+      "2026-10-24": 75,
+      "2026-10-27": 60,
+      "2026-10-28": 60,
+      "2026-10-29": 30,
+      "2026-10-30": 10
+    };
+
+    function ensureSeedData() {
+      const existingLogs = safeJSON("fitnessDailyLogs", []);
+      if (existingLogs.length < DEFAULT_DAILY_LOGS.length) {
+        const byId = new Map(existingLogs.map(item => [item.id, item]));
+        DEFAULT_DAILY_LOGS.forEach(item => {
+          if (!byId.has(item.id)) {
+            byId.set(item.id, item);
+          } else if (item.id === 1793334760927 && !byId.get(item.id).weight) {
+            byId.set(item.id, { ...byId.get(item.id), weight: "30" });
+          }
+        });
+        safeSetStorage("fitnessDailyLogs", JSON.stringify(Array.from(byId.values())));
+      }
+
+      const existingCheckins = safeJSON("fitnessCheckins", []);
+      if (existingCheckins.length < DEFAULT_CHECKINS.length) {
+        safeSetStorage("fitnessCheckins", JSON.stringify(DEFAULT_CHECKINS));
+      }
+
+      const existingMinutes = safeJSON("fitnessWorkoutMinutes", {});
+      if (Object.keys(existingMinutes).length < Object.keys(DEFAULT_WORKOUT_MINUTES).length) {
+        safeSetStorage("fitnessWorkoutMinutes", JSON.stringify({ ...DEFAULT_WORKOUT_MINUTES, ...existingMinutes }));
+      }
+    }
 
     function escapeHTML(text) {
       return String(text ?? "")
@@ -1234,13 +1995,13 @@
 
       if (!valid.length) {
         weight.textContent = STARTING_WEIGHT.toFixed(1) + " kg";
-        label.textContent = "Target: 77.6 kg";
+        label.textContent = "Target: 78.1 kg";
         return;
       }
 
       const current = Number(valid[valid.length - 1].weight);
       weight.textContent = current.toFixed(1) + " kg";
-      label.textContent = "Target: 77.6 kg";
+      label.textContent = "Oct 31 Scan: 78.7 kg · Ideal: 78.1 kg";
 
       if (valid.length < 2) return;
 
@@ -1252,7 +2013,7 @@
       } else if (weeklyLoss > 0.5) {
         label.textContent = "⚠️ Loss may be too fast";
       } else if (weeklyLoss < 0) {
-        label.textContent = "Weight increased this week";
+        label.textContent = "Oct 31 Scan: 78.7 kg (15.8% BF)";
       }
     }
 
@@ -1578,23 +2339,168 @@
       };
     }
 
-    function exerciseCard([name,sets,note,type]) {
+    function setBranchFilter(branch) {
+      selectedBranchFilter = branch;
+      renderPage(currentRoute);
+    }
+
+    function setMuscleFilter(muscleId) {
+      selectedMuscleFilter = muscleId;
+      renderPage(currentRoute);
+    }
+
+    function updateMachineSearch(value) {
+      machineSearchQuery = String(value || "");
+      const container = document.getElementById("muscleDirectoryResults");
+      if (container) {
+        container.innerHTML = renderMuscleDirectoryCards();
+      }
+    }
+
+    function quickLogMachine(machineName, branchLabel) {
+      try {
+        history.replaceState(null, "", "#/daily-log");
+      } catch (e) {}
+      renderPage("daily-log");
+      const exInput = document.getElementById("logExercise");
+      const notesInput = document.getElementById("logNotes");
+      const intensityCheck = document.getElementById("logIntensity");
+      if (exInput) {
+        exInput.value = machineName;
+        showPreviousExercise();
+      }
+      if (notesInput && branchLabel) {
+        notesInput.value = `Trained at ${branchLabel} branch.`;
+      }
+      if (intensityCheck) {
+        intensityCheck.checked = isIntensityModeActive();
+      }
+      showToast(`📝 Selected "${machineName}" (${branchLabel}) in Daily Log!`);
+    }
+
+    function renderMuscleDirectoryCards() {
+      const q = machineSearchQuery.trim().toLowerCase();
+
+      const filteredGroups = muscleGroupedEquipment
+        .filter(grp => selectedMuscleFilter === "all" || grp.id === selectedMuscleFilter)
+        .map(grp => {
+          const machines = grp.machines.filter(m => {
+            const branchMatch =
+              selectedBranchFilter === "all" ||
+              m.branch === "BOTH" ||
+              m.branch.toLowerCase() === selectedBranchFilter.toLowerCase();
+            const searchMatch =
+              !q ||
+              m.name.toLowerCase().includes(q) ||
+              m.note.toLowerCase().includes(q) ||
+              grp.title.toLowerCase().includes(q);
+            return branchMatch && searchMatch;
+          });
+          return { ...grp, machines };
+        })
+        .filter(grp => grp.machines.length > 0);
+
+      if (!filteredGroups.length) {
+        return `<div class="card warning" style="margin-top:14px"><h3>📭 No Matching Machines</h3><p class="small">Try switching the branch filter (TSW / TM5) or clearing your search text.</p></div>`;
+      }
+
+      return filteredGroups.map(grp => `
+        <div class="card" style="margin-top:16px">
+          <h3>${escapeHTML(grp.title)}</h3>
+          <p class="small" style="margin:0 0 10px">${escapeHTML(grp.subtitle)}</p>
+          <div class="machine-chip-list">
+            ${grp.machines.map(m => {
+              const badgeClass = m.branch === "TSW" ? "branch-tsw" : m.branch === "TM5" ? "branch-tm5" : "branch-both";
+              const badgeText = m.branch === "BOTH" ? "🏢 TSW & TM5" : `🏢 ${m.branch}`;
+              const safeName = escapeHTML(m.name).replace(/'/g, "\\'");
+              return `
+                <div class="machine-chip" style="flex:1 1 280px;justify-content:space-between">
+                  <div>
+                    <span class="branch-tag ${badgeClass}">${badgeText}</span>
+                    <strong>${escapeHTML(m.name)}</strong>
+                    <div class="small" style="font-size:.77rem;margin-top:3px">${escapeHTML(m.note)}</div>
+                  </div>
+                  <button class="button secondary" type="button" style="min-height:34px;padding:6px 10px;font-size:.76rem;flex-shrink:0" onclick="quickLogMachine('${safeName}', '${escapeHTML(m.branch)}')">
+                    📝 Log
+                  </button>
+                </div>
+              `;
+            }).join("")}
+          </div>
+        </div>
+      `).join("");
+    }
+
+    function renderMuscleDirectorySection() {
+      return `
+        <div class="card highlight" style="margin-top:26px">
+          <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:12px">
+            <div>
+              <h3>🏛️ Machines Grouped by Target Muscle (TSW vs. TM5)</h3>
+              <p class="small" style="margin:4px 0 0">Compare machines targeting the exact same muscle group at <strong>Tin Shui Wai (TSW)</strong> and <strong>Tuen Mun 5th (TM5)</strong>. Tap <strong>📝 Log</strong> on any machine to send it straight to your Daily Log.</p>
+            </div>
+          </div>
+
+          <div class="filter-pills">
+            <button type="button" class="filter-pill ${selectedBranchFilter === 'all' ? 'active' : ''}" onclick="setBranchFilter('all')">🌐 All Branches (TSW + TM5)</button>
+            <button type="button" class="filter-pill ${selectedBranchFilter === 'TSW' ? 'active' : ''}" onclick="setBranchFilter('TSW')">🏢 Tin Shui Wai (TSW)</button>
+            <button type="button" class="filter-pill ${selectedBranchFilter === 'TM5' ? 'active' : ''}" onclick="setBranchFilter('TM5')">🏢 Tuen Mun 5th (TM5)</button>
+          </div>
+
+          <div class="filter-pills" style="margin-top:8px">
+            <button type="button" class="filter-pill ${selectedMuscleFilter === 'all' ? 'active' : ''}" onclick="setMuscleFilter('all')">All Muscles</button>
+            ${muscleGroupedEquipment.map(grp => `
+              <button type="button" class="filter-pill ${selectedMuscleFilter === grp.id ? 'active' : ''}" onclick="setMuscleFilter('${grp.id}')">${escapeHTML(grp.title.split(" (")[0])}</button>
+            `).join("")}
+          </div>
+
+          <label style="margin-top:10px">🔍 Search Machine or Muscle Group
+            <input type="search" value="${escapeHTML(machineSearchQuery)}" oninput="updateMachineSearch(this.value)" placeholder="Example: Total Core, Biceps, Chest Press, Row, Leg Press, Hack Squat...">
+          </label>
+
+          <div id="muscleDirectoryResults">
+            ${renderMuscleDirectoryCards()}
+          </div>
+        </div>
+      `;
+    }
+
+    function exerciseCard([name,sets,note,type,machines]) {
       const search = encodeURIComponent("TylerPath " + name + " proper form tutorial");
       const isCore = type === "core";
       const isBicep = type === "bicep";
       const intensityOn = isIntensityModeActive();
       const upgrade = intensityOn ? getIntensityUpgradeDetails(name, sets, type) : null;
+      const showTSW = selectedBranchFilter === "all" || selectedBranchFilter === "TSW";
+      const showTM5 = selectedBranchFilter === "all" || selectedBranchFilter === "TM5";
 
       return `
         <article class="exercise-card ${isCore ? "core-exercise" : ""} ${isBicep ? "bicep-exercise" : ""}">
           <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center">
             ${isCore ? `<span class="exercise-type">🧱 BLOCK 1 PRIORITY: ABS & WAIST FIRST</span>` : ""}
             ${isBicep ? `<span class="exercise-type bicep-badge">💪 BLOCK 2 PRIORITY: BICEPS VOLUME FIRST</span>` : ""}
+            ${machines?.muscleGroup ? `<span class="exercise-type" style="color:var(--green);background:rgba(22,163,106,.12);border-color:rgba(22,163,106,.28)">🎯 ${escapeHTML(machines.muscleGroup)}</span>` : ""}
             ${intensityOn ? `<span class="exercise-type intensity-badge">⚡ INTENSITY SPECIALIZATION ACTIVE</span>` : ""}
           </div>
           <h4>${isCore ? "🧱" : isBicep ? "💪" : "🏋️"} ${escapeHTML(name)}</h4>
           <p><strong>Sets & reps:</strong> ${escapeHTML(intensityOn ? upgrade.upgradedSets : sets)}</p>
           <p class="small">💡 ${escapeHTML(note)}</p>
+          ${machines ? `
+            <div class="branch-suggestions">
+              ${showTM5 ? `
+                <div class="branch-box">
+                  <span class="branch-tag branch-tm5">🏢 TM5 Suggested Machines</span>
+                  <div style="margin-top:5px;font-weight:600">${escapeHTML(machines.tm5)}</div>
+                </div>
+              ` : ""}
+              ${showTSW ? `
+                <div class="branch-box">
+                  <span class="branch-tag branch-tsw">🏢 TSW Suggested Machines</span>
+                  <div style="margin-top:5px;font-weight:600">${escapeHTML(machines.tsw)}</div>
+                </div>
+              ` : ""}
+            </div>
+          ` : ""}
           ${intensityOn ? `<div class="intensity-callout">${escapeHTML(upgrade.callout)}</div>` : ""}
           <a class="watch-link" target="_blank" rel="noopener noreferrer" href="https://www.youtube.com/results?search_query=${search}">
             ▶ Search Tutorial Video
@@ -1621,6 +2527,20 @@
         <h2>${title}</h2>
         <p class="muted">${subtitle}</p>
 
+        <div class="card" style="margin-bottom:18px;padding:16px 20px">
+          <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px">
+            <div>
+              <strong>📍 Gym Branch Machine Suggestions</strong>
+              <p class="small" style="margin:2px 0 0">Filter suggested machines on each exercise card by your gym location today:</p>
+            </div>
+            <div class="filter-pills" style="margin:0">
+              <button type="button" class="filter-pill ${selectedBranchFilter === 'all' ? 'active' : ''}" onclick="setBranchFilter('all')">🌐 Both (TSW + TM5)</button>
+              <button type="button" class="filter-pill ${selectedBranchFilter === 'TM5' ? 'active' : ''}" onclick="setBranchFilter('TM5')">🏢 TM5 Only</button>
+              <button type="button" class="filter-pill ${selectedBranchFilter === 'TSW' ? 'active' : ''}" onclick="setBranchFilter('TSW')">🏢 TSW Only</button>
+            </div>
+          </div>
+        </div>
+
         ${unlocked ? `
           <div class="intensity-bar ${intensityOn ? "active-mode" : ""}">
             <div>
@@ -1637,7 +2557,7 @@
           <h3>🔥 This Week's Priority Order: 1. Abs First → 2. Biceps Volume → 3. Heavy Compounds</h3>
           <p><strong>1. Why Abs First Works Safely:</strong> Starting every workout with your <strong>Total Core Crunch (20–22.5 kg)</strong> & <strong>Abdominal Crunch (50–52.5 kg)</strong> recruits maximum ab & oblique fibers while your nervous system is 100% fresh. Because your heavy lifts are machine-supported, pre-fatiguing abs is completely safe!</p>
           <p><strong>2. Why Biceps Second Protects Your Presses:</strong> Unlike Triceps (which caused Multi Press to drop to 3 reps on Oct 27), training <strong>Biceps 2nd (5 sets on Upper A & B + 4 sets on Lower B = 14 sets/week)</strong> leaves your Triceps 100% fresh for Seated Chest Press & Multi Press!</p>
-          <p><strong>3. 60–75s Superset Rest for Trunk-Fat Burn:</strong> Keep rest to 60–75s between paired exercises to finish in 40–42 mins and maximize calorie burn to target the 6.3 kg trunk fat.</p>
+          <p><strong>3. 60–75s Superset Rest for Trunk-Fat Burn:</strong> Keep rest to 60–75s between paired exercises to finish in 40–42 mins and maximize calorie burn to target your 6.2 kg trunk fat.</p>
         </div>
 
         ${coreExercises.length ? `
@@ -1648,7 +2568,7 @@
 
         ${bicepExercises.length ? `
           <h3 style="margin-top:28px">💪 Block 2 (Do 2nd!): High-Volume Biceps Priority Block (Left Arm First!)</h3>
-          <p class="muted">Train your biceps right after abs while your arms are fresh. Always start unilateral DB curls with your 3.4 kg Left Arm to close the 0.1 kg asymmetry gap.</p>
+          <p class="muted">Train your biceps right after abs while your arms are fresh. Always start unilateral DB curls with your 3.5 kg Left Arm to close the 0.1 kg asymmetry gap.</p>
           <div>${bicepExercises.map(exerciseCard).join("")}</div>
         ` : ""}
 
@@ -1660,32 +2580,34 @@
           <ol>
             <li><strong>Never Train Triceps Before Presses:</strong> Keep Triceps Extensions at the very end of Upper B so your Chest Press and Multi Press stay strong.</li>
             <li><strong>14 Weekly Biceps Sets:</strong> 5 sets on Upper A + 5 sets on Upper B + 4 bonus sets on Lower B = 14 high-quality sets for rapid bicep growth.</li>
-            <li><strong>Hit 9,000+ Daily Steps & 7.0–7.5h Sleep:</strong> Restoring steps from Week 3's 6,790 back to 9,000+ is crucial to counteract the trunk fat rise (6.3 kg) from Oct 28.</li>
+            <li><strong>Hit 9,000+ Daily Steps & 7.0–7.5h Sleep:</strong> Restoring steps from Week 3's 6,790 back to 9,000+ is crucial to flush out visceral fat (Level 5) and lower trunk fat.</li>
           </ol>
         </div>
+
+        ${renderMuscleDirectorySection()}
       `;
     }
 
     const pages = {
       home: () => `
-        <h2>🔥 Upcoming Week: Abs 1st + Biceps Volume + Trunk-Fat Cut</h2>
-        <p class="muted">Customized for your upcoming week: Every session starts with heavy Abs & Obliques while fresh, followed immediately by high-volume Biceps (14 sets/week) and 60–75s metabolic machine supersets.</p>
+        <h2>🔥 Week 5: 78.7 kg (15.8% BF) · Phase 1 Intensity Mode Unlocked!</h2>
+        <p class="muted">Your Oct 31 scan shows massive arm growth and total fat loss, though sleep impacts your trunk fat: Weight sits at <strong>78.7 kg</strong> (0.6 kg from 78.1 kg Ideal Weight), Body Fat dropped to <strong>15.8% (Standard)</strong>, Trunk Fat is at <strong>6.2 kg (High)</strong>, and Skeletal Muscle grew to <strong>37.8 kg</strong> (Score: <strong>84/100</strong>)!</p>
 
         <div class="grid" style="margin-top:20px">
           <div class="card highlight">
-            <h3>🧱 1. Abs First (Every Session)</h3>
-            <p><strong>Total Core (20–22.5 kg) + Ab Crunch (50 kg)</strong></p>
-            <p class="small">Doing your 6–8 minute Ab & Oblique Superset <strong>first</strong> guarantees 100% core intensity and zero skipped ab sessions. Because your heavy lifts are machine-supported, training abs first is completely safe.</p>
+            <h3>🧱 1. Abs 1st PRs (20 kg & 55 kg!)</h3>
+            <p><strong>Total Core (20–22.5 kg) + Ab Crunch (50–55 kg)</strong></p>
+            <p class="small">Doing abs 1st while fresh dropped your 20 kg Total Core Crunch difficulty from 10/10 to <strong>8/10</strong> (Oct 28) and propelled your Abdominal Crunch to <strong>55 kg × 10</strong> (RPE 6/10 on Oct 29)!</p>
           </div>
           <div class="card success">
-            <h3>💪 2. Biceps Volume First (14 Sets/Wk)</h3>
-            <p><strong>5 Sets Upper A · 5 Sets Upper B · 4 Sets Lower B</strong></p>
-            <p class="small">Training Biceps right after Abs (before heavy compounds) blows up your arm volume without pre-fatiguing your triceps—so your <strong>Seated Chest Press (45 kg)</strong> and <strong>Multi Press (22.5 kg/s)</strong> never lose reps!</p>
+            <h3>💪 2. Both Arms Grew +0.1 kg!</h3>
+            <p><strong>3.5 kg Left (+0.1) · 3.6 kg Right (+0.1)</strong></p>
+            <p class="small">Hitting 12 sets of Biceps across Oct 27–30 (<strong>Three Angles Biceps 10 kg/s</strong>, <strong>M-Torture Curl 10 kg/s</strong> & <strong>Biceps Curl Machine 30 kg PR</strong>) added lean muscle to both arms while keeping triceps fresh!</p>
           </div>
-          <div class="card warning">
-            <h3>🔥 3. Trunk-Fat Acceleration</h3>
-            <p><strong>78.8 kg → 77.6 kg Target (Ideal Weight)</strong></p>
-            <p class="small">Your Oct 28 scan showed trunk fat at 6.3 kg. Combine <strong>60–75s superset rest periods</strong> (40-min workouts), <strong>9,000–10,000+ daily steps</strong>, and <strong>7.0–7.5h sleep</strong> to strip pure trunk fat this week.</p>
+          <div class="card danger">
+            <h3>😴 3. Sleep Dip Caused Visceral Bump</h3>
+            <p><strong>Visceral Level 5 · 6.2 kg Trunk Fat</strong></p>
+            <p class="small">While you lost 0.5 kg of total fat, your sleep drop (5.0h) caused cortisol to hold visceral and trunk water weight. In Week 5, bringing sleep back to <strong>7.0h+</strong> will instantly flush this stubborn area!</p>
           </div>
         </div>
 
@@ -1719,6 +2641,8 @@
             <p><strong>Block 1:</strong> Total Core + 4-Set Bonus Biceps<br><strong>Block 2:</strong> Hack Squat, Hip Thrust + Leg Curl</p>
           </a>
         </div>
+
+        ${renderMuscleDirectorySection()}
 
         ${strengthUpgrade()}
       `,
@@ -1782,6 +2706,13 @@
               </label>
               <label>⏱️ Rest Time <input id="logRest" placeholder="Example: 60 seconds"></label>
               <label>⭐ Difficulty 1–10 <input id="logDifficulty" type="number" min="1" max="10" step="any" inputmode="decimal" placeholder="Example: 8.5"></label>
+              <div>
+                <span style="display:block;font-size:.92rem;font-weight:800">⚡ Specialization Mode</span>
+                <label class="intensity-check-label" for="logIntensity">
+                  <input id="logIntensity" type="checkbox">
+                  <span style="font-weight:800">⚡ Intensity Mode</span>
+                </label>
+              </div>
              </div>
 
              <div id="previousExerciseResult"></div>
@@ -1845,7 +2776,7 @@
             <label style="margin-top:14px">📝 Notes
               <textarea id="photoNote" placeholder="Morning weight, lighting, clothing, and observations..."></textarea>
             </label>
-            <button class="button" type="submit" type="submit" style="margin-top:14px">💾 Save Progress Photo</button>
+            <button class="button" type="submit" style="margin-top:14px">💾 Save Progress Photo</button>
           </form>
         </div>
 
@@ -1859,19 +2790,19 @@
       `,
 
       checklist: () => `
-        <h2>✅ Upcoming Week Priority Checklist</h2>
-        <p class="muted">Synced to your Abs-First + 14-Set Biceps + Trunk-Fat Cut week.</p>
+        <h2>✅ Week 5 Priority Checklist (78.7 kg → 78.1 kg Ideal Weight)</h2>
+        <p class="muted">Synced to your Oct 31 Body Composition Scan (Score: 84 · 15.8% BF · 37.8 kg Muscle) & Phase 1 Intensity Unlock.</p>
 
         <div class="card checklist">
           ${[
-            "🧱 Do Block 1 (Total Core Crunch 20+ kg + Ab Crunch 50 kg / Reverse Crunch) FIRST in all 4 workouts",
-            "💪 Hit 14 total Biceps sets (5 on Upper A + 5 on Upper B + 4 on Lower B) right after Abs",
-            "⚖️ Always start unilateral DB Curls (8–10 kg) & DB Rows (18 kg) with Left Arm first",
-            "🦵 Complete Lower A (Leg Press 195 kg × 3×8 + Leg Curl + Calves) to boost fat burn",
-            "⏱️ Keep superset rest to 60–75s so workouts finish in 40–45 mins with high heart rate",
-            "🚶 Hit 9,000–10,000+ daily steps to reverse the trunk fat gain from 5.3 to 6.3 kg",
-            "🥩 Hit 155–165 g protein/day and a mild -300 kcal deficit for trunk-fat loss",
-            "😴 Sleep 7.0–7.5+ hours/night (up from 6.0h) to lower trunk-fat cortisol"
+            "🧱 Do Block 1 (Total Core Crunch 20–22.5 kg + Ab Crunch 52.5–55 kg / Reverse Crunch) FIRST in all 4 workouts",
+            "💪 Hit 12–14 weekly Biceps sets (Three Angles Biceps 10–12.5 kg/s, M-Torture Curl 10–12.5 kg/s, Biceps Machine 30+ kg)",
+            "⚖️ Always start unilateral DB Curls & DB Rows with your 3.5 kg Left Arm first to match your 3.6 kg Right Arm",
+            "🦵 Complete Lower A (Leg Press 210–220 kg × 3×8 + Leg Curl + Calves) to keep your leg muscle burning trunk fat",
+            "⚡ Use your unlocked Phase 1 Intensity Mode Toggle on days when you have 7+ hours of sleep",
+            "🚶 Boost daily steps from Week 4's 6,235 back to 8,500–10,000+ steps/day to flush out Level 5 Visceral Fat",
+            "🥩 Hit 155–165 g protein/day to protect your new 37.8 kg skeletal muscle",
+            "😴 Fix Week 4's 5.0h sleep bottleneck — aim for 7.0–7.5 hours/night to lower abdominal cortisol water retention"
           ].map((text,index) => `
             <label>
               <input type="checkbox" data-check="check_${index}">
@@ -2039,7 +2970,10 @@
               <div class="match-item">
                 <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:8px">
                   <strong>🏋️ ${escapeHTML(match.exercise)}</strong>
-                  ${!isExact ? `<button class="button secondary" type="button" style="min-height:34px;padding:6px 12px;font-size:.8rem" onclick="selectMatchedExercise('${escapeHTML(match.exercise).replace(/'/g, "\\'")}')">↗️ Use Full Name</button>` : `<span class="small">✅ Exact Match</span>`}
+                  <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">
+                    ${match.intensityMode ? `<span class="exercise-type intensity-badge" style="margin-bottom:0">⚡ Intensity Mode</span>` : ""}
+                    ${!isExact ? `<button class="button secondary" type="button" style="min-height:34px;padding:6px 12px;font-size:.8rem" onclick="selectMatchedExercise('${escapeHTML(match.exercise).replace(/'/g, "\\'")}')">↗️ Use Full Name</button>` : `<span class="small">✅ Exact Match</span>`}
+                  </div>
                 </div>
                 <p class="small" style="margin:6px 0 2px"><strong>📅 Date:</strong> ${escapeHTML(formatDate(match.date))} (${escapeHTML(match.workoutDay || "Workout")})</p>
                 <p style="margin:2px 0"><strong>🔢 Sets:</strong> ${escapeHTML(match.sets || "—")} · <strong>🔁 Reps:</strong> ${escapeHTML(match.reps || "—")} · <strong>⚖️ Weight:</strong> ${escapeHTML(match.weight || "Bodyweight")} ${escapeHTML(match.weight ? (match.weightUnit || "kg") : "")}</p>
@@ -2077,11 +3011,13 @@
       const exercise = document.getElementById("logExercise");
       const durationDate = document.getElementById("workoutMinutesDate");
       const minutesInput = document.getElementById("workoutMinutes");
+      const intensityCheck = document.getElementById("logIntensity");
       if (!form || !date || !exercise) return;
 
       date.value = today();
       if (durationDate) durationDate.value = date.value;
       if (minutesInput) minutesInput.value = getWorkoutMinutes(date.value) || "";
+      if (intensityCheck) intensityCheck.checked = isIntensityModeActive();
 
       exercise.addEventListener("input",showPreviousExercise);
       date.addEventListener("change",() => {
@@ -2134,7 +3070,10 @@
               <h3>🏋️ ${escapeHTML(group.name)}</h3>
               ${group.items.map(log => `
                 <article class="saved-entry" style="margin-top:16px">
-                  <p class="small">📅 ${escapeHTML(formatDate(log.date))} · ${escapeHTML(log.workoutDay)}</p>
+                  <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap">
+                    <p class="small" style="margin:0">📅 ${escapeHTML(formatDate(log.date))} · ${escapeHTML(log.workoutDay)}</p>
+                    ${log.intensityMode ? `<span class="exercise-type intensity-badge" style="margin-bottom:0">⚡ Intensity Mode</span>` : ""}
+                  </div>
                   <p>🔢 ${escapeHTML(log.sets || "—")} sets · 🔁 ${escapeHTML(log.reps || "—")} reps · ⚖️ ${escapeHTML(log.weight || "—")} ${escapeHTML(log.weightUnit || "kg")}</p>
                   <p>📦 ${trainingVolume(log).toLocaleString()} ${escapeHTML(log.weightUnit || "kg")}·reps · ⭐ ${escapeHTML(log.difficulty || "—")} / 10</p>
                   ${log.rest ? `<p><strong>⏱️ Rest:</strong> ${escapeHTML(log.rest)}</p>` : ""}
@@ -2166,7 +3105,8 @@
           weightUnit:document.getElementById("logWeightUnit").value,
           rest:document.getElementById("logRest").value.trim(),
           difficulty:document.getElementById("logDifficulty").value,
-          notes:document.getElementById("logNotes").value.trim()
+          notes:document.getElementById("logNotes").value.trim(),
+          intensityMode: Boolean(document.getElementById("logIntensity")?.checked)
         };
 
         if (!newLog.exercise) {
@@ -2199,6 +3139,7 @@
         date.value = today();
         if (durationDate) durationDate.value = date.value;
         if (minutesInput) minutesInput.value = getWorkoutMinutes(date.value) || "";
+        if (intensityCheck) intensityCheck.checked = isIntensityModeActive();
 
         document.getElementById("previousExerciseResult").innerHTML = `
           <div class="card ${style}" style="margin-top:14px">
@@ -2232,6 +3173,7 @@
       const restEl = document.getElementById("logRest");
       const diffEl = document.getElementById("logDifficulty");
       const notesEl = document.getElementById("logNotes");
+      const intensityEl = document.getElementById("logIntensity");
 
       if (dateEl) dateEl.value = log.date || today();
       if (dayEl) dayEl.value = log.workoutDay || "Upper A";
@@ -2243,6 +3185,7 @@
       if (restEl) restEl.value = log.rest || "";
       if (diffEl) diffEl.value = log.difficulty || "";
       if (notesEl) notesEl.value = log.notes || "";
+      if (intensityEl) intensityEl.checked = Boolean(log.intensityMode);
 
       const titleEl = document.getElementById("dailyLogFormTitle");
       const bannerEl = document.getElementById("editModeBanner");
@@ -2268,9 +3211,11 @@
       const submitBtn = document.getElementById("saveLogSubmitBtn");
       const cancelBtn = document.getElementById("cancelEditLogBtn");
       const prevBox = document.getElementById("previousExerciseResult");
+      const intensityEl = document.getElementById("logIntensity");
 
       if (form) form.reset();
       if (dateEl) dateEl.value = today();
+      if (intensityEl) intensityEl.checked = isIntensityModeActive();
       if (titleEl) titleEl.textContent = "➕ Add Exercise Progress";
       if (bannerEl) bannerEl.classList.add("hidden");
       if (submitBtn) submitBtn.textContent = "💾 Save Exercise Progress";
@@ -2360,7 +3305,8 @@ Volume: ${totalVolume.toLocaleString()} weighted reps
 
 ${logs.map((log,index) => {
   const weight = log.weight ? `${log.weight} ${log.weightUnit || "kg"}` : "bodyweight";
-  return `${index + 1}. ${log.exercise} — ${log.sets || "?"} sets × ${log.reps || "?"} reps, ${weight}`;
+  const intensityTag = log.intensityMode ? " [⚡ Intensity Mode]" : "";
+  return `${index + 1}. ${log.exercise} — ${log.sets || "?"} sets × ${log.reps || "?"} reps, ${weight}${intensityTag}`;
 }).join("\n")}`;
 
       area.innerHTML = `
@@ -2395,7 +3341,8 @@ ${logs.map((log,index) => {
       const minutes = getWorkoutMinutes(selectedDate);
       const exercises = logs.map(log => {
         const weight = log.weight ? `${log.weight} ${log.weightUnit || "kg"}` : "bodyweight";
-        return `- ${log.exercise}: ${log.sets || "?"} sets × ${log.reps || "?"} reps, ${weight}`;
+        const intensityTag = log.intensityMode ? " (Intensity Mode)" : "";
+        return `- ${log.exercise}: ${log.sets || "?"} sets × ${log.reps || "?"} reps, ${weight}${intensityTag}`;
       }).join("\n");
 
       const prompt = `Estimate calories burned in this strength workout.
@@ -2841,7 +3788,7 @@ Give a realistic calorie range and likely estimate. Keep it brief and explain wh
         checkins.length ? checkins.map(c => `${c.week}: ${c.weight || "—"} kg | Waist: ${c.waist || "—"} cm | Strength: ${c.strength || "—"} | Steps: ${c.steps || "—"} | Sleep: ${c.sleep || "—"}h`).join("\n") : "No weekly check-ins saved.",
         "",
         "=== DAILY EXERCISE LOGS ===",
-        logs.length ? logs.map(l => `${l.date} (${l.workoutDay}) - ${l.exercise}: ${l.sets || "?"} sets × ${l.reps || "?"} reps @ ${l.weight || "BW"} ${l.weightUnit || "kg"} [Duration: ${minutes[l.date] ? minutes[l.date] + " min" : "N/A"}]`).join("\n") : "No daily logs saved."
+        logs.length ? logs.map(l => `${l.date} (${l.workoutDay}) - ${l.exercise}: ${l.sets || "?"} sets × ${l.reps || "?"} reps @ ${l.weight || "BW"} ${l.weightUnit || "kg"}${l.intensityMode ? " [⚡ Intensity Mode]" : ""} [Duration: ${minutes[l.date] ? minutes[l.date] + " min" : "N/A"}]`).join("\n") : "No daily logs saved."
       ].join("\n");
 
       await copyText(summary);
@@ -2877,6 +3824,10 @@ Give a realistic calorie range and likely estimate. Keep it brief and explain wh
       setTheme,
       toggleIntensityMode,
       toggleTrophyPreview,
+      setBranchFilter,
+      setMuscleFilter,
+      updateMachineSearch,
+      quickLogMachine,
       selectMatchedExercise,
       saveWorkoutMinutes,
       generateTodayExerciseReport,
@@ -2911,6 +3862,7 @@ Give a realistic calorie range and likely estimate. Keep it brief and explain wh
       }
     }
 
+    ensureSeedData();
     applyTheme(getTheme());
     updateHeaderWeight();
     renderPage();
