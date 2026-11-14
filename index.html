@@ -1006,6 +1006,195 @@
       transition: width .5s cubic-bezier(.2,.8,.2,1);
     }
 
+    /* Circular Body Target Dashboard (System Theme & App Colors) */
+    .body-target-shell {
+      margin-top: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .target-hero-card {
+      padding: 24px;
+      border-radius: 24px;
+      background: rgba(255, 255, 255, .15);
+      color: var(--text);
+      border: 1px solid rgba(255, 255, 255, .35);
+      box-shadow: var(--shadow);
+      -webkit-backdrop-filter: blur(34px) saturate(200%);
+      backdrop-filter: blur(34px) saturate(200%);
+    }
+
+    .target-hero-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .target-status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      border-radius: 999px;
+      background: rgba(22, 163, 106, .12);
+      border: 1px solid rgba(22, 163, 106, .28);
+      color: var(--purple);
+      font-size: 0.82rem;
+      font-weight: 800;
+      margin-bottom: 10px;
+    }
+
+    .target-main-number {
+      font-family: "Space Grotesk", sans-serif;
+      font-size: clamp(2.6rem, 6vw, 3.8rem);
+      font-weight: 700;
+      line-height: 1;
+      letter-spacing: -0.04em;
+      margin: 0;
+      background: var(--grad);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .target-main-label {
+      color: var(--muted);
+      font-size: 0.95rem;
+      font-weight: 600;
+      margin: 6px 0 14px;
+    }
+
+    .target-sub-progress {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      font-size: 1rem;
+      font-weight: 700;
+    }
+
+    .target-sub-progress .highlight-val {
+      color: var(--purple);
+    }
+
+    .target-sub-progress .muted-val {
+      color: var(--muted);
+      font-weight: 600;
+    }
+
+    .target-action-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 6px 14px;
+      border-radius: 999px;
+      background: rgba(22, 163, 106, .14);
+      border: 1px solid rgba(22, 163, 106, .3);
+      color: var(--purple);
+      font-size: 0.84rem;
+      font-weight: 800;
+      transition: transform 0.18s ease, background 0.18s ease;
+    }
+
+    .target-action-pill:hover {
+      transform: translateY(-2px);
+      background: rgba(22, 163, 106, .24);
+    }
+
+    .target-ring-large {
+      position: relative;
+      width: 144px;
+      height: 144px;
+      flex-shrink: 0;
+      display: grid;
+      place-items: center;
+    }
+
+    .target-ring-large svg,
+    .target-ring-mini svg {
+      width: 100%;
+      height: 100%;
+      transform: rotate(-90deg);
+    }
+
+    .target-ring-center {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.1rem;
+      pointer-events: none;
+    }
+
+    .target-mini-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+
+    .target-mini-card {
+      padding: 18px 14px;
+      border-radius: 22px;
+      background: rgba(255, 255, 255, .15);
+      color: var(--text);
+      border: 1px solid rgba(255, 255, 255, .35);
+      box-shadow: var(--shadow-sm);
+      -webkit-backdrop-filter: blur(34px) saturate(200%);
+      backdrop-filter: blur(34px) saturate(200%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      transition: transform 0.22s ease, border-color 0.22s ease;
+    }
+
+    .target-mini-card:hover {
+      transform: translateY(-3px);
+      border-color: var(--purple);
+    }
+
+    .target-ring-mini {
+      position: relative;
+      width: 88px;
+      height: 88px;
+      margin-bottom: 10px;
+      display: grid;
+      place-items: center;
+    }
+
+    .target-ring-mini .mini-icon {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      font-size: 1.4rem;
+    }
+
+    .target-mini-title {
+      color: var(--muted);
+      font-size: 0.86rem;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .target-mini-value {
+      font-family: "Space Grotesk", sans-serif;
+      font-size: 1.12rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .target-mini-value span {
+      color: var(--muted);
+      font-weight: 500;
+      font-size: 0.88rem;
+    }
+
     .photo-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(255px, 1fr));
@@ -1137,6 +1326,25 @@
       .comparison-grid {
         grid-template-columns: 1fr;
         gap: 14px;
+      }
+
+      .target-mini-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+      }
+
+      .target-mini-card {
+        padding: 14px 10px;
+        border-radius: 20px;
+      }
+
+      .target-ring-mini {
+        width: 72px;
+        height: 72px;
+      }
+
+      .target-mini-value {
+        font-size: 0.95rem;
       }
 
       .button,
@@ -1281,8 +1489,8 @@
 
       <div class="hero-stat">
         <span>🔓</span>
-        <strong>7/8 Weeks</strong>
-        <small>Phase 1 ON · 1 to Trophy Room</small>
+        <strong id="headerWeeksCount">0/8 Weeks</strong>
+        <small id="headerWeeksLabel">Check-In Progress</small>
       </div>
     </div>
   </header>
@@ -1315,8 +1523,10 @@
     let trophyPreviewOpened = false;
     let selectedBranchFilter = "all";
     let openBlocksState = {};
+    let bodyTargetsEditOpen = false;
     
     let editingLogIndex = null;
+    let editingCheckinIndex = null;
     let currentRoute = "home";
     let toastTimeout = null;
 
@@ -1819,16 +2029,6 @@
       { id: 1794393449030, date: "2026-11-11", workoutDay: "Upper A", exercise: "Chest-Supported Row", sets: "3", reps: "10, 10, 10", weight: "15", weightUnit: "kg", rest: "", difficulty: "7", notes: "", intensityMode: true }
     ];
 
-    const DEFAULT_CHECKINS = [
-      { week: "Week 1 - Oct 8", weight: "79.4", waist: "", strength: "4", cardio: "0", steps: "8431", sleep: "6", energy: "5", performance: "", notes: "" },
-      { week: "Week 2 - Oct 15", weight: "78.1", waist: "", strength: "1", steps: "10571", sleep: "6", energy: "", performance: "", notes: "" },
-      { week: "Week 3 - Oct 22", weight: "78.0", waist: "", strength: "2", steps: "6790", sleep: "6", energy: "5", performance: "", notes: "" },
-      { week: "Week 4 - Oct 31", weight: "78.7", waist: "", strength: "4", steps: "6235", sleep: "5", energy: "6", performance: "Oct 31 Scan: 78.7 kg, 15.8% Body Fat, 37.8 kg Skeletal Muscle, 6.2 kg Trunk Fat, Score 84.", notes: "Hit 220 kg Leg Press, 55 kg Ab Crunch, and 30 kg Biceps Curl Machine!" },
-      { week: "Nov 4 - Quick Scan", weight: "78.5", waist: "", strength: "4", steps: "", sleep: "", energy: "", performance: "Nov 4 Scan: 78.5 kg, 16.1% Body Fat, 37.6 kg SMM. Left Arm: 3.7 kg (+0.2!), Right Arm: 3.8 kg (+0.2!). Visceral Fat Level 5, Trunk Fat 6.4 kg.", notes: "MASSIVE arm growth (+0.2kg each in just days). Need to fix sleep to drop the cortisol water in the trunk." },
-      { week: "Week 5 - Nov 11 Scan", weight: "78.3", waist: "", strength: "4", steps: "", sleep: "", energy: "8", performance: "Nov 11 Scan (Score 85!): 78.3 kg (EXACT Ideal Weight! Weight/Muscle/Fat Control all 0!), 14.9% Body Fat (-1.2%!), 38.0 kg SMM (+0.4 kg!), 11.7 kg Fat (-0.9 kg!). Visceral Fat dropped to Level 4 (-1) & Trunk Fat dropped to 5.9 kg (-0.5 kg)!", notes: "Broke into sub-15% body fat, hit 38.0 kg skeletal muscle, and dropped arm fat to 0.5 kg (Low) on both arms while keeping 3.7/3.8 kg arm muscle!" },
-      { week: "Week 6 - Nov 12", weight: "78.4", waist: "", strength: "2", steps: "8904", sleep: "6.5", energy: "7", performance: "Hit 230 kg Leg Press PR (Nov 2) & discovered 5 kg Lower-Abs Lean-Back isolation on Total Core Crunch Machine (Nov 11).", notes: "Steps climbed to 8,904 and sleep improved to 6.5h. Goal for Week 7: hit all 4/4 workouts and cap rest at 60–75s!" }
-    ];
-
     const DEFAULT_WORKOUT_MINUTES = {
       "2026-10-01": 90,
       "2026-10-03": 40,
@@ -1847,6 +2047,231 @@
       "2026-11-11": 80
     };
 
+    const DEFAULT_BODY_TARGETS = {
+      currentWeight: 78.4,
+      targetWeight: 77.2,
+      currentBodyFat: 14.9,
+      targetBodyFat: 13.0,
+      currentTrunkFat: 5.9,
+      startTrunkFat: 6.4,
+      targetTrunkFat: 5.0,
+      currentMuscle: 38.0,
+      targetMuscle: 38.5,
+      targetSteps: 10000,
+      targetSleep: 7.5
+    };
+
+    function getBodyTargets() {
+      const saved = safeJSON("fitnessBodyTargets", {});
+      const merged = { ...DEFAULT_BODY_TARGETS, ...saved };
+      const checkins = getCheckins();
+      if (checkins.length) {
+        const latest = checkins[checkins.length - 1];
+        if (latest.weight && !Number.isNaN(Number(latest.weight)) && !saved.currentWeight) {
+          merged.currentWeight = Number(latest.weight);
+        }
+        merged.latestSteps = Number(latest.steps) || 8904;
+        merged.latestSleep = Number(latest.sleep) || 6.5;
+        merged.latestStrength = Number(latest.strength) || 4;
+      } else {
+        merged.latestSteps = 8904;
+        merged.latestSleep = 6.5;
+        merged.latestStrength = 4;
+      }
+      return merged;
+    }
+
+    function toggleBodyTargetsEditor() {
+      bodyTargetsEditOpen = !bodyTargetsEditOpen;
+      renderPage(currentRoute, { preserveScroll: true });
+    }
+
+    function saveBodyTargetsForm(event) {
+      if (event) event.preventDefault();
+      const updated = {
+        currentWeight: Number(document.getElementById("btCurrentWeight")?.value) || 78.4,
+        targetWeight: Number(document.getElementById("btTargetWeight")?.value) || 77.2,
+        currentBodyFat: Number(document.getElementById("btCurrentBF")?.value) || 14.9,
+        targetBodyFat: Number(document.getElementById("btTargetBF")?.value) || 13.0,
+        currentTrunkFat: Number(document.getElementById("btCurrentTrunk")?.value) || 5.9,
+        startTrunkFat: Number(document.getElementById("btStartTrunk")?.value) || 6.4,
+        targetTrunkFat: Number(document.getElementById("btTargetTrunk")?.value) || 5.0,
+        currentMuscle: Number(document.getElementById("btCurrentMuscle")?.value) || 38.0,
+        targetMuscle: Number(document.getElementById("btTargetMuscle")?.value) || 38.5,
+        targetSteps: Number(document.getElementById("btTargetSteps")?.value) || 10000,
+        targetSleep: Number(document.getElementById("btTargetSleep")?.value) || 7.5
+      };
+      safeSetStorage("fitnessBodyTargets", JSON.stringify(updated));
+      bodyTargetsEditOpen = false;
+      showToast("✅ Body targets updated!");
+      renderPage(currentRoute, { preserveScroll: true });
+    }
+
+    function renderCircleSVG(percent, size, strokeWidth, color) {
+      const clamped = Math.max(4, Math.min(100, Number(percent) || 0));
+      const radius = (size - strokeWidth) / 2;
+      const circumference = 2 * Math.PI * radius;
+      const offset = circumference - (clamped / 100) * circumference;
+      return `
+        <svg viewBox="0 0 ${size} ${size}" aria-hidden="true">
+          <circle
+            cx="${size / 2}"
+            cy="${size / 2}"
+            r="${radius}"
+            fill="none"
+            stroke="var(--soft)"
+            stroke-width="${strokeWidth}"
+          />
+          <circle
+            cx="${size / 2}"
+            cy="${size / 2}"
+            r="${radius}"
+            fill="none"
+            stroke="${color}"
+            stroke-width="${strokeWidth}"
+            stroke-linecap="round"
+            stroke-dasharray="${circumference.toFixed(2)}"
+            stroke-dashoffset="${offset.toFixed(2)}"
+          />
+        </svg>
+      `;
+    }
+
+    function buildBodyTargetCircularDashboard() {
+      const t = getBodyTargets();
+      const trunkRemaining = Math.max(0, t.currentTrunkFat - t.targetTrunkFat);
+      const totalTrunkSpan = Math.max(0.1, t.startTrunkFat - t.targetTrunkFat);
+      const trunkProgressPct = Math.min(100, Math.max(12, ((t.startTrunkFat - t.currentTrunkFat) / totalTrunkSpan) * 100));
+
+      const musclePct = Math.min(100, Math.round((t.currentMuscle / Math.max(1, t.targetMuscle)) * 100));
+      const bfStart = 16.5;
+      const bfPct = Math.min(100, Math.max(15, Math.round(((bfStart - t.currentBodyFat) / Math.max(0.1, bfStart - t.targetBodyFat)) * 100)));
+      const weightStart = 79.4;
+      const weightPct = Math.min(100, Math.max(15, Math.round(((weightStart - t.currentWeight) / Math.max(0.1, weightStart - t.targetWeight)) * 100)));
+
+      const stepsPct = Math.min(100, Math.round((t.latestSteps / Math.max(1, t.targetSteps)) * 100));
+      const sleepPct = Math.min(100, Math.round((t.latestSleep / Math.max(1, t.targetSleep)) * 100));
+      const checkinCount = getCheckins().length;
+      const checkinPct = Math.min(100, Math.round((checkinCount / 8) * 100));
+
+      const allSixCards = [
+        {
+          icon: "💪",
+          color: "var(--purple)",
+          pct: musclePct,
+          title: "Skeletal Muscle",
+          current: `${t.currentMuscle.toFixed(1)}`,
+          target: ` / ${t.targetMuscle.toFixed(1)}kg`
+        },
+        {
+          icon: "🧱",
+          color: "var(--blue)",
+          pct: bfPct,
+          title: "Body Fat %",
+          current: `${t.currentBodyFat.toFixed(1)}`,
+          target: ` / ${t.targetBodyFat.toFixed(1)}%`
+        },
+        {
+          icon: "⚖️",
+          color: "var(--purple)",
+          pct: weightPct,
+          title: "Body Weight",
+          current: `${t.currentWeight.toFixed(1)}`,
+          target: ` / ${t.targetWeight.toFixed(1)}kg`
+        },
+        {
+          icon: "🚶",
+          color: "var(--blue)",
+          pct: stepsPct,
+          title: "Daily Steps",
+          current: `${t.latestSteps.toLocaleString()}`,
+          target: ` / ${(t.targetSteps / 1000).toFixed(0)}k`
+        },
+        {
+          icon: "😴",
+          color: "var(--purple)",
+          pct: sleepPct,
+          title: "Sleep Hours",
+          current: `${t.latestSleep}`,
+          target: ` / ${t.targetSleep}h`
+        },
+        {
+          icon: "🏆",
+          color: "var(--blue)",
+          pct: checkinPct,
+          title: "Phase 2 Unlock",
+          current: `${checkinCount}`,
+          target: ` / 8 wks`
+        }
+      ];
+
+      return `
+        <div class="body-target-shell">
+          <div class="target-hero-card">
+            <div class="target-hero-top">
+              <div>
+                <div class="target-status-pill">
+                  <span>🎯 Body Target · Week 7</span>
+                </div>
+                <p class="target-main-number">${trunkRemaining.toFixed(1)} kg</p>
+                <p class="target-main-label">Trunk Fat Left to Target (${t.targetTrunkFat.toFixed(1)} kg)</p>
+                <div class="target-sub-progress">
+                  <span class="highlight-val">${t.currentTrunkFat.toFixed(1)}</span>
+                  <span class="muted-val">/ ${t.targetTrunkFat.toFixed(1)} kg Trunk Fat</span>
+                  <a href="#/workouts" class="target-action-pill">Workouts ❯</a>
+                  <button type="button" class="target-action-pill" style="cursor:pointer" onclick="toggleBodyTargetsEditor()">
+                    ${bodyTargetsEditOpen ? "✖️ Close" : "✏️ Edit Targets"}
+                  </button>
+                </div>
+              </div>
+
+              <div class="target-ring-large">
+                ${renderCircleSVG(trunkProgressPct, 144, 14, "var(--purple)")}
+                <div class="target-ring-center">🔥</div>
+              </div>
+            </div>
+          </div>
+
+          ${bodyTargetsEditOpen ? `
+            <div class="card highlight">
+              <h3>✏️ Edit Body Targets</h3>
+              <form onsubmit="saveBodyTargetsForm(event)">
+                <div class="form-grid">
+                  <label>⚖️ Current Weight (kg) <input id="btCurrentWeight" type="number" step="any" value="${t.currentWeight}"></label>
+                  <label>🎯 Target Weight (kg) <input id="btTargetWeight" type="number" step="any" value="${t.targetWeight}"></label>
+                  <label>🧱 Current Trunk Fat (kg) <input id="btCurrentTrunk" type="number" step="any" value="${t.currentTrunkFat}"></label>
+                  <label>🎯 Target Trunk Fat (kg) <input id="btTargetTrunk" type="number" step="any" value="${t.targetTrunkFat}"></label>
+                  <label>🔥 Current Body Fat (%) <input id="btCurrentBF" type="number" step="any" value="${t.currentBodyFat}"></label>
+                  <label>🎯 Target Body Fat (%) <input id="btTargetBF" type="number" step="any" value="${t.targetBodyFat}"></label>
+                  <label>💪 Current Muscle (kg) <input id="btCurrentMuscle" type="number" step="any" value="${t.currentMuscle}"></label>
+                  <label>🎯 Target Muscle (kg) <input id="btTargetMuscle" type="number" step="any" value="${t.targetMuscle}"></label>
+                  <label>🚶 Target Steps <input id="btTargetSteps" type="number" step="100" value="${t.targetSteps}"></label>
+                  <label>😴 Target Sleep (h) <input id="btTargetSleep" type="number" step="0.5" value="${t.targetSleep}"></label>
+                </div>
+                <div class="button-row">
+                  <button class="button" type="submit">💾 Save Targets</button>
+                  <button class="button secondary" type="button" onclick="toggleBodyTargetsEditor()">Cancel</button>
+                </div>
+              </form>
+            </div>
+          ` : ""}
+
+          <div class="target-mini-grid">
+            ${allSixCards.map(card => `
+              <div class="target-mini-card">
+                <div class="target-ring-mini">
+                  ${renderCircleSVG(card.pct, 88, 8, card.color)}
+                  <div class="mini-icon">${card.icon}</div>
+                </div>
+                <div class="target-mini-title">${escapeHTML(card.title)}</div>
+                <div class="target-mini-value">${escapeHTML(card.current)}<span>${escapeHTML(card.target)}</span></div>
+              </div>
+            `).join("")}
+          </div>
+        </div>
+      `;
+    }
+
     function ensureSeedData() {
       const existingLogs = safeJSON("fitnessDailyLogs", []);
       if (existingLogs.length < DEFAULT_DAILY_LOGS.length) {
@@ -1861,9 +2286,9 @@
         safeSetStorage("fitnessDailyLogs", JSON.stringify(Array.from(byId.values())));
       }
 
-      const existingCheckins = safeJSON("fitnessCheckins", []);
-      if (existingCheckins.length < DEFAULT_CHECKINS.length) {
-        safeSetStorage("fitnessCheckins", JSON.stringify(DEFAULT_CHECKINS));
+      if (!safeGetStorage("fitnessCheckinsSeedRemoved")) {
+        safeSetStorage("fitnessCheckins", JSON.stringify([]));
+        safeSetStorage("fitnessCheckinsSeedRemoved", "true");
       }
 
       const existingMinutes = safeJSON("fitnessWorkoutMinutes", {});
@@ -1955,7 +2380,19 @@
     }
 
     function updateHeaderWeight() {
-      const valid = getCheckins().filter(
+      const checkins = getCheckins();
+      const weeksCountEl = document.getElementById("headerWeeksCount");
+      const weeksLabelEl = document.getElementById("headerWeeksLabel");
+      if (weeksCountEl) weeksCountEl.textContent = `${checkins.length}/8 Weeks`;
+      if (weeksLabelEl) {
+        weeksLabelEl.textContent = checkins.length >= 8
+          ? "Phase 1 & 2 Unlocked 🏆"
+          : checkins.length >= 4
+            ? `Phase 1 ON · ${8 - checkins.length} to Trophy Room`
+            : `${4 - checkins.length} to Intensity Mode`;
+      }
+
+      const valid = checkins.filter(
         entry => entry.weight && !Number.isNaN(Number(entry.weight))
       );
 
@@ -2201,18 +2638,17 @@
 
     function strengthUpgrade() {
       const count = getCheckins().length;
+      const phase1Pct = Math.min(100, (Math.min(4, count) / 4) * 100);
 
       if (count < 4) {
-        const remaining = 4 - count;
         return `
-          <div class="card" style="margin-top:24px">
-            <h3>🔒 Phase 1 Strength Upgrade: Intensity Specialization Mode</h3>
-            <p class="muted">
-              Save ${remaining} more weekly check-in${remaining === 1 ? "" : "s"} (${count}/4 completed)
-              to unlock the <strong>⚡ Intensity Specialization Mode Toggle</strong> (Top-Set Strength + Biceps Mechanical Drop-Sets + Weighted Ab Peak Holds).
-            </p>
-            <div class="progress-track" style="margin-top:14px">
-              <div class="progress-fill" style="width:${Math.min(100, count * 25)}%"></div>
+          <div class="card" style="margin-top:18px">
+            <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px">
+              <strong>🔒 Phase 1: Intensity Mode (${count}/4 Weeks)</strong>
+              <button class="button secondary" type="button" onclick="toggleIntensityMode()">🔒 Locked</button>
+            </div>
+            <div class="progress-track" style="margin-top:12px">
+              <div class="progress-fill" style="width:${phase1Pct}%"></div>
             </div>
           </div>
         `;
@@ -2221,68 +2657,46 @@
       const active = isIntensityModeActive();
       const phase2Unlocked = isTrophyRoomUnlocked();
       const phase2Count = Math.min(4, Math.max(0, count - 4));
-      const phase2Remaining = Math.max(0, 8 - count);
       const phase2Percent = Math.min(100, (phase2Count / 4) * 100);
 
       return `
-        <div class="card ${active ? "warning" : "success"}" style="margin-top:20px">
+        <div class="card ${active ? "warning" : "success"}" style="margin-top:18px">
           <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px">
-            <div>
-              <h3>⚡ Phase 1 Unlocked (4/4 Weeks): Intensity Specialization Mode</h3>
-              <p class="small" style="margin:4px 0 0">Toggle between Standard Hypertrophy Mode and Upgraded Intensity Mode across all 4 workouts.</p>
-            </div>
+            <strong>⚡ Phase 1: Intensity Mode (4/4 Unlocked)</strong>
             <button class="button ${active ? "red" : ""}" type="button" onclick="toggleIntensityMode()">
-              ${active ? "🔥 Intensity Mode: ON (Switch to Standard)" : "⚡ Turn ON Intensity Specialization Mode"}
+              ${active ? "🔥 Intensity Mode: ON" : "⚡ Turn ON Intensity Mode"}
             </button>
           </div>
-
-          <div class="grid" style="margin-top:16px">
-            <div>
-              <h4>🧱 Abs: Peak-Hold + Burnout</h4>
-              <p class="small">Adds a 4th set, a 2-second isometric squeeze at peak crunch, and a 25–30s stomach vacuum.</p>
-            </div>
-            <div>
-              <h4>💪 Biceps: 30% Mechanical Drop-Set</h4>
-              <p class="small">On the final set of every bicep exercise, immediately drop the weight by ~30% and rep to failure.</p>
-            </div>
-            <div>
-              <h4>🏋️ Compounds: 4 × 6–8 Top-Set Phase</h4>
-              <p class="small">Shifts primary presses, rows, and leg presses to heavier 4 × 6–8 top sets plus a back-off set.</p>
-            </div>
+          <div class="progress-track" style="margin-top:12px">
+            <div class="progress-fill" style="width:100%"></div>
           </div>
         </div>
 
         ${!phase2Unlocked ? `
-          <div class="card highlight" style="margin-top:18px">
+          <div class="card highlight" style="margin-top:14px">
             <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px">
-              <div>
-                <h3>🔒 Phase 2 Upgrade (${count}/8 Weeks): 🏆 PR Trophy Room & 1RM Strength Ranks</h3>
-                <p class="muted" style="margin:4px 0 0">
-                  Complete ${phase2Remaining} more weekly check-in${phase2Remaining === 1 ? "" : "s"} (2nd 4-Week Block: ${phase2Count}/4 completed) to permanently unlock your live <strong>PR Trophy Room, Estimated 1-Rep Max Calculator & Bronze → Diamond Strength Ranks</strong>!
-                </p>
-              </div>
+              <strong>🔒 Phase 2: PR Trophy Room (${count}/8 Weeks)</strong>
               <button class="button secondary" type="button" onclick="toggleTrophyPreview()">
-                ${trophyPreviewOpened ? "🙈 Hide Trophy Room Preview" : "👀 Preview PR Trophy Room"}
+                ${trophyPreviewOpened ? "🙈 Hide Preview" : "👀 Preview Trophy Room"}
               </button>
             </div>
-            <div class="progress-track" style="margin-top:14px">
+            <div class="progress-track" style="margin-top:12px">
               <div class="progress-fill" style="width:${phase2Percent}%"></div>
             </div>
             ${trophyPreviewOpened ? `
-              <div style="margin-top:18px">
-                <p class="small">✨ <strong>Live Preview (Reads from your Daily Log History):</strong></p>
+              <div style="margin-top:16px">
                 ${buildTrophyRoomContent()}
               </div>
             ` : ""}
           </div>
         ` : `
-          <div class="card success" style="margin-top:18px">
+          <div class="card success" style="margin-top:14px">
             <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px">
-              <div>
-                <h3>🏆 Phase 2 Unlocked (${count}/8 Weeks): Personal Record Trophy Room & 1RM Ranks</h3>
-                <p class="small" style="margin:4px 0 0">Automatically tracks your all-time heaviest lifts, estimated 1-Rep Max (1RM), best volume, and next rank targets from your Daily Logs.</p>
-              </div>
-              <span class="rank-badge rank-diamond">🔓 8/8 UNLOCKED</span>
+              <strong>🏆 Phase 2: PR Trophy Room (8/8 Unlocked)</strong>
+              <span class="rank-badge rank-diamond">🔓 UNLOCKED</span>
+            </div>
+            <div class="progress-track" style="margin-top:12px">
+              <div class="progress-fill" style="width:100%"></div>
             </div>
             ${buildTrophyRoomContent()}
           </div>
@@ -2543,40 +2957,15 @@
 
     const pages = {
       home: () => `
-        <h2>🧱 Week 7 "Distinct Abs ASAP" Plan · 78.4 kg · 14.9% BF · 38.0 kg SMM</h2>
-        <p class="muted">You are sitting right on the threshold of etched abdominal definition (` + "`7/8`" + ` Check-Ins completed — just <strong>1 Check-In away</strong> from unlocking the Phase 2 PR Trophy Room!). Your Week 7 mission is to push Trunk Fat down from <strong>5.9 kg toward 4.8–5.2 kg</strong> while thickening your upper and lower abdominal bricks using your Nov 11 <strong>5 kg Lower-Abs Lean-Back discovery</strong> and <strong>230 kg Leg Press PR</strong> furnace.</p>
-
-        <div class="grid" style="margin-top:20px">
-          <div class="card success">
-            <h3>🧱 1. 5 kg Lower-Abs Lean-Back Discovery</h3>
-            <p><strong>Total Core (5–7.5 kg Lean-Back) + Ab Crunch Drop-Set</strong></p>
-            <p class="small">On Nov 11, you discovered that leaning back in lower-abs mode on the <strong>Total Core Crunch Machine</strong> isolates the stubborn lower abs directly at <strong>5–7.5 kg</strong>. Pair it with your <strong>45 → 30 kg Ab Crunch burnout</strong> first in every upper session!</p>
-          </div>
-          <div class="card highlight">
-            <h3>🦵 2. 4/4 Sessions & 230 kg Leg Press Furnace</h3>
-            <p><strong>No 5–6 Day Gaps · 60–75s Superset Rest Cap</strong></p>
-            <p class="small">Close Week 6's 2/4 frequency gap by hitting all <strong>4/4 sessions</strong> and trimming workout duration from 80 mins down to <strong>45–50 mins</strong> with 60–75s superset rests.</p>
-          </div>
-          <div class="card warning">
-            <h3>🚶 3. 10,000+ Steps & 7.0h+ Sleep Momentum</h3>
-            <p><strong>Week 6: 8,904 Steps & 6.5h Sleep → Push to 10k & 7h+</strong></p>
-            <p class="small">Keep elevating daily steps to <strong>10,000+</strong> (or add a 10-min 12% incline walk post-workout) and <strong>7.0+ hours of sleep</strong> to flush cortisol water and tighten your 0.81 Waist-to-Hip ratio toward 0.78.</p>
-          </div>
-        </div>
-
+        <h2>🧱 Week 7 "Distinct Abs ASAP" Plan</h2>
+        ${buildBodyTargetCircularDashboard()}
         ${strengthUpgrade()}
       `,
 
       workouts: () => `
         <h2>🏋️ Abs 1st + Biceps Priority Workouts</h2>
-        <p class="muted">Select a workout below. Every session puts your Core & Oblique Superset 1st and Biceps Volume 2nd!</p>
 
-        <div class="card warning" style="margin-bottom:20px">
-          <h3>⚡ Why Biceps 2nd (Never Triceps 2nd) Is the Secret</h3>
-          <p>On Oct 27, doing Triceps first caused your Super Vertical Multi Press to drop to 3 reps on Set 3. By doing <strong>Abs 1st</strong> and <strong>Biceps 2nd</strong>, your arms get maximum blood flow and volume while your <strong>Triceps stay 100% fresh</strong> for heavy pressing!</p>
-        </div>
-
-        <div class="grid">
+        <div class="grid" style="margin-top:16px">
           <a class="page-link" href="#/upper-a">
             <h3>🏋️ Upper A (Abs + 5-Set Biceps 1st)</h3>
             <p>Block 1: Total Core + Ab Crunch<br>Block 2: 5-Set Biceps Blitz<br>Block 3: Chest Press (45 kg) + Rows</p>
@@ -2600,17 +2989,9 @@
 
       "daily-log": () => `
         <h2>📝 Daily Training Progress Log</h2>
-        <p class="muted">Record training privately. Your saved exercise history remains hidden unless you open it.</p>
-
-        <div class="card highlight">
-          <h3>📈 Progress Rule</h3>
-          <p>Progress can mean more weight, repetitions, sets, total volume, better form, improved control, or a more difficult variation.</p>
-        </div>
 
         <div class="card" style="margin-top:16px">
           <h3>⏱️ Workout Duration</h3>
-          <p class="small">Save your total training time for a particular date.</p>
-
           <div class="form-grid">
             <label>📅 Workout Duration Date <input id="workoutMinutesDate" type="date" required></label>
             <label>⏱️ Total Workout Minutes <input id="workoutMinutes" type="number" min="1" step="1" placeholder="Example: 42"></label>
@@ -2681,7 +3062,6 @@
 
         <div class="card warning" style="margin-top:16px">
           <h3>🛠️ Workout Tools</h3>
-          <p class="small">Create a report or calorie prompt using all saved exercises for the selected exercise date.</p>
           <div class="button-row">
             <button class="button" type="button" onclick="generateTodayExerciseReport()">📋 Create Today's Exercise Report</button>
             <button class="button green" type="button" onclick="generateCaloriePrompt()">🔥 Generate Calorie Prompt</button>
@@ -2690,9 +3070,7 @@
           <div id="caloriePromptArea"></div>
         </div>
 
-        <div class="card warning" style="margin-top:16px">
-          <h3>🔐 Private Exercise History</h3>
-          <p>Exercise history is stored only in this browser and hidden by default.</p>
+        <div class="button-row" style="margin-top:16px">
           <button class="button secondary" type="button" onclick="openDailyLogHistory()">🔐 Open Private Exercise History</button>
         </div>
 
@@ -2701,12 +3079,6 @@
 
       photos: () => `
         <h2>📸 Progress Photos</h2>
-        <p class="muted">Photos stay private and remain hidden unless you intentionally open the gallery.</p>
-
-        <div class="card highlight">
-          <h3>💡 Best Setup</h3>
-          <p>Use the same lighting, time of day, distance, pose, and similar clothing.</p>
-        </div>
 
         <div class="card" style="margin-top:16px">
           <h3>➕ Add Progress Photo</h3>
@@ -2731,9 +3103,7 @@
           </form>
         </div>
 
-        <div class="card warning" style="margin-top:16px">
-          <h3>🔐 Private Gallery</h3>
-          <p>Saved photos will not display automatically.</p>
+        <div class="button-row" style="margin-top:16px">
           <button class="button secondary" type="button" onclick="openGallery()">🔐 Open Private Gallery</button>
         </div>
 
@@ -2741,10 +3111,9 @@
       `,
 
       checklist: () => `
-        <h2>✅ Week 7 "Distinct Abs ASAP" Checklist (7/8 Weeks · 14.9% BF)</h2>
-        <p class="muted">Synced to your Nov 13 Backup (Weight: 78.4 kg · 14.9% BF · 38.0 kg SMM · 230 kg Leg Press PR · 5 kg Lower-Abs Lean-Back Setup).</p>
+        <h2>✅ Week 7 "Distinct Abs ASAP" Checklist</h2>
 
-        <div class="card checklist">
+        <div class="card checklist" style="margin-top:16px">
           ${[
             "🗓️ Complete all 4/4 Strength Sessions (Upper A, Lower A, Upper B, Lower B) with no 5–6 day gaps",
             "🧱 Upper Days Abs 1st: 5–7.5 kg Lower-Abs Lean-Back on Total Core Crunch + 45 → 30 kg Ab Crunch Drop-Set",
@@ -2766,28 +3135,33 @@
 
       tracking: () => `
         <h2>📈 Weekly Progress Check-In</h2>
-        <p class="muted">Record weekly measurements privately. Saved check-ins remain hidden unless you open them.</p>
 
-        <div class="card">
+        <div class="card" style="margin-top:16px">
+          <h3 id="checkinFormTitle">➕ Add Weekly Check-In</h3>
+          <div id="editCheckinBanner" class="card highlight hidden" style="margin-bottom:14px;padding:14px 18px">
+            <strong>✏️ Editing Saved Weekly Check-In</strong>
+            <p class="small" style="margin:4px 0 0">Update any fields below and click <strong>Update Check-In</strong>, or cancel to return to normal logging.</p>
+          </div>
           <form id="checkinForm">
             <div class="form-grid">
-              <label>📅 Check-In Label <input id="week" required placeholder="Week 6"></label>
+              <label>📅 Check-In Label <input id="week" required placeholder="Week 7 - Nov 19"></label>
               <label>⚖️ Average Weight (kg) <input id="weight" type="number" step="any" inputmode="decimal"></label>
               <label>📏 Waist (cm) <input id="waist" type="number" step="any" inputmode="decimal"></label>
-              <label>🏋️ Strength Sessions <input id="strength" placeholder="4 / 4"></label>
+              <label>🏋️ Strength Sessions <input id="strength" placeholder="4"></label>
               <label>🚶 Daily Steps <input id="steps" type="number"></label>
               <label>😴 Sleep Hours <input id="sleep" type="number" step="any" inputmode="decimal"></label>
               <label>⚡ Energy 1–10 <input id="energy" type="number" min="1" max="10" step="any" inputmode="decimal" placeholder="Example: 7.5"></label>
             </div>
             <label style="margin-top:14px">🏋️ Gym Performance Notes <textarea id="performance"></textarea></label>
             <label style="margin-top:14px">📝 Weekly Notes <textarea id="notes"></textarea></label>
-            <button class="button" type="submit" style="margin-top:14px">💾 Save Check-In</button>
+            <div class="button-row" style="margin-top:14px">
+              <button id="saveCheckinSubmitBtn" class="button" type="submit">💾 Save Check-In</button>
+              <button id="cancelEditCheckinBtn" class="button secondary hidden" type="button" onclick="cancelEditCheckin()">✖️ Cancel Edit</button>
+            </div>
           </form>
         </div>
 
-        <div class="card warning" style="margin-top:16px">
-          <h3>🔐 Private Progress History</h3>
-          <p>Weekly check-ins are stored only in this browser and hidden by default.</p>
+        <div class="button-row" style="margin-top:16px">
           <button class="button secondary" type="button" onclick="openCheckinHistory()">🔐 Open Private Progress History</button>
         </div>
 
@@ -2840,6 +3214,7 @@
       dailyLogOpened = false;
       checkinsOpened = false;
       editingLogIndex = null;
+      editingCheckinIndex = null;
 
       let content = "";
 
@@ -3652,6 +4027,7 @@ Give a realistic calorie range and likely estimate. Keep it brief and explain wh
                 ${entry.performance ? `<p><strong>🏋️ Gym:</strong> ${escapeHTML(entry.performance)}</p>` : ""}
                 ${entry.notes ? `<p><strong>📝 Notes:</strong> ${escapeHTML(entry.notes)}</p>` : ""}
                 <div class="button-row">
+                  <button class="button secondary" type="button" onclick="editCheckin(${index})">✏️ Edit Check-In</button>
                   <button class="button red" type="button" onclick="deleteCheckin(${index})">🗑️ Delete This Check-In</button>
                 </div>
               </div>
@@ -3668,6 +4044,18 @@ Give a realistic calorie range and likely estimate. Keep it brief and explain wh
         });
 
         const entries = getCheckins();
+        const isEditing = editingCheckinIndex !== null && entries[editingCheckinIndex];
+
+        if (isEditing) {
+          entries[editingCheckinIndex] = entry;
+          safeSetStorage("fitnessCheckins", JSON.stringify(entries));
+          cancelEditCheckin();
+          showToast("✅ Weekly check-in updated.");
+          updateHeaderWeight();
+          if (checkinsOpened) showEntries();
+          return;
+        }
+
         entries.push(entry);
         safeSetStorage("fitnessCheckins",JSON.stringify(entries));
         
@@ -3679,6 +4067,47 @@ Give a realistic calorie range and likely estimate. Keep it brief and explain wh
 
       window.refreshCheckinHistory = showEntries;
       showEntries();
+    }
+
+    function editCheckin(index) {
+      const entries = getCheckins();
+      const entry = entries[index];
+      if (!entry) return;
+
+      editingCheckinIndex = index;
+      ["week","weight","waist","strength","steps","sleep","energy","performance","notes"].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.value = entry[id] ?? "";
+      });
+
+      const titleEl = document.getElementById("checkinFormTitle");
+      const bannerEl = document.getElementById("editCheckinBanner");
+      const submitBtn = document.getElementById("saveCheckinSubmitBtn");
+      const cancelBtn = document.getElementById("cancelEditCheckinBtn");
+
+      if (titleEl) titleEl.textContent = "✏️ Edit Saved Weekly Check-In";
+      if (bannerEl) bannerEl.classList.remove("hidden");
+      if (submitBtn) submitBtn.textContent = "💾 Update Check-In";
+      if (cancelBtn) cancelBtn.classList.remove("hidden");
+
+      const formCard = document.getElementById("checkinForm");
+      if (formCard) formCard.scrollIntoView({ behavior: "smooth", block: "center" });
+      showToast("✏️ Editing weekly check-in.");
+    }
+
+    function cancelEditCheckin() {
+      editingCheckinIndex = null;
+      const form = document.getElementById("checkinForm");
+      const titleEl = document.getElementById("checkinFormTitle");
+      const bannerEl = document.getElementById("editCheckinBanner");
+      const submitBtn = document.getElementById("saveCheckinSubmitBtn");
+      const cancelBtn = document.getElementById("cancelEditCheckinBtn");
+
+      if (form) form.reset();
+      if (titleEl) titleEl.textContent = "➕ Add Weekly Check-In";
+      if (bannerEl) bannerEl.classList.add("hidden");
+      if (submitBtn) submitBtn.textContent = "💾 Save Check-In";
+      if (cancelBtn) cancelBtn.classList.add("hidden");
     }
 
     function openCheckinHistory() {
@@ -3698,6 +4127,8 @@ Give a realistic calorie range and likely estimate. Keep it brief and explain wh
     function deleteCheckin(index) {
       const entries = getCheckins();
       if (!entries[index]) return;
+      if (editingCheckinIndex === index) cancelEditCheckin();
+      else if (editingCheckinIndex !== null && index < editingCheckinIndex) editingCheckinIndex--;
       entries.splice(index,1);
       safeSetStorage("fitnessCheckins",JSON.stringify(entries));
       showToast("🗑️ Check-in deleted.");
@@ -3705,7 +4136,7 @@ Give a realistic calorie range and likely estimate. Keep it brief and explain wh
       if (typeof window.refreshCheckinHistory === "function") window.refreshCheckinHistory();
     }
 
-    // Global export functions
+    // Global export functions (exports Daily Logs + Weekly Progress + Targets in one JSON)
     async function exportAllFitnessData() {
       let photos = [];
       try { photos = await getPhotos(); } catch (e) {}
@@ -3716,6 +4147,7 @@ Give a realistic calorie range and likely estimate. Keep it brief and explain wh
       const backup = {
         exportedAt: new Date().toISOString(),
         fitnessTheme: getTheme(),
+        fitnessBodyTargets: safeJSON("fitnessBodyTargets", DEFAULT_BODY_TARGETS),
         fitnessDailyLogs: getDailyLogs(),
         fitnessCheckins: getCheckins(),
         fitnessWorkoutMinutes: getWorkoutMinutesData(),
@@ -3757,6 +4189,7 @@ Give a realistic calorie range and likely estimate. Keep it brief and explain wh
 
       try {
         const data = JSON.parse(await file.text());
+        if (data.fitnessBodyTargets) safeSetStorage("fitnessBodyTargets", JSON.stringify(data.fitnessBodyTargets));
         if (Array.isArray(data.fitnessDailyLogs)) safeSetStorage("fitnessDailyLogs", JSON.stringify(data.fitnessDailyLogs));
         if (Array.isArray(data.fitnessCheckins)) safeSetStorage("fitnessCheckins", JSON.stringify(data.fitnessCheckins));
         if (data.fitnessWorkoutMinutes) safeSetStorage("fitnessWorkoutMinutes", JSON.stringify(data.fitnessWorkoutMinutes));
@@ -3780,6 +4213,8 @@ Give a realistic calorie range and likely estimate. Keep it brief and explain wh
       setTheme,
       toggleIntensityMode,
       toggleTrophyPreview,
+      toggleBodyTargetsEditor,
+      saveBodyTargetsForm,
       setBranchFilter,
       toggleWorkoutBlock,
       expandAllWorkoutBlocks,
@@ -3804,6 +4239,8 @@ Give a realistic calorie range and likely estimate. Keep it brief and explain wh
       resetChecklist,
       openCheckinHistory,
       closeCheckinHistory,
+      editCheckin,
+      cancelEditCheckin,
       deleteCheckin,
       exportAllFitnessData,
       copyAllLogsText,
